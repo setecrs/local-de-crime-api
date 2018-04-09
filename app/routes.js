@@ -30,8 +30,8 @@ module.exports = function (app, passport) {
     // LOGOUT ==============================
     // =====================================
     app.get('/logout', function (req, res) {
+        res.json({mensagem: "Usuário "+ req.user.usuario + " fez logout"});
         req.logout();
-        res.redirect('/');
     });
 
     // =====================================
