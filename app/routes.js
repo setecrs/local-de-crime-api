@@ -17,7 +17,12 @@ module.exports = function (app, passport) {
     // we will want this protected so you have to be logged in to visit
     // we will use route middleware to verify this (the isLoggedIn function)
     app.get('/profile', isLoggedIn, function (req, res) {
-      res.json(req.user);
+      res.json({
+        "usuario": req.user.perito.usuario,
+        "nome": req.user.perito.nome,
+        "sede": req.user.perito.sede,
+        "ativo": req.user.perito.ativo
+      });
     });
 
     // =====================================
