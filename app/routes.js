@@ -34,7 +34,7 @@ module.exports = function (app, passport) {
     // show the signup form
 
     app.get('/signup_error', function (req, res) {
-        res.json({ messages: req.flash('signupMessage') });
+        res.json({ error_messages: req.flash('signupMessage')[0] });
     });
     
     // process the signup form
