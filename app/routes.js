@@ -1,21 +1,15 @@
 module.exports = function (app, passport) {
 
-    // =====================================
-    // LOGIN ===============================
-    // =====================================
-    // show the login form
-    app.get('/', function (req, res) {
-
-        // render the page and pass in any flash data if it exists
-        res.render('login.ejs', { message: req.flash('loginMessage') });
-    });
-
-    // process the login form
-    app.post('/', passport.authenticate('local-login', {
+     // process the login form
+    app.post('/login', passport.authenticate('local-login', {
         successRedirect: '/profile', // redirect to the secure profile section
-        failureRedirect: '/', // redirect back to the signup page if there is an error
+        failureRedirect: '/login_error', // redirect back to the signup page if there is an error
         failureFlash: true // allow flash messages
     }));
+
+    app.get('/login_error', function (req, res) {
+        res.json({ error_messages: req.flash('loginMessage')[0] });
+    });
 
     // =====================================
     // PROFILE SECTION =====================
