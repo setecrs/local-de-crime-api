@@ -29,8 +29,9 @@ module.exports = function (app, passport) {
     // LOGOUT ==============================
     // =====================================
     app.get('/logout', function (req, res) {
-        res.json({mensagem: "Usuário "+ req.user.usuario + " fez logout"});
+        var usuario = req.user.usuario;
         req.logout();
+        res.json({mensagem: "Usuário "+ usuario + " fez logout"});
     });
 
     // =====================================
