@@ -56,7 +56,7 @@ module.exports = function (app, passport) {
 };
 
 function authenticationErrorHandler(err, req, res, next){
-  if (err.message === 'NOT AUTHENTICATED') {
+  if (err.message === "Usuário não autenticado") {
     res.json({message: err.message})
     return
   }
@@ -78,5 +78,5 @@ function isLoggedIn(req, res, next) {
     if (req.isAuthenticated())
         return next();
 
-    throw new Error("NOT AUTHENTICATED")
+    throw new Error("Usuário não autenticado")
 }
