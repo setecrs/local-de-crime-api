@@ -17,25 +17,27 @@ var OcorrenciaSchema = new Schema({
     sedeOcorrencia: String,    
     // peritoOcorrencia: { type: Schema.ObjectId, ref: 'Perito' },
     peritoOcorrencia: String,    
-    dataAcionamento: { type: Date, default: Date.now }, //usar a classe Date do javascript
-    horaAcionamento: { type: Date, default: Date.now }, //usar a classe Time do javascript
+    dataHoraAcionamento: { type: Date, default: Date.now }, //usar a classe Date do javascript
 
-    // // TELA ENDEREÇO
-    // local: Local,
-    // estado: Estado,
-    // municipio: Municipio;
-    // logradouro: string;
-    // complemento: string;
+    // TELA ENDEREÇO
+    local: String,
+    //local: {type: Schema.ObjectId, ref: Local},
+    estado: String,
+    //estado: {type: Schema.ObjectId, ref: Estado},
+    municipio: String,
+    //municipio: {type: Schema.ObjectId, ref: Municipio},
+    logradouro: String,
+    complemento: String,
 
     // /*
     //  * TODO - revisar modelagem deste ponto em diante!
     //  */
 
-    // // TELA RESPONSÁVEL DO LOCAL
-    // nomeResponsavel: string;
-    // cargoResponsavel: string;
-    // documentoResponsavel: string;
-    // entrevistaResponsavel: string;
+    // TELA RESPONSÁVEL DO LOCAL
+    //nomeResponsavel: string;
+    //cargoResponsavel: string;
+    //documentoResponsavel: string;
+    //entrevistaResponsavel: string;
 
     // // TELA SOBRE O LOCAL
     // dataHoraChegada: Date;
