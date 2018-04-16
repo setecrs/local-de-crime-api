@@ -49,7 +49,18 @@ module.exports = function (app, passport) {
         failureRedirect: '/signup_error', // redirect back to the signup page if there is an error
         failureFlash: true
     }));
+
+
+  app.use(authenticationErrorHandler)
 };
+
+function authenticationErrorHandler(err, req, res, next){
+  if (err.message === 'NOT AUTHENTICATED') {
+    res.json({message: err.message})
+    return
+  }
+  next(err)
+}
 
 // route middleware to make sure a user is logged in
 function isLoggedIn(req, res, next) {
@@ -58,6 +69,5 @@ function isLoggedIn(req, res, next) {
     if (req.isAuthenticated())
         return next();
 
-    // if they aren't redirect them to the home page
-    res.redirect('/');
+    throw new Error("NOT AUTHENTICATED")
 }
