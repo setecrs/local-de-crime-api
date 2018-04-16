@@ -52,6 +52,7 @@ module.exports = function (app, passport) {
 
 
   app.use(authenticationErrorHandler)
+  app.use(genericErrorHandler)
 };
 
 function authenticationErrorHandler(err, req, res, next){
@@ -60,6 +61,14 @@ function authenticationErrorHandler(err, req, res, next){
     return
   }
   next(err)
+}
+
+function genericErrorHandler(err, req, res, next){
+  console.log(err.message)
+  res.json({
+    message: 'erro interno',
+  })
+  next()
 }
 
 // route middleware to make sure a user is logged in
