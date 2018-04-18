@@ -2,7 +2,7 @@
 // get all the tools we need
 var express = require('express');
 var app = express();
-var port = process.env.PORT || 3000;
+var port = process.env.PORT || 3001;
 var mongoose = require('mongoose');
 var passport = require('passport');
 var flash = require('connect-flash');
@@ -24,9 +24,6 @@ app.use(bodyParser.json()); // these two get information from html forms
 app.use(bodyParser.urlencoded({
     extended: true
 }));
-
-
-app.set('view engine', 'ejs'); // set up ejs for templating
 
 // required for passport
 app.use(session({
