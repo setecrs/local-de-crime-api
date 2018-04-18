@@ -29,8 +29,9 @@ module.exports = function (app, passport) {
     // LOGOUT ==============================
     // =====================================
     app.get('/logout', function (req, res) {
-        res.json({mensagem: "Usuário "+ req.user.usuario + " fez logout"});
+        var usuario = req.user.usuario;
         req.logout();
+        res.json({mensagem: "Usuário "+ usuario + " fez logout"});
     });
 
     // =====================================
@@ -48,7 +49,27 @@ module.exports = function (app, passport) {
         failureRedirect: '/signup_error', // redirect back to the signup page if there is an error
         failureFlash: true
     }));
+
+
+  app.use(authenticationErrorHandler)
+  app.use(genericErrorHandler)
 };
+
+function authenticationErrorHandler(err, req, res, next){
+  if (err.message === "Usuário não autenticado") {
+    res.json({message: err.message})
+    return
+  }
+  next(err)
+}
+
+function genericErrorHandler(err, req, res, next){
+  console.log(err.message)
+  res.json({
+    message: 'erro interno',
+  })
+  next()
+}
 
 // route middleware to make sure a user is logged in
 function isLoggedIn(req, res, next) {
@@ -57,6 +78,5 @@ function isLoggedIn(req, res, next) {
     if (req.isAuthenticated())
         return next();
 
-    // if they aren't redirect them to the home page
-    res.redirect('/');
+    throw new Error("Usuário não autenticado")
 }

@@ -25,9 +25,6 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 
-
-app.set('view engine', 'ejs'); // set up ejs for templating
-
 // required for passport
 app.use(session({
     secret: 'agespoliciafederal',
