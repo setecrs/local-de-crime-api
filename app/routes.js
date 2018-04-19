@@ -1,3 +1,5 @@
+isLoggedIn = require("./is_logged_in.js");
+
 module.exports = function (app, passport) {
 
      // process the login form
@@ -71,12 +73,3 @@ function genericErrorHandler(err, req, res, next){
   next()
 }
 
-// route middleware to make sure a user is logged in
-function isLoggedIn(req, res, next) {
-
-    // if user is authenticated in the session, carry on 
-    if (req.isAuthenticated())
-        return next();
-
-    throw new Error("Usuário não autenticado")
-}
