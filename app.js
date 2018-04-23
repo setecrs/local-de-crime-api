@@ -4,6 +4,11 @@ var express = require('express');
 var app = express();
 var port = process.env.PORT || 3001;
 var mongoose = require('mongoose');
+
+if (process.env.MONGODB_URI) {
+  mongoose.connect(process.env.MONGODB_URI);
+};
+
 var passport = require('passport');
 var flash = require('connect-flash');
 
