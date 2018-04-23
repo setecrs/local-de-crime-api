@@ -4,11 +4,6 @@ var express = require('express');
 var app = express();
 var port = process.env.PORT || 3001;
 var mongoose = require('mongoose');
-
-if (process.env.MONGODB_URI) {
-  mongoose.connect(process.env.MONGODB_URI);
-};
-
 var passport = require('passport');
 var flash = require('connect-flash');
 
@@ -18,7 +13,7 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 
 // configuration ===============================================================
-mongoose.connect('mongodb://localhost/policia_federal'); // connect to our database
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/policia_federal'); // connect to our database
 
 require('./config/passport')(passport); // pass passport for configuration
 
