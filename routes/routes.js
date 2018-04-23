@@ -1,3 +1,5 @@
+isLoggedIn = require("./../is_logged_in.js")
+
 module.exports = function (app, passport) {
 
     // process the login form     
@@ -43,16 +45,7 @@ module.exports = function (app, passport) {
         failureRedirect: '/signup_error', // redirect back to the signup page if there is an error         
         failureFlash: true     
     })); 
-    }; 
+  }; 
 
 
-// route middleware to make sure a user is logged in 
-function isLoggedIn(req, res, next) {  
 
-    // if user is authenticated in the session, carry on     
-    if (req.isAuthenticated())         
-        return next();     
-        
-    // if they aren't redirect them to the home page     
-    res.redirect('/'); 
-}
