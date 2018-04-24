@@ -1,5 +1,5 @@
 var Ocorrencia = require('../models/ocorrencia');
-isLoggedIn = require("./../app/is_logged_in.js");
+isLoggedIn = require("./is_logged_in.js");
 
 module.exports = function(app) {
 
