@@ -1,15 +1,15 @@
 // load the things we need
 var mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 var bcrypt = require('bcrypt-nodejs');
 
 // define the schema for our user model
 var userSchema = mongoose.Schema({
-
-    usuario: String,
-    senha: String,
-    nome: { type: String, default: '' },
-    sede: { type: String, default: '' },
-    ativo: Boolean
+    usuario: { type: String, required: true },
+    senha: { type: String, required: true },
+    nome: { type: String, required: true },
+    sede: { type: Schema.ObjectId, ref: 'Sede', default: null },
+    ativo: { type: Boolean, default: true }
 });
 
 // metodos ======================

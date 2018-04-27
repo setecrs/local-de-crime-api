@@ -1,39 +1,28 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-var Local = require('../models/local');
-var User = require('./user');
-
-// import { Perito } from './perito';
-// import { Sede } from './sede';
-// import { Local } from './local';
-// import { Estado } from './estado';
-// import { Municipio } from './municipio';
-// import { Vestigio } from './vestigio';
+var Perito = require('./user');
+var TipoLocal = require('../models/local');
+var Estado = require('../models/estado');
+var Municipio = require('../models/municipio');
+var Vestigio = require('../models/vestigio');
 
 var OcorrenciaSchema = new Schema({
-    criadoPor: { type: Schema.ObjectId, ref: 'User' },
     
-        // TELA DADOS GERAIS
-        numeroOcorrencia: { type: String, default: '' },
-        // sedeOcorrencia: { type: Schema.ObjectId, ref: 'Sede' },
-        sedeOcorrencia: { type: String, default: '' },    
-        peritoOcorrencia: [{ type: Schema.ObjectId, ref: 'Perito' }],
-        dataHoraAcionamento: { type: Date, default: Date.now },
+    criadoPor: { type: Schema.ObjectId, ref: 'Perito', required: true },
+
+    // TELA DADOS GERAIS
+    numeroOcorrencia: { type: String, default: '' },
+    sede: { type: String, default: '' },    
+    peritosAcionados: [{ type: Schema.ObjectId, ref: 'Perito' }],
+    dataHoraAcionamento: { type: Date, default: Date.now },
 
     // TELA ENDEREÇO
-    local: String,
-    //local: {type: Schema.ObjectId, ref: Local},
-    estado: String,
-    //estado: {type: Schema.ObjectId, ref: Estado},
-    municipio: String,
-    //municipio: {type: Schema.ObjectId, ref: Municipio},
-    logradouro: String,
-    complemento: String,
-
-    /*
-     * TODO - revisar modelagem deste ponto em diante!
-     */
+    tipoLocal: { type: Schema.ObjectId, ref: 'TipoLocal', default: null },
+    estado: { type: Schema.ObjectId, ref: 'Estado', default: null },
+    municipio: { type: Schema.ObjectId, ref: 'Municipio', default: null },
+    logradouro: { type: String, default: '' },
+    complemento: { type: String, default: '' },
 
     // TELA RESPONSÁVEL DO LOCAL
     nomeResponsavel: { type: String, default: '' },
@@ -53,8 +42,8 @@ var OcorrenciaSchema = new Schema({
     possiveisSuspeitos: { type: String, default: '' },
     valoresSubtraidos: { type: String, default: '' },
 
-    // // TELA VESTÍGIOS
-    // vestigios: [Vestigio]
+    // TELA VESTÍGIOS
+    vestigios: [{ type: Schema.ObjectId, ref: 'Vestigio' }]
 });
 
 module.exports = mongoose.model('Ocorrencia', OcorrenciaSchema);

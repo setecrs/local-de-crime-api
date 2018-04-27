@@ -99,7 +99,7 @@ module.exports = function (passport) {
                         newPerito.senha = newPerito.generateHash(senha);
                         newPerito.nome = req.body.nome;
                         newPerito.sede = req.body.sede;
-                        newPerito.ativo = true;
+                        newPerito.ativo = req.body.ativo;
 
                         // save the user
                         newPerito.save(function (err) {
@@ -113,6 +113,7 @@ module.exports = function (passport) {
 
             });
 
-        }));
+        }
+    ));
 
 };
