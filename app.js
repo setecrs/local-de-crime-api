@@ -13,7 +13,7 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 
 // configuration ===============================================================
-mongoose.connect('mongodb://localhost/policia_federal'); // connect to our database
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/policia_federal'); // connect to our database
 
 require('./config/passport')(passport); // pass passport for configuration
 
