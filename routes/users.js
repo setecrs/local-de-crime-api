@@ -1,3 +1,5 @@
+var login = require('./login');
+
 module.exports = function (app, passport) {
 
      // process the login form
@@ -16,7 +18,7 @@ module.exports = function (app, passport) {
     // =====================================
     // we will want this protected so you have to be logged in to visit
     // we will use route middleware to verify this (the isLoggedIn function)
-    app.get('/profile', isLoggedIn, function (req, res) {
+    app.get('/profile', login.isLoggedIn, function (req, res) {
       res.json({
         "usuario": req.user.usuario,
         "nome": req.user.nome,
@@ -28,7 +30,7 @@ module.exports = function (app, passport) {
     // =====================================
     // LOGOUT ==============================
     // =====================================
-    app.get('/logout', function (req, res) {
+    app.get('/logout', login.isLoggedIn, function (req, res) {
         var usuario = req.user.usuario;
         req.logout();
         res.json({mensagem: "Usuário "+ usuario + " fez logout"});
@@ -69,14 +71,4 @@ function genericErrorHandler(err, req, res, next){
     message: 'erro interno',
   })
   next()
-}
-
-// route middleware to make sure a user is logged in
-function isLoggedIn(req, res, next) {
-
-    // if user is authenticated in the session, carry on 
-    if (req.isAuthenticated())
-        return next();
-
-    throw new Error("Usuário não autenticado")
 }
