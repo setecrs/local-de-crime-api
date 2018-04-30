@@ -13,7 +13,7 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 
 // configuration ===============================================================
-mongoose.connect('mongodb://localhost/policia_federal'); // connect to our database
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/policia_federal'); // connect to our database
 
 require('./config/passport')(passport); // pass passport for configuration
 
@@ -36,7 +36,8 @@ app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session
 
 // routes ======================================================================
-require('./app/routes.js')(app, passport); // load our routes and pass in our app and fully configured passport
+require('./routes/users')(app, passport); // load our routes and pass in our app and fully configured passport
+require('./routes/ocorrencias')(app);
 
 // launch ======================================================================
 app.listen(port);
