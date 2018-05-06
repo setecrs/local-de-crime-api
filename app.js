@@ -2,11 +2,13 @@
 // get all the tools we need
 var express = require('express');
 var app = express();
-var port = process.env.PORT || 3001;
+var port = process.env.PORT || 3009;
 var mongoose = require('mongoose');
-var passport = require('passport');
+var passport = require('passport')
+  , OAuthStrategy = require('passport-oauth').OAuthStrategy;
 var flash = require('connect-flash');
 
+const router 	   = express.Router();
 var morgan = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
@@ -36,8 +38,8 @@ app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session
 
 // routes ======================================================================
-require('./routes/users')(app, passport); // load our routes and pass in our app and fully configured passport
-require('./routes/ocorrencias')(app);
+require('./new_routes')(router);
+app.use('/api/v1', router);
 
 // launch ======================================================================
 app.listen(port);

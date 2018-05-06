@@ -5,11 +5,9 @@ var bcrypt = require('bcrypt-nodejs');
 
 // define the schema for our user model
 var userSchema = mongoose.Schema({
-    usuario: { type: String, required: true },
-    senha: { type: String, required: true },
-    nome: { type: String, required: true },
-    sede: { type: Schema.ObjectId, ref: 'Sede', default: null },
-    ativo: { type: Boolean, default: true }
+    hashed_password: { type: String, required: true },
+    name: { type: String, required: true },
+    email: { type: String, required: true },
 });
 
 // metodos ======================
@@ -24,4 +22,5 @@ userSchema.methods.validPassword = function (senha) {
 };
 
 // cria o model para peritos e o expoe para o app
-module.exports = mongoose.model('Perito', userSchema);
+//module.exports = mongoose.model('Perito', userSchema);
+module.exports = mongoose.model('user', userSchema);
