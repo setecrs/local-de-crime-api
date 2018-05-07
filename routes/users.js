@@ -68,7 +68,7 @@ function authenticationErrorHandler(err, req, res, next){
 function genericErrorHandler(err, req, res, next){
   console.log(err.message)
   res.json({
-    message: 'erro interno',
+    message: 'Erro interno!',
   })
   next()
 }

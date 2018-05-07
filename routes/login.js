@@ -11,7 +11,7 @@ exports.loginUser = (email, password) =>
 
 			if (users.length == 0) {
 
-				reject({ status: 404, message: 'User Not Found !' });
+				reject({ status: 404, message: 'Usuário não encontrado' });
 
 			} else {
 
@@ -30,10 +30,10 @@ exports.loginUser = (email, password) =>
 
 			} else {
 
-				reject({ status: 401, message: 'Invalid Credentials !' });
+				reject({ status: 401, message: 'Credenciais inválidas' });
 			}
 		})
 
-		.catch(err => reject({ status: 500, message: 'Internal Server Error !' }));
+		.catch(err => reject({ status: 500, message: 'Erro interno!' }));
 
 	});
