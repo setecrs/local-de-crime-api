@@ -1,5 +1,5 @@
 var Ocorrencia = require('../models/ocorrencia');
-const checkToken = require('../routes/check_token');
+const checkToken = require('./check_token');
 
 module.exports = function(app) {
 

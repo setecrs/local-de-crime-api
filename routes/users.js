@@ -1,12 +1,10 @@
 const auth = require('basic-auth');
 const jwt = require('jsonwebtoken');
 
-const register = require('../register');
-const register = require('../register');
-const login = require('../login');
-const checkToken = require('../routes/check_token');
-const profile = require('../profile');
-const password = require('../password');
+const register = require('./register');
+const login = require('./login');
+const checkToken = require('./check_token');
+const profile = require('./profile');
 const config = require('../config/config.json');
 
 module.exports = router => {
