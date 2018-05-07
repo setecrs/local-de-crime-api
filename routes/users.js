@@ -27,15 +27,15 @@ module.exports = router => {
 
 	router.post('/signup', (req, res) => {
 		const name = req.body.name;
-		const email = req.body.email;
+		const username = req.body.username;
 		const password = req.body.password;
 
-		if (!name || !email || !password || !name.trim() || !email.trim() || !password.trim()) {
-			res.status(400).json({message: 'Request inválido. Deve conter nome, email e senha'});
+		if (!name || !username || !password || !name.trim() || !username.trim() || !password.trim()) {
+			res.status(400).json({message: 'Request inválido. Deve conter nome, username e senha'});
     } else {
-			register.registerUser(name, email, password)
+			register.registerUser(name, username, password)
 			.then(result => {
-				res.setHeader('Location', '/users/'+email);
+				res.setHeader('Location', '/users/'+username);
 				res.status(result.status).json({ message: result.message })
 			})
 			.catch(err => res.status(err.status).json({ message: err.message }));
@@ -45,7 +45,7 @@ module.exports = router => {
   router.get('/profile', (req,res) => {
 		if (user = checkToken(req)) {
 
-			profile.getProfile(user.email)
+			profile.getProfile(user.username)
 			.then(result => res.json(result))
 			.catch(err => res.status(err.status).json({ message: err.message }));
 		} else {

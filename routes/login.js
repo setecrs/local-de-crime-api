@@ -1,11 +1,11 @@
 const user = require('../models/user');
 const bcrypt = require('bcryptjs');
 
-exports.loginUser = (email, password) => 
+exports.loginUser = (username, password) => 
 
 	new Promise((resolve,reject) => {
 
-		user.find({email: email})
+		user.find({username: username})
 
 		.then(users => {
 
@@ -26,7 +26,7 @@ exports.loginUser = (email, password) =>
 
 			if (bcrypt.compareSync(password, hashed_password)) {
 
-				resolve({ status: 200, email: email, id: user._id });
+				resolve({ status: 200, username: username, id: user._id });
 
 			} else {
 
