@@ -9,7 +9,7 @@ module.exports = function (req) {
     try {
         var decoded = jwt.verify(token, config.secret);
 
-        return decoded.status === 200;
+        return decoded.message;
     } catch(err) {
       return false;
     }
