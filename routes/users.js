@@ -2,6 +2,7 @@ const auth = require('basic-auth');
 const jwt = require('jsonwebtoken');
 
 const register = require('../register');
+const register = require('../register');
 const login = require('../login');
 const checkToken = require('../routes/check_token');
 const profile = require('../profile');
@@ -33,7 +34,7 @@ module.exports = router => {
 
 		if (!name || !email || !password || !name.trim() || !email.trim() || !password.trim()) {
 			res.status(400).json({message: 'Request inválido. Deve conter nome, email e senha'});
-		} else {
+    } else {
 			register.registerUser(name, email, password)
 			.then(result => {
 				res.setHeader('Location', '/users/'+email);
@@ -46,7 +47,7 @@ module.exports = router => {
   router.get('/profile', (req,res) => {
 		if (user = checkToken(req)) {
 
-			profile.getProfile(user)
+			profile.getProfile(user.email)
 			.then(result => res.json(result))
 			.catch(err => res.status(err.status).json({ message: err.message }));
 		} else {

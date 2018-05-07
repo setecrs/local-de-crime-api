@@ -25,6 +25,7 @@ app.use(bodyParser.urlencoded({
 
 // routes ======================================================================
 require('./routes/users')(router);
+require('./routes/ocorrencias')(router);
 app.use('/api/v1', router);
 
 // launch ======================================================================
