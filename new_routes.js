@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 
 const register = require('./register');
 const login = require('./login');
+const checkToken = require('./routes/check_token');
 const profile = require('./profile');
 const password = require('./password');
 const config = require('./config/config.json');
@@ -130,31 +131,4 @@ module.exports = router => {
 		}
 	});
 
-	function checkToken(req) {
-
-		const token = req.headers['x-access-token'];
-    console.log("TOKEN", token)
-
-		if (token) {
-
-			try {
-
-  				var decoded = jwt.verify(token, config.secret);
-
-        console.log("DECODE", decoded)
-
-
-
-  				return decoded.status === 200;
-
-			} catch(err) {
-
-				return false;
-			}
-
-		} else {
-
-			return false;
-		}
-	}
 }
