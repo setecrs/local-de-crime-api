@@ -23,18 +23,18 @@ exports.registerUser = (name, email, password) =>
 
       .then(() => resolve(
         
-        { status: 201, message: newUser.isNew + 'User Registered Sucessfully !' }))
+        { status: 201, message: 'Usuário cadastrado com sucesso!' }))
     
 
 		.catch(err => {
 
 			if (err.code == 11000) {
 
-				reject({ status: 409, message: 'User Already Registered !' });
+				reject({ status: 409, message: 'Usuário já cadastrado!' });
 
 			} else {
 
-				reject({ status: 500, message: 'Internal Server Error !' });
+				reject({ status: 500, message: 'Erro interno!' });
 			}
 		});
 	});
