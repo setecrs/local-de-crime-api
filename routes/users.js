@@ -10,7 +10,7 @@ const config = require('../config/config.json');
 
 module.exports = router => {
 
-	router.post('/login', (req, res) => {
+	router.get('/login', (req, res) => {
 
 		const credentials = auth(req);
 
