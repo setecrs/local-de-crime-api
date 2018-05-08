@@ -3,11 +3,11 @@
 const user = require('../models/user');
 const bcrypt = require('bcryptjs');
 
-exports.registerUser = (name, username, password) => 
+exports.registerUser = (name, username, password) =>
 
-	new Promise((resolve,reject) => {
+	new Promise((resolve, reject) => {
 
-    const salt = bcrypt.genSaltSync(10);
+		const salt = bcrypt.genSaltSync(10);
 		const hash = bcrypt.hashSync(password, salt);
 
 		const newUser = new user({
@@ -21,10 +21,9 @@ exports.registerUser = (name, username, password) =>
 
 		newUser.save()
 
-      .then(() => resolve(
-        
-        { status: 201, message: 'Usuário cadastrado com sucesso!' }))
-    
+		.then(() => resolve(
+
+			{ status: 201, message: 'Usuário cadastrado com sucesso!' }))
 
 		.catch(err => {
 

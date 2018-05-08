@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 
 exports.loginUser = (username, password) => 
 
-	new Promise((resolve,reject) => {
+	new Promise((resolve, reject) => {
 
 		user.find({username: username})
 

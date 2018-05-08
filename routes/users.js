@@ -18,7 +18,7 @@ module.exports = router => {
 		} else {
 			login.loginUser(credentials.name, credentials.pass)
 			.then(result => {
-				const token = jwt.sign(result, config.secret, { expiresIn: 1440 });
+				const token = jwt.sign(result, config.secret, { expiresIn: '8760h' });
 				res.status(result.status).json({ message: result.message, token: token });
 			})
 			.catch(err => res.status(err.status).json({ message: err.message }));
@@ -56,6 +56,8 @@ module.exports = router => {
   router.use(authenticationErrorHandler)
   router.use(genericErrorHandler)
 };
+
+
 
 function authenticationErrorHandler(err, req, res, next){
   if (err.message === "Usuário não autenticado") {

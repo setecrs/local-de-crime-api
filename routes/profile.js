@@ -6,9 +6,9 @@ exports.getProfile = username =>
 
 	new Promise((resolve,reject) => {
 
-		user.find({ username: username }, { name: 1, username: 1, created_at: 1, _id: 0 })
+		user.findOne({ username: username })
 
-		.then(users => resolve(users[0]))
+		.then((user) => resolve(user))
 
 		.catch(err => reject({ status: 500, message: 'Erro interno!' }))
 
