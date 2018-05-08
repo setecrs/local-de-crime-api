@@ -1,16 +1,14 @@
-route: /signup | method: POST | params:{"usuario": String, "senha": String}
+route: /signup | method: POST | params:{"username": String, "password": String, "name": String}
 
-route: /login | method: POST | params: {"usuario": String, "senha": String}
+route: /login | method: GET | Headers: {"Authentication": "Basic" + base65(user : password) } | returns token
 
-route: /profile | method: GET | params: n/a | [DEVE ESTAR AUTENTICADO]
+route: /profile | method: GET | Headers: {"x-access-token": [JWT TOKEN]) }
 
-route: /logout | method: GET | params: n/a | [DEVE ESTAR AUTENTICADO]
+GET /ocorrencia | params: n/a | Headers: {"x-access-token": [JWT TOKEN]) } [DEVE ESTAR AUTENTICADO]
 
-GET /ocorrencia | params: n/a | [DEVE ESTAR AUTENTICADO]
+POST /ocorrencia | params: n/a | Headers: {"x-access-token": [JWT TOKEN]) } [DEVE ESTAR AUTENTICADO]
 
-POST /ocorrencia | params: n/a | [DEVE ESTAR AUTENTICADO]
-
-GET /ocorrencia/{idOcorrencia} | params: n/a | [DEVE ESTAR AUTENTICADO]
+GET /ocorrencia/{idOcorrencia} | Headers: {"x-access-token": [JWT TOKEN]) } params: n/a | [DEVE ESTAR AUTENTICADO]
 
 PATCH /dados_gerais/{idOcorrencia} | params: 
 {
@@ -19,4 +17,4 @@ PATCH /dados_gerais/{idOcorrencia} | params:
     "peritosOcorrencia": [Peritos._id], 
     "dataHoraAcionamento": dateTime
 }
- | [DEVE ESTAR AUTENTICADO]
+ | Headers: {"x-access-token": [JWT TOKEN]) } [DEVE ESTAR AUTENTICADO]
