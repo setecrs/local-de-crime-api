@@ -18,3 +18,10 @@ PATCH /dados_gerais/{idOcorrencia} | params:
     "dataHoraAcionamento": dateTime
 }
  | Headers: {"x-access-token": [JWT TOKEN]) } [DEVE ESTAR AUTENTICADO]
+
+
+# POSTMAN
+
+## SIGNUP
+
+![Signup](signup.gif)
