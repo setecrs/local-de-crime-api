@@ -25,3 +25,8 @@ PATCH /dados_gerais/{idOcorrencia} | params:
 ## SIGNUP
 
 ![Signup](http://www.tools.ages.pucrs.br/PoliciaFederal/api/raw/d900c9cfb88bc8f93306168effaa1f5c1a4158ef/docs/signup.gif)
+
+
+## LOGIN
+
+![Signup](http://www.tools.ages.pucrs.br/PoliciaFederal/api/raw/d900c9cfb88bc8f93306168effaa1f5c1a4158ef/docs/login.gif)
