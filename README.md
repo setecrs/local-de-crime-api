@@ -1,24 +1,36 @@
-route: /api/v1/signup | method: POST | params:{"username": String, "password": String, "name": String}
+route: /signup | method: POST | params:{"username": String, "password": String, "name": String}
 
-route: /api/v1/login | method: GET | Headers: {"Authentication": "Basic" + base65(user : password) } | returns token
+route: /login | method: GET | Headers: {"Authentication": "Basic" + base65(user : password) } | returns token
 
-route: /api/v1/profile | method: GET | Headers: {"x-access-token": [JWT TOKEN]) }
+route: /profile | method: GET | Headers: {"x-access-token": [JWT TOKEN]) } [DEVE ESTAR AUTENTICADO]
 
-GET /api/v1/ocorrencia | params: n/a | Headers: {"x-access-token": [JWT TOKEN]) } [DEVE ESTAR AUTENTICADO]
+GET /ocorrencia/{idOcorrencia} | params: n/a | Headers: {"x-access-token": [JWT TOKEN]) } [DEVE ESTAR AUTENTICADO]
 
-POST /api/v1/ocorrencia | params: n/a | Headers: {"x-access-token": [JWT TOKEN]) } [DEVE ESTAR AUTENTICADO]
+POST /ocorrencias | params: n/a | Headers: {"x-access-token": [JWT TOKEN]) } [DEVE ESTAR AUTENTICADO]
 
-GET /api/v1/ocorrencia/{idOcorrencia} | Headers: {"x-access-token": [JWT TOKEN]) } params: n/a | [DEVE ESTAR AUTENTICADO]
+GET /ocorrencias | Headers: {"x-access-token": [JWT TOKEN]) } params: n/a | [DEVE ESTAR AUTENTICADO]
 
-PATCH /api/v1/dados_gerais/{idOcorrencia} | params: 
+GET /ocorrencias/todas | Headers: {"x-access-token": [JWT TOKEN]) } params: n/a | [DEVE ESTAR AUTENTICADO]
+
+PATCH /dados_gerais/{idOcorrencia} | params: 
 {
-    "numeroOcorrencia": string, 
+    "numeroOcorrencia": String, 
     "sedeOcorrencia": Sede._id, 
     "peritosOcorrencia": [Peritos._id], 
     "dataHoraAcionamento": dateTime
 }
- | Headers: {"x-access-token": [JWT TOKEN]) } [DEVE ESTAR AUTENTICADO]
+| Headers: {"x-access-token": [JWT TOKEN]) } [DEVE ESTAR AUTENTICADO]
 
+PATCH /endereco/{idOcorrencia} | params: 
+{
+    "tipoLocal": String,
+    "estado": String,
+    "municipio": String,
+    "logradouro": String,
+    "complemento": String,
+    "_id": Ocorrencia._id
+}
+| Headers: {"x-access-token": [JWT TOKEN]) } [DEVE ESTAR AUTENTICADO]
 
 # POSTMAN
 
