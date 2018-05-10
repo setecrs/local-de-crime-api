@@ -1,74 +1,83 @@
-var login = require('./login');
+const auth = require('basic-auth');
+const jwt = require('jsonwebtoken');
 
-module.exports = function (app, passport) {
+const register = require('../config/register');
+const login = require('../config/login');
+const checkToken = require('../config/check_token');
+const profile = require('../config/profile');
+const config = require('../config/config');
 
-     // process the login form
-    app.post('/login', passport.authenticate('local-login', {
-        successRedirect: '/profile', // redirect to the secure profile section
-        failureRedirect: '/login_error', // redirect back to the signup page if there is an error
-        failureFlash: true // allow flash messages
-    }));
+//userRouter
+const express = require('express');
+const userRouter = express.Router();
 
-    app.get('/login_error', function (req, res) {
-        res.json({ error_messages: req.flash('loginMessage')[0] });
-    });
+//login
+userRouter.get('/login', (req, res) => {
 
-    // =====================================
-    // PROFILE SECTION =====================
-    // =====================================
-    // we will want this protected so you have to be logged in to visit
-    // we will use route middleware to verify this (the isLoggedIn function)
-    app.get('/profile', login.isLoggedIn, function (req, res) {
-      res.json({
-        "usuario": req.user.usuario,
-        "nome": req.user.nome,
-        "sede": req.user.sede,
-        "ativo": req.user.ativo
-      });
-    });
+	const credentials = auth(req);
 
-    // =====================================
-    // LOGOUT ==============================
-    // =====================================
-    app.get('/logout', login.isLoggedIn, function (req, res) {
-        var usuario = req.user.usuario;
-        req.logout();
-        res.json({mensagem: "Usuário "+ usuario + " fez logout"});
-    });
+	if (!credentials) {
+		res.status(400).json({ message: 'Request inválido. Utilizar Basic Auth para os parâmetros' });
+	} else {
+		login.loginUser(credentials.name, credentials.pass)
+		.then(result => {
+			const token = jwt.sign(result, config.secret, { expiresIn: '8760h' });
+			res.status(result.status).json({ message: result.message, token: token });
+		})
+		.catch(err => res.status(err.status).json({ message: err.message }));
+	}
+});
 
-    // =====================================
-    // SIGNUP ==============================
-    // =====================================
-    // show the signup form
+//signup
+userRouter.post('/signup', (req, res) => {
+	const name = req.body.name;
+	const username = req.body.username;
+	const password = req.body.password;
 
-    app.get('/signup_error', function (req, res) {
-        res.json({ error_messages: req.flash('signupMessage')[0] });
-    });
-    
-    // process the signup form
-    app.post('/signup', passport.authenticate('local-signup', {
-        successRedirect: '/profile', // redirect to the secure profile section
-        failureRedirect: '/signup_error', // redirect back to the signup page if there is an error
-        failureFlash: true
-    }));
+	if (!name || !username || !password || !name.trim() || !username.trim() || !password.trim()) {
+		res.status(400).json({message: 'Request inválido. Deve conter nome, usuário e senha'});
+	} else {
+		register.registerUser(name, username, password)
+		.then(result => {
+			res.setHeader('Location', '/users/'+username);
+			res.status(result.status).json({ message: result.message })
+		})
+		.catch(err => res.status(err.status).json({ message: err.message }));
+	}
+});
 
+//profile
+userRouter.get('/profile', (req,res) => {
+	if (user = checkToken(req)) {
 
-  app.use(authenticationErrorHandler)
-  app.use(genericErrorHandler)
-};
+		profile.getProfile(user.username)
+		.then(result => res.json(result))
+		.catch(err => res.status(err.status).json({ message: err.message }));
+	} else {
+		res.status(401).json({ message: 'Token inválido' });
+	}
+});
 
+//error handlers
+userRouter.use(authenticationErrorHandler);
+userRouter.use(genericErrorHandler);
+
+//router export
+module.exports = userRouter;
+
+//error handlers functions
 function authenticationErrorHandler(err, req, res, next){
   if (err.message === "Usuário não autenticado") {
-    res.json({message: err.message})
-    return
+    res.json({message: err.message});
+    return;
   }
-  next(err)
+  next(err);
 }
 
 function genericErrorHandler(err, req, res, next){
-  console.log(err.message)
+  console.log(err.message);
   res.json({
-    message: 'erro interno',
-  })
-  next()
+    message: 'Erro interno!',
+  });
+  next();
 }

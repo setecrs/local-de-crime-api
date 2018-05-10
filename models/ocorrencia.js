@@ -2,14 +2,15 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 var Perito = require('./user');
-var TipoLocal = require('../models/local');
-var Estado = require('../models/estado');
-var Municipio = require('../models/municipio');
-var Vestigio = require('../models/vestigio');
+var TipoLocal = require('./local');
+var Estado = require('./estado');
+var Municipio = require('./municipio');
+var Vestigio = require('./vestigio');
 
 var OcorrenciaSchema = new Schema({
     
     criadoPor: { type: Schema.ObjectId, ref: 'Perito', required: true },
+    //criadoPor: { type: Schema.ObjectId, ref: 'Perito', default: null },
 
     // TELA DADOS GERAIS
     numeroOcorrencia: { type: String, default: '' },
