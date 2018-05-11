@@ -7,6 +7,8 @@ const checkToken = require('../config/check_token');
 const profile = require('../config/profile');
 const config = require('../config/config');
 
+var User = require('../models/user');
+
 //userRouter
 const express = require('express');
 const userRouter = express.Router();
@@ -53,6 +55,32 @@ userRouter.get('/profile', (req,res) => {
 		profile.getProfile(user.username)
 		.then(result => res.json(result))
 		.catch(err => res.status(err.status).json({ message: err.message }));
+	} else {
+		res.status(401).json({ message: 'Token inválido' });
+	}
+});
+
+//usuarios ativos
+userRouter.get('/usuarios', (req,res) => {
+		User.find({ativo: true}).select('name sede -_id')
+        .then((user) => {
+            res.statusCode = 200;
+            res.setHeader("Content-Type", "application/json");
+            res.json(user);
+        }, (err) => next(err))
+        .catch(err => res.status(err.status).json({ message: err.message }));	
+});
+
+//usuarios todos
+userRouter.get('/usuarios/todos', (req,res) => {
+	if (user = checkToken(req)) {
+		User.find().select('-hashed_password')
+        .then((user) => {
+            res.statusCode = 200;
+            res.setHeader("Content-Type", "application/json");
+            res.json(user);
+        }, (err) => next(err))
+        .catch(err => res.status(err.status).json({ message: err.message }));		
 	} else {
 		res.status(401).json({ message: 'Token inválido' });
 	}
