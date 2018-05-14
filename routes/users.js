@@ -62,7 +62,7 @@ userRouter.get('/profile', (req,res) => {
 
 //usuarios ativos
 userRouter.get('/usuarios', (req,res) => {
-		User.find({ativo: true}).select('name sede -_id')
+		User.find({ativo: true}).select('username name sede -_id')
         .then((user) => {
             res.statusCode = 200;
             res.setHeader("Content-Type", "application/json");
