@@ -9,7 +9,7 @@ const responsavelLocalRouter = express.Router();
 
 //patch (atualiza dados de entrada no Responsável)
 //parâmetro de entrada; id da ocorrência que queremos atualizar
-responsavelLocalRouter.patch('/:idOcorrencia', function(req, res) {
+responsavelLocalRouter.patch('/responsavel/:idOcorrencia', function(req, res) {
         if (user = checkToken(req)) {
         Ocorrencia.findOneAndUpdate({
             _id: req.params.idOcorrencia,
