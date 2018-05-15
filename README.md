@@ -12,6 +12,8 @@ GET /ocorrencias | Headers: {"x-access-token": [JWT TOKEN]) } params: n/a | [DEV
 
 GET /ocorrencias/todas | Headers: {"x-access-token": [JWT TOKEN]) } params: n/a | [DEVE ESTAR AUTENTICADO]
 
+GET /usuarios | Headers: no-auth
+
 PATCH /dados_gerais/{idOcorrencia} | params: 
 {
     "numeroOcorrencia": String, 
