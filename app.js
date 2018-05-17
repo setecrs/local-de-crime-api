@@ -19,6 +19,7 @@ var responsavelLocalRouter = require('./routes/responsavel_local');
 var sobreLocalRouter = require('./routes/sobre_local');
 var sobreFatoRouter = require('./routes/sobre_fato');
 var vestigiosRouter = require('./routes/vestigios');
+var popularBancoRouter = require('./routes/popular_banco');
 
 // configuration ===============================================================
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/policia_federal'); // connect to our database
@@ -39,6 +40,7 @@ app.use('/responsavel_local', responsavelLocalRouter);
 app.use('/sobre_local', sobreLocalRouter);
 app.use('/sobre_fato', sobreFatoRouter);
 app.use('/vestigios', vestigiosRouter);
+app.use('/popular_banco', popularBancoRouter);
 
 // launch ======================================================================
 app.listen(port);
