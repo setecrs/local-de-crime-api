@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 var Perito = require('./user');
-var TipoLocal = require('./local');
+var TipoLocal = require('./tipo_local');
 var Estado = require('./estado');
 var Municipio = require('./municipio');
 var Vestigio = require('./vestigio');
