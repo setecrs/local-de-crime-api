@@ -21,7 +21,8 @@ responsavelLocalRouter.patch('/:idOcorrencia', function(req, res) {
             nomeResponsavel: req.body.nomeResponsavel,
             cargoResponsavel: req.body.cargoResponsavel,
             documentoResponsavel: req.body.documentoResponsavel,
-            entrevistaResponsavel: req.body.entrevistaResponsavel,
+            entrevistaResponsavel: req.body.entrevistaResponsavel
+            //Inserir Testemunha entrevistada???
         }, 
         function(err, ocorrencia) {
             if (err) res.status(500).json(err);

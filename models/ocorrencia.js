@@ -6,6 +6,7 @@ var TipoLocal = require('./tipo_local');
 var Estado = require('./estado');
 var Municipio = require('./municipio');
 var Vestigio = require('./vestigio');
+var Testemunha = require('./testemunha');
 
 var OcorrenciaSchema = new Schema({
     
@@ -29,6 +30,7 @@ var OcorrenciaSchema = new Schema({
     cargoResponsavel: { type: String, default: '' },
     documentoResponsavel: { type: String, default: '' },
     entrevistaResponsavel: { type: String, default: '' },
+    testemunha: { type: Schema.ObjectId, ref: 'Testemunha'},
 
     // TELA SOBRE O LOCAL
     dataHoraChegada: { type: Date, default: Date.now },
