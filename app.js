@@ -12,7 +12,6 @@ var session = require('express-session');
 // variables containing the routes files
 var userRouter = require('./routes/users');
 var ocorrenciasRouter = require('./routes/ocorrencias');
-var ocorrenciaRouter = require('./routes/ocorrencia');
 var dadosGeraisRouter = require('./routes/dados_gerais');
 var enderecoRouter = require('./routes/endereco');
 var responsavelLocalRouter = require('./routes/responsavel_local');
@@ -32,7 +31,6 @@ app.use(express.urlencoded({ extended: true }));
 // routes ======================================================================
 app.use('/', userRouter);
 app.use('/ocorrencias', ocorrenciasRouter);
-app.use('/ocorrencia', ocorrenciaRouter);
 app.use('/dados_gerais', dadosGeraisRouter);
 app.use('/endereco', enderecoRouter);
 app.use('/responsavel_local', responsavelLocalRouter);
