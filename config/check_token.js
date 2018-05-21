@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const config = require('./config');
 
-module.exports = function (req) {
+module.exports = function (req, res, next) {
 
   const token = req.headers['x-access-token'];
 
@@ -9,11 +9,13 @@ module.exports = function (req) {
     try {
         var decoded = jwt.verify(token, config.secret);
 
-        return decoded;
+        req.user = decoded;        
+        
+        return next();
     } catch(err) {
-      return false;
+      return res.json('Token inválido');
     }
   } else {
-    return false;
+    return res.json('Envie o token');
   }
 }

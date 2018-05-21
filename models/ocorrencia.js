@@ -9,8 +9,7 @@ var Vestigio = require('./vestigio');
 
 var OcorrenciaSchema = new Schema({
     
-    criadoPor: { type: Schema.ObjectId, ref: 'Perito', required: true },
-    //criadoPor: { type: Schema.ObjectId, ref: 'Perito', default: null },
+    criadoPor: { type: Schema.ObjectId, ref: 'User', required: true },
 
     // TELA DADOS GERAIS
     numeroOcorrencia: { type: String, default: '' },
