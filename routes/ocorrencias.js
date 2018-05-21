@@ -47,13 +47,12 @@ ocorrenciasRouter.get('/', function(req, res) {
 // Busca apenas uma única ocorrência, pelo seu idOcorrencia
 // param idOcorrencia: _id da Ocorrencia que queremos visualizar / atualizar
 ocorrenciasRouter.get('/:idOcorrencia', function(req, res) {
-    if (mongoose.Types.ObjectId.isValid(req.params.idOcorrencia)) {   
-        Ocorrencia.findOne({ _id: req.params.idOcorrencia, criadoPor: req.user.id }) // idOcorrencia que foi passado na URL
+    if (mongoose.Types.ObjectId.isValid(req.params.idOcorrencia)) {
+        Ocorrencia.findOne({ _id: req.params.idOcorrencia }) // idOcorrencia que foi passado na URL
             // .select('numeroOcorrencia sede peritosAcionados dataHoraAcionamento') // select implícito: campos que queremos filtrar
             .populate('criadoPor', 'name username', User) // Retorna o Objeto dos campos referenciados para outros documentos (similar ao join)
             .exec(function (err, ocorrencia) {
                 if (err) return err;
-            
                 if (ocorrencia) {
                     res.json(ocorrencia);
                 } else {

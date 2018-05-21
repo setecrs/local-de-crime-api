@@ -15,7 +15,7 @@ dadosGeraisRouter.patch('/:idOcorrencia', function(req, res) {
     if (mongoose.Types.ObjectId.isValid(req.params.idOcorrencia)) {           
         Ocorrencia.findOneAndUpdate({
             _id: req.params.idOcorrencia,
-            criadoPor: user.id
+            criadoPor: req.user.id
         }, // idOcorrencia que foi passado na URL
         {
             numeroOcorrencia: req.body.numeroOcorrencia, // campos que queremos atualizar,
