@@ -34,6 +34,16 @@ route: /endereco/{idOcorrencia} | method: PATCH | params:
 }
 | Headers: {"x-access-token": [JWT TOKEN]) } [DEVE ESTAR AUTENTICADO]
 
+route: /responsavel_local/{idOcorrencia} | method: PATCH | params: 
+{
+    "nomeResponsavel": String,
+    "cargoResponsavel": String,
+    "documentoResponsavel": String,
+    "entrevistaResponsavel": String,
+    "_id": Ocorrencia._id
+}
+| Headers: {"x-access-token": [JWT TOKEN]) } [DEVE ESTAR AUTENTICADO]
+
 route: /popular_banco/default | method: GET | params: n/a | [DEVE ESTAR AUTENTICADO COM USERNAME: admin]
 
 
