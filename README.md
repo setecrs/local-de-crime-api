@@ -4,17 +4,17 @@ route: /login | method: GET | Headers: {"Authentication": "Basic" + base65(user 
 
 route: /profile | method: GET | Headers: {"x-access-token": [JWT TOKEN]) } [DEVE ESTAR AUTENTICADO]
 
-GET /ocorrencia/{idOcorrencia} | params: n/a | Headers: {"x-access-token": [JWT TOKEN]) } [DEVE ESTAR AUTENTICADO]
+route: /ocorrencia/{idOcorrencia} | method: GET | params: n/a | Headers: {"x-access-token": [JWT TOKEN]) } [DEVE ESTAR AUTENTICADO]
 
-POST /ocorrencias | params: n/a | Headers: {"x-access-token": [JWT TOKEN]) } [DEVE ESTAR AUTENTICADO]
+route: /ocorrencias | method: POST | params: n/a | Headers: {"x-access-token": [JWT TOKEN]) } [DEVE ESTAR AUTENTICADO]
 
-GET /ocorrencias | Headers: {"x-access-token": [JWT TOKEN]) } params: n/a | [DEVE ESTAR AUTENTICADO]
+route: /ocorrencias | method: GET | Headers: {"x-access-token": [JWT TOKEN]) } params: n/a | [DEVE ESTAR AUTENTICADO]
 
-GET /ocorrencias/todas | Headers: {"x-access-token": [JWT TOKEN]) } params: n/a | [DEVE ESTAR AUTENTICADO]
+route: /ocorrencias/todas | method: GET | Headers: {"x-access-token": [JWT TOKEN]) } params: n/a | [DEVE ESTAR AUTENTICADO]
 
-GET /usuarios | Headers: no-auth
+route: /usuarios | method: GET | Headers: no-auth
 
-PATCH /dados_gerais/{idOcorrencia} | params: 
+route: /dados_gerais/{idOcorrencia} | method: PATCH | params: 
 {
     "numeroOcorrencia": String, 
     "sedeOcorrencia": Sede._id, 
@@ -23,7 +23,7 @@ PATCH /dados_gerais/{idOcorrencia} | params:
 }
 | Headers: {"x-access-token": [JWT TOKEN]) } [DEVE ESTAR AUTENTICADO]
 
-PATCH /endereco/{idOcorrencia} | params: 
+route: /endereco/{idOcorrencia} | method: PATCH | params: 
 {
     "tipoLocal": String,
     "estado": String,
@@ -33,6 +33,9 @@ PATCH /endereco/{idOcorrencia} | params:
     "_id": Ocorrencia._id
 }
 | Headers: {"x-access-token": [JWT TOKEN]) } [DEVE ESTAR AUTENTICADO]
+
+route: /popular_banco/default | method: GET | params: n/a | [DEVE ESTAR AUTENTICADO COM USERNAME: admin]
+
 
 # POSTMAN
 
