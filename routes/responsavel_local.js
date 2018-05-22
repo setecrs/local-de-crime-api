@@ -16,7 +16,7 @@ responsavelLocalRouter.patch('/:idOcorrencia', function(req, res) {
     if (mongoose.Types.ObjectId.isValid(req.params.idOcorrencia)) {                           
         Ocorrencia.findOneAndUpdate({
             _id: req.params.idOcorrencia,
-            criadoPor: user.id
+            criadoPor: req.user.id
         }, {
             nomeResponsavel: req.body.nomeResponsavel,
             cargoResponsavel: req.body.cargoResponsavel,

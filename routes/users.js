@@ -48,18 +48,6 @@ userRouter.post('/signup', (req, res) => {
 	}
 });
 
-//profile
-userRouter.get('/profile', (req,res) => {
-	if (user = checkToken(req)) {
-
-		profile.getProfile(user.username)
-		.then(result => res.json(result))
-		.catch(err => res.status(err.status).json({ message: err.message }));
-	} else {
-		res.status(401).json({ message: 'Token inválido' });
-	}
-});
-
 //usuarios ativos
 userRouter.get('/usuarios', (req,res) => {
 		User.find({ativo: true}).select('username name sede -_id')
@@ -71,19 +59,24 @@ userRouter.get('/usuarios', (req,res) => {
         .catch(err => res.status(err.status).json({ message: err.message }));	
 });
 
+userRouter.use(checkToken);
+
 //usuarios todos
 userRouter.get('/usuarios/todos', (req,res) => {
-	if (user = checkToken(req)) {
-		User.find().select('-hashed_password')
-        .then((user) => {
-            res.statusCode = 200;
-            res.setHeader("Content-Type", "application/json");
-            res.json(user);
-        }, (err) => next(err))
-        .catch(err => res.status(err.status).json({ message: err.message }));		
-	} else {
-		res.status(401).json({ message: 'Token inválido' });
-	}
+	User.find().select('-hashed_password')
+	.then((user) => {
+		res.statusCode = 200;
+		res.setHeader("Content-Type", "application/json");
+		res.json(user);
+	}, (err) => next(err))
+	.catch(err => res.status(err.status).json({ message: err.message }));
+});
+
+//profile
+userRouter.get('/profile', (req,res) => {
+	profile.getProfile(req.user.username)
+	.then(result => res.json(result))
+	.catch(err => res.status(err.status).json({ message: err.message }));
 });
 
 //error handlers
