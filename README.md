@@ -46,6 +46,8 @@ route: /responsavel_local/{idOcorrencia} | method: PATCH | params:
 
 route: /popular_banco/default | method: GET | params: n/a | [DEVE ESTAR AUTENTICADO COM USERNAME: admin]
 
+route: /obter_listas | method: GET | params: n/a | [DEVE ESTAR AUTENTICADO] //retorna as listas
+
 
 # POSTMAN
 
