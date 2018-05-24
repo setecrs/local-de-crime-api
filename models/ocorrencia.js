@@ -22,6 +22,7 @@ var OcorrenciaSchema = new Schema({
     estado: { type: Schema.ObjectId, ref: 'Estado', default: null },
     municipio: { type: Schema.ObjectId, ref: 'Municipio', default: null },
     logradouro: { type: String, default: '' },
+    numero: { type: Number },
     complemento: { type: String, default: '' },
 
     // TELA RESPONSÁVEL DO LOCAL
@@ -31,12 +32,12 @@ var OcorrenciaSchema = new Schema({
     entrevistaResponsavel: { type: String, default: '' },
 
     // TELA SOBRE O LOCAL
-    dataHoraChegada: { type: Date, default: Date.now },
+    dataHoraChegada: { type: Date },
     condicaoLocal: { type: String, default: '' },
     InformacoesAdicionais: { type: String, default: '' },
 
     // TELA SOBRE O FATO
-    dataOcorrencia: { type: Date, default: Date.now },
+    dataOcorrencia: { type: Date },
     tipoDelito: { type: String, default: '' },
     modusOperandi: { type: String, default: '' },
     possiveisSuspeitos: { type: String, default: '' },

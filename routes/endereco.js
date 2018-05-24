@@ -21,6 +21,7 @@ enderecoRouter.patch('/:idOcorrencia', function(req, res) {
             estado: req.body.estado,
             municipio: req.body.municipio,
             logradouro: req.body.logradouro,
+            numero: req.body.numero,
             complemento: req.body.complemento
         }, 
         function(err, ocorrencia) {

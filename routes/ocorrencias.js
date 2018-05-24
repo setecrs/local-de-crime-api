@@ -71,7 +71,7 @@ ocorrenciasRouter.post('/', function(req, res) {
         function (err, ocorrencia) {
             if (err) return err;
 
-            res.json('Ocorrência criada com sucesso.');
+            res.json(ocorrencia);
         }
     );
 });
