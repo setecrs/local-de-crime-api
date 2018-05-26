@@ -48,7 +48,10 @@ route: /popular_banco/default | method: GET | params: n/a | [DEVE ESTAR AUTENTIC
 
 route: /obter_listas | method: GET | params: n/a | [DEVE ESTAR AUTENTICADO] //retorna as listas
 
-
+route: /peritos_acionados/{idOcorrencia} | method: GET | params: n/a | [DEVE ESTAR AUTENTICADO]
+    | method: POST | "peritoAcionado": Perito._id | [DEVE ESTAR AUTENTICADO]
+    | method: DELETE | "peritoAcionado": Perito._id | [DEVE ESTAR AUTENTICADO]
+    
 # POSTMAN
 
 ## SIGNUP

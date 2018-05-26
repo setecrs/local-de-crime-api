@@ -12,3 +12,5 @@ var VestigioSchema = new Schema({
     nome: { type: String, default: '' },
     informacoesAdicionais: { type: String, default: '' }
 });
+
+module.exports = mongoose.model('Vestigio', VestigioSchema);

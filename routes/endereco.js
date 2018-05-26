@@ -26,7 +26,7 @@ enderecoRouter.patch('/:idOcorrencia', function(req, res) {
         }, 
         function(err, ocorrencia) {
             if (err) res.status(500).json(err);
-            console.log(ocorrencia);
+            
             res.json('Dados salvos com sucesso.');
         })
     } else {

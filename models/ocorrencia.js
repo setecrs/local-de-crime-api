@@ -1,20 +1,14 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-var Perito = require('./user');
-var TipoLocal = require('./tipo_local');
-var Estado = require('./estado');
-var Municipio = require('./municipio');
-var Vestigio = require('./vestigio');
-
 var OcorrenciaSchema = new Schema({
     
-    criadoPor: { type: Schema.ObjectId, ref: 'Perito', required: true },
+    criadoPor: { type: Schema.ObjectId, ref: 'user', required: true },
 
     // TELA DADOS GERAIS
     numeroOcorrencia: { type: String, default: '' },
     sede: { type: String, default: '' },    
-    peritosAcionados: [{ type: Schema.ObjectId, ref: 'Perito' }],
+    peritosAcionados: [{ type: Schema.ObjectId, ref: 'user' }],
     dataHoraAcionamento: { type: Date, default: Date.now },
 
     // TELA ENDEREÇO
