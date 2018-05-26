@@ -223,7 +223,7 @@ popularBancoRouter.get('/default', function (req, res) {
         res.json({ message: "Banco restaurado com sucesso!" });
 
     } else {
-        res.status(401).json({
+        res.status(403).json({
             message: 'Usuário não autorizado para realizar esta operação!'
         });
     }
