@@ -32,12 +32,12 @@ var OcorrenciaSchema = new Schema({
     entrevistaResponsavel: { type: String, default: '' },
 
     // TELA SOBRE O LOCAL
-    dataHoraChegada: { type: Date },
+    dataHoraChegada: { type: Date, default: null },
     condicaoLocal: { type: String, default: '' },
     InformacoesAdicionais: { type: String, default: '' },
 
     // TELA SOBRE O FATO
-    dataOcorrencia: { type: Date },
+    dataOcorrencia: { type: Date, default: null },
     tipoDelito: { type: String, default: '' },
     modusOperandi: { type: String, default: '' },
     possiveisSuspeitos: { type: String, default: '' },
