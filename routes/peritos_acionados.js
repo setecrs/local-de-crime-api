@@ -7,7 +7,7 @@ const peritosAcionadosRouter = express.Router();
 
 peritosAcionadosRouter.use(checkToken);
 
-//patch
+//router
 peritosAcionadosRouter.route('/:idOcorrencia')
 .get((req, res, next) => {
     Ocorrencia.findById(req.params.idOcorrencia)
