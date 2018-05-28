@@ -13,9 +13,9 @@ module.exports = function (req, res, next) {
         
         return next();
     } catch(err) {
-      return res.json('Token inválido');
+      return res.status(401).json({message: 'Token inválido!'});
     }
   } else {
-    return res.json('Envie o token');
+    return res.status(401).json({message: 'Envie o token!'});
   }
 }

@@ -16,14 +16,16 @@ popularBancoRouter.use(checkToken);
 
 var estados = [
     { nome: "Rio Grande do Sul", uf: "RS" },
-    { nome: "Santa Catarina", uf: "SC" }
+    { nome: "Santa Catarina", uf: "SC" },
+    { nome: "Outro" }
 ];
 
 var municipios = [
     { nome: "Porto Alegre" },
     { nome: "Caxias do Sul" },
+    { nome: "Pelotas" },
     { nome: "Santa Maria" },
-    { nome: "Pelotas" }
+    { nome: "Outro" }
 ];
 
 var sedes = [
@@ -32,43 +34,75 @@ var sedes = [
 ];
 
 var tiposLocal = [
-    { tipoLocal: "Correios" },
     { tipoLocal: "CEF" },
-    { tipoLocal: "Universidade Federal" },
     { tipoLocal: "Colega" },
+    { tipoLocal: "Correios" },
     { tipoLocal: "DNIT" },
-    { tipoLocal: "Instituto Federal" },
     { tipoLocal: "Drogas" },
-    { tipoLocal: "Moeda Falsa" },
     { tipoLocal: "Estrangeiro" },
+    { tipoLocal: "Instituto Federal" },
+    { tipoLocal: "Moeda Falsa" },
+    { tipoLocal: "Universidade Federal" },
     { tipoLocal: "Ignorar formulário" },
     { tipoLocal: "Outro" }
 ];
 
 var tiposDelito = [
-    { tipoDelito: "Dano" },
     { tipoDelito: "Arrombamento sem furto" },
-    { tipoDelito: "Furto sem arrombamento" },
-    { tipoDelito: "Furto com arrombamento" },
-    { tipoDelito: "Roubo" },
+    { tipoDelito: "Dano" },
     { tipoDelito: "Drogas" },
-    { tipoDelito: "Moeda Falsa" },
     { tipoDelito: "Falsidade ideológica" },
+    { tipoDelito: "Furto com arrombamento" },
+    { tipoDelito: "Furto sem arrombamento" },
+    { tipoDelito: "Moeda Falsa" },
     { tipoDelito: "Não houve crime" },
+    { tipoDelito: "Roubo" },
     { tipoDelito: "Ignorar formulário" },
     { tipoDelito: "Outro" }
 ];
 
 var modusOperandi = [
+    { modusOperandi: "À mão armada" },
+    { modusOperandi: "Buraco na parede" },
+    { modusOperandi: "Chave mixa" },
     { modusOperandi: "Chupa-cabra" },
+    { modusOperandi: "Com violência" },
+    { modusOperandi: "Correios: corta alarme, leva DVR, usa luvas" },
+    { modusOperandi: "Correios: arma pela porta giratória" },
     { modusOperandi: "Explosivos" },
+    { modusOperandi: "Forçar porta ou janela (sem quebrar vidro)" },
+    { modusOperandi: "Furto de câmera ou monitor" },
+    { modusOperandi: "Furto de pequeno valor" },
+    { modusOperandi: "Furto por descuido" },
+    { modusOperandi: "Levar o cofre inteiro" },
     { modusOperandi: "Maçarico" },
+    { modusOperandi: "Moeda falsa" },
+    { modusOperandi: "Não houve dano ou dano mínimo" },
+    { modusOperandi: "Nomes e dados divergentes no AFIS-PF" },
+    { modusOperandi: "Pé de cabra" },
+    { modusOperandi: "Provável organização criminosa" },
+    { modusOperandi: "Quebrou vidro" },
     { modusOperandi: "Outro" }
 ];
 
 var tiposVestigio = [
-    { tipoVestigio: "Sangue" },
+    { tipoVestigio: "Alicate" },
+    { tipoVestigio: "Balaclava" },
+    { tipoVestigio: "Bituca de cigarro" },
+    { tipoVestigio: "Boné" },
+    { tipoVestigio: "Camiseta" },
+    { tipoVestigio: "Chave de fenda" },
+    { tipoVestigio: "Copos" },
+    { tipoVestigio: "Estojo de munição" },
+    { tipoVestigio: "Garrafas" },
+    { tipoVestigio: "Luvas" },
+    { tipoVestigio: "Martelo" },
+    { tipoVestigio: "Máscara cirúrgica" },
+    { tipoVestigio: "Mochila" },
+    { tipoVestigio: "Pé de cabra" },
     { tipoVestigio: "Projétil" },
+    { tipoVestigio: "Sacola" },
+    { tipoVestigio: "Sangue" },
     { tipoVestigio: "Outro" }
 ];
 
@@ -129,7 +163,7 @@ popularBancoRouter.get('/default', function (req, res) {
                     });
                     console.log("Municípios do RS criados com sucesso!");
                 }, (err) => next(err))
-                .catch(err => res.status(err.status).json({ message: err.message }));
+                .catch(err => res.status(err.status).res.status(500).json({ message: err.message }));
             }
         });
 
@@ -186,10 +220,10 @@ popularBancoRouter.get('/default', function (req, res) {
         // Response
         res.statusCode = 200;
         res.setHeader("Content-Type", "application/json");
-        res.json({ message: "Base restaurada com sucesso!" });
+        res.json({ message: "Banco restaurado com sucesso!" });
 
     } else {
-        res.status(401).json({
+        res.status(403).json({
             message: 'Usuário não autorizado para realizar esta operação!'
         });
     }

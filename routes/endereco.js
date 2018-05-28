@@ -15,7 +15,7 @@ enderecoRouter.patch('/:idOcorrencia', function(req, res) {
     if (mongoose.Types.ObjectId.isValid(req.params.idOcorrencia)) {                   
         Ocorrencia.findOneAndUpdate({
             _id: req.params.idOcorrencia,
-            criadoPor: req.user.id
+            //criadoPor: req.user.id //removido para, se for o caso, ser tratado no frontend
         }, {
             tipoLocal: req.body.tipoLocal,
             estado: req.body.estado,
@@ -26,9 +26,9 @@ enderecoRouter.patch('/:idOcorrencia', function(req, res) {
         }, 
         function(err, ocorrencia) {
             if (err) res.status(500).json(err);
-
+            
             res.json('Dados salvos com sucesso.');
-        });
+        })
     } else {
         res.json('Id da ocorrência inválido.')
     }

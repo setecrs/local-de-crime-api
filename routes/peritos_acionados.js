@@ -1,28 +1,22 @@
 var Ocorrencia = require('../models/ocorrencia');
-var Vestigio = require('../models/vestigio');
 const checkToken = require('../config/check_token');
 
-//vestigiosRouter
+//peritosAcionadosRouter
 const express = require('express');
-const vestigiosRouter = express.Router();
+const peritosAcionadosRouter = express.Router();
 
-vestigiosRouter.use(checkToken);
+peritosAcionadosRouter.use(checkToken);
 
-vestigiosRouter.route('/:idOcorrencia')
+//router
+peritosAcionadosRouter.route('/:idOcorrencia')
 .get((req, res, next) => {
     Ocorrencia.findById(req.params.idOcorrencia)
-    .populate({ 
-        path: 'vestigios',
-        populate: {
-          path: 'tipo',
-          model: 'TipoVestigio'
-        } 
-     })
+    .populate('peritosAcionados', '-hashed_password')
     .then((ocorrencia) => {
         if(ocorrencia != null) {
             res.statusCode = 200;
             res.setHeader("Content-Type", "application/json");
-            res.json(ocorrencia.vestigios);
+            res.json(ocorrencia.peritosAcionados);
         }
         else {
             res.status(404).json({message: 'Esta ocorrência não existe!'});
@@ -34,20 +28,12 @@ vestigiosRouter.route('/:idOcorrencia')
     Ocorrencia.findById(req.params.idOcorrencia)
     .then((ocorrencia) => {
         if(ocorrencia != null) {
-            var vestigio = new Vestigio ({
-                tipo: req.body.tipo,
-                coletado: req.body.coletado,
-                etiqueta: req.body.etiqueta,
-                informacoesAdicionais: req.body.informacoesAdicionais
-            });
-            vestigio.save();
-
-            ocorrencia.vestigios.push(vestigio._id);
+            ocorrencia.peritosAcionados.push(req.body.peritoAcionado);
             ocorrencia.save()
             .then((ocorrencia) => {
                 res.statusCode = 200;
                 res.setHeader("Content-Type", "application/json");
-                res.json(ocorrencia.vestigios);
+                res.json(ocorrencia);
             }, (err) => next(err));
         }
         else {
@@ -59,28 +45,24 @@ vestigiosRouter.route('/:idOcorrencia')
 .delete((req, res, next) => {
     Ocorrencia.findById(req.params.idOcorrencia)
     .then((ocorrencia) => {
-        var idVestigio;
+        var idPerito;
         if(ocorrencia != null) {
-            for(var i = (ocorrencia.vestigios.length - 1); i>=0; i--) {
-                if(ocorrencia.vestigios[i].equals(req.body.vestigio)) {
-                    idVestigio = ocorrencia.vestigios.splice(i, 1);
+            for(var i = (ocorrencia.peritosAcionados.length - 1); i>=0; i--) {
+                if(ocorrencia.peritosAcionados[i].equals(req.body.peritoAcionado)) {
+                    idPerito = ocorrencia.peritosAcionados.splice(i, 1);
                     break;
                 }
             }
-            if(idVestigio) {
+            if(idPerito) {
                 ocorrencia.save()
                 .then((ocorrencia) => {
-                    Vestigio.findByIdAndRemove(idVestigio[0])
-                    .then((vestigio) => {
-                        res.statusCode = 200;
-                        res.setHeader("Content-Type", "application/json");
-                        res.json(ocorrencia.vestigios);
-                    })
-                    .catch((err) => next(err));
+                    res.statusCode = 200;
+                    res.setHeader("Content-Type", "application/json");
+                    res.json(ocorrencia.peritosAcionados);
                 }, (err) => next(err));
             }
             else {
-                res.status(404).json({message: 'Vestígio não vinculado a esta ocorrência!'});    
+                res.status(404).json({message: 'Perito não vinculado a esta ocorrência!'});    
             }
         }
         else {
@@ -91,4 +73,4 @@ vestigiosRouter.route('/:idOcorrencia')
 });
 
 //router export
-module.exports = vestigiosRouter;
+module.exports = peritosAcionadosRouter;
