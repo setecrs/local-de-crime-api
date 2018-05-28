@@ -1,4 +1,5 @@
 var Ocorrencia = require('../models/ocorrencia');
+var Perito = require('../models/user');
 const checkToken = require('../config/check_token');
 const mongoose = require('mongoose');
 
@@ -12,7 +13,7 @@ TestemunhasRouter.patch('/:idOcorrencia', function(req, res) {
     if(mongoose.Types.ObjectId.isValid(req.params.idOcorrencia)) {
         Testemunha.findOneAndUpdate( {
             _id: req.params.idOcorrencia,
-            criadoPor: user.id
+            criadoPor: Perito.id
         }, {
             nomeTestemunha: req.body.nomeTestemunha,
             documentoTestemunha: req.body.documentoTestemunha,
