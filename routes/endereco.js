@@ -22,13 +22,14 @@ enderecoRouter.patch('/:idOcorrencia', function(req, res) {
             estado: req.body.estado,
             municipio: req.body.municipio,
             logradouro: req.body.logradouro,
+            numero: req.body.numero,
             complemento: req.body.complemento
         }, 
         function(err, ocorrencia) {
             if (err) res.status(500).json(err);
-
+            
             res.json('Dados salvos com sucesso.');
-        });
+        })
     } else {
         res.json('Id da ocorrência inválido.')
     }

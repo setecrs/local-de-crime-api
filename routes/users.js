@@ -19,7 +19,7 @@ userRouter.get('/login', (req, res) => {
 	const credentials = auth(req);
 
 	if (!credentials) {
-		res.status(400).json({ message: 'Request inválido. Utilizar Basic Auth para os parâmetros' });
+		res.status(400).json({ message: 'Request inválido. Utilizar Basic Auth para os parâmetros.' });
 	} else {
 		login.loginUser(credentials.name, credentials.pass)
 		.then(result => {
@@ -35,28 +35,17 @@ userRouter.post('/signup', (req, res) => {
 	const name = req.body.name;
 	const username = req.body.username;
 	const password = req.body.password;
+	const sede = req.body.sede;
 
 	if (!name || !username || !password || !name.trim() || !username.trim() || !password.trim()) {
-		res.status(400).json({message: 'Request inválido. Deve conter nome, usuário e senha'});
+		res.status(400).json({message: 'Request inválido. Deve conter name, username e password.'});
 	} else {
-		register.registerUser(name, username, password)
+		register.registerUser(name, username, password, sede)
 		.then(result => {
 			res.setHeader('Location', '/users/'+username);
 			res.status(result.status).json({ message: result.message })
 		})
 		.catch(err => res.status(err.status).json({ message: err.message }));
-	}
-});
-
-//profile
-userRouter.get('/profile', (req,res) => {
-	if (user = checkToken(req)) {
-
-		profile.getProfile(user.username)
-		.then(result => res.json(result))
-		.catch(err => res.status(err.status).json({ message: err.message }));
-	} else {
-		res.status(401).json({ message: 'Token inválido' });
 	}
 });
 
@@ -71,19 +60,24 @@ userRouter.get('/usuarios', (req,res) => {
         .catch(err => res.status(err.status).json({ message: err.message }));	
 });
 
+userRouter.use(checkToken);
+
 //usuarios todos
 userRouter.get('/usuarios/todos', (req,res) => {
-	if (user = checkToken(req)) {
-		User.find().select('-hashed_password')
-        .then((user) => {
-            res.statusCode = 200;
-            res.setHeader("Content-Type", "application/json");
-            res.json(user);
-        }, (err) => next(err))
-        .catch(err => res.status(err.status).json({ message: err.message }));		
-	} else {
-		res.status(401).json({ message: 'Token inválido' });
-	}
+	User.find().select('-hashed_password')
+	.then((user) => {
+		res.statusCode = 200;
+		res.setHeader("Content-Type", "application/json");
+		res.json(user);
+	}, (err) => next(err))
+	.catch(err => res.status(err.status).json({ message: err.message }));
+});
+
+//profile
+userRouter.get('/profile', (req,res) => {
+	profile.getProfile(req.user.username)
+	.then(result => res.json(result))
+	.catch(err => res.status(err.status).json({ message: err.message }));
 });
 
 //error handlers
@@ -96,7 +90,7 @@ module.exports = userRouter;
 //error handlers functions
 function authenticationErrorHandler(err, req, res, next){
   if (err.message === "Usuário não autenticado") {
-    res.json({message: err.message});
+    res.status(401).json({message: err.message});
     return;
   }
   next(err);
@@ -104,7 +98,7 @@ function authenticationErrorHandler(err, req, res, next){
 
 function genericErrorHandler(err, req, res, next){
   console.log(err.message);
-  res.json({
+  res.status(500).json({
     message: 'Erro interno!',
   });
   next();

@@ -1,9 +1,7 @@
-'use strict';
-
 const user = require('../models/user');
 const bcrypt = require('bcryptjs');
 
-exports.registerUser = (name, username, password) =>
+exports.registerUser = (name, username, password, sede) =>
 
 	new Promise((resolve, reject) => {
 
@@ -15,6 +13,7 @@ exports.registerUser = (name, username, password) =>
 			name: name,
 			username: username,
 			hashed_password: hash,
+			sede: sede,
 			created_at: new Date()
 		});
 

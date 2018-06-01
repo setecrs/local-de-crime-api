@@ -30,8 +30,11 @@ ocorrenciasRouter.get('/todas', function(req, res) {
 // Lista todas as ocorrências do usuario logado
 ocorrenciasRouter.get('/', function(req, res) {
     Ocorrencia.find({ criadoPor: req.user.id }) // Foi passado o id do perito como filtro, pois queremos apenas as ocorrências dele
-    // .select('dataOcorrencia dataHoraChegada') // select: campos que queremos filtrar
     .populate('criadoPor', 'name username', User) // Retorna o Objeto dos campos referenciados para outros documentos (similar ao join)
+    //.populate('peritosAcionados') //Nao funciona assim :(
+    .populate('tipoLocal')
+    .populate('estado')
+    .populate('municipio')
     .exec(function (err, ocorrencia) {
         if (err) return err;
 
@@ -47,13 +50,15 @@ ocorrenciasRouter.get('/', function(req, res) {
 // Busca apenas uma única ocorrência, pelo seu idOcorrencia
 // param idOcorrencia: _id da Ocorrencia que queremos visualizar / atualizar
 ocorrenciasRouter.get('/:idOcorrencia', function(req, res) {
-    if (mongoose.Types.ObjectId.isValid(req.params.idOcorrencia)) {   
-        Ocorrencia.findOne({ _id: req.params.idOcorrencia, criadoPor: req.user.id }) // idOcorrencia que foi passado na URL
-            // .select('numeroOcorrencia sede peritosAcionados dataHoraAcionamento') // select implícito: campos que queremos filtrar
+    if (mongoose.Types.ObjectId.isValid(req.params.idOcorrencia)) {
+        Ocorrencia.findOne({ _id: req.params.idOcorrencia }) // idOcorrencia que foi passado na URL
             .populate('criadoPor', 'name username', User) // Retorna o Objeto dos campos referenciados para outros documentos (similar ao join)
+            //.populate('peritosAcionados') //Nao funciona assim :(
+            .populate('tipoLocal')
+            .populate('estado')
+            .populate('municipio')
             .exec(function (err, ocorrencia) {
                 if (err) return err;
-            
                 if (ocorrencia) {
                     res.json(ocorrencia);
                 } else {
@@ -72,7 +77,7 @@ ocorrenciasRouter.post('/', function(req, res) {
         function (err, ocorrencia) {
             if (err) return err;
 
-            res.json('Ocorrência criada com sucesso.');
+            res.json(ocorrencia);
         }
     );
 });

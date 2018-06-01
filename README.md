@@ -4,7 +4,7 @@ route: /login | method: GET | Headers: {"Authentication": "Basic" + base65(user 
 
 route: /profile | method: GET | Headers: {"x-access-token": [JWT TOKEN]) } [DEVE ESTAR AUTENTICADO]
 
-route: /ocorrencia/{idOcorrencia} | method: GET | params: n/a | Headers: {"x-access-token": [JWT TOKEN]) } [DEVE ESTAR AUTENTICADO]
+route: /ocorrencias/{idOcorrencia} | method: GET | params: n/a | Headers: {"x-access-token": [JWT TOKEN]) } [DEVE ESTAR AUTENTICADO]
 
 route: /ocorrencias | method: POST | params: n/a | Headers: {"x-access-token": [JWT TOKEN]) } [DEVE ESTAR AUTENTICADO]
 
@@ -46,6 +46,22 @@ route: /responsavel_local/{idOcorrencia} | method: PATCH | params:
 
 route: /popular_banco/default | method: GET | params: n/a | [DEVE ESTAR AUTENTICADO COM USERNAME: admin]
 
+route: /obter_listas | method: GET | params: n/a | [DEVE ESTAR AUTENTICADO] //retorna as listas
+
+route: /peritos_acionados/{idOcorrencia} | method: GET | params: n/a | [DEVE ESTAR AUTENTICADO]
+    | method: POST | params: {"peritoAcionado": Perito._id} | [DEVE ESTAR AUTENTICADO]
+    | method: DELETE | params: {"peritoAcionado": Perito._id} | [DEVE ESTAR AUTENTICADO]
+
+route: /vestigios/{idOcorrencia} | method: GET | params: n/a | [DEVE ESTAR AUTENTICADO]
+    | method: DELETE | params: {"vestigio": Vestigio._id} | [DEVE ESTAR AUTENTICADO]
+    | method: POST | params: 
+        {
+            tipo: tipo_vestigio._id
+            coletado: boolean,
+            etiqueta: String,
+            informacoesAdicionais: String
+        }
+        | [DEVE ESTAR AUTENTICADO]
 
 # POSTMAN
 

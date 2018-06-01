@@ -1,20 +1,14 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-var Perito = require('./user');
-var TipoLocal = require('./tipo_local');
-var Estado = require('./estado');
-var Municipio = require('./municipio');
-var Vestigio = require('./vestigio');
-
 var OcorrenciaSchema = new Schema({
     
-    criadoPor: { type: Schema.ObjectId, ref: 'User', required: true },
+    criadoPor: { type: Schema.ObjectId, ref: 'user', required: true },
 
     // TELA DADOS GERAIS
     numeroOcorrencia: { type: String, default: '' },
     sede: { type: String, default: '' },    
-    peritosAcionados: [{ type: Schema.ObjectId, ref: 'Perito' }],
+    peritosAcionados: [{ type: Schema.ObjectId, ref: 'user' }],
     dataHoraAcionamento: { type: Date, default: Date.now },
 
     // TELA ENDEREÇO
@@ -22,6 +16,7 @@ var OcorrenciaSchema = new Schema({
     estado: { type: Schema.ObjectId, ref: 'Estado', default: null },
     municipio: { type: Schema.ObjectId, ref: 'Municipio', default: null },
     logradouro: { type: String, default: '' },
+    numero: { type: Number },
     complemento: { type: String, default: '' },
 
     // TELA RESPONSÁVEL DO LOCAL
@@ -37,12 +32,12 @@ var OcorrenciaSchema = new Schema({
     entrevistaTestemunha: { type: String, default: '' },
 
     // TELA SOBRE O LOCAL
-    dataHoraChegada: { type: Date, default: Date.now },
+    dataHoraChegada: { type: Date, default: null },
     condicaoLocal: { type: String, default: '' },
     InformacoesAdicionais: { type: String, default: '' },
 
     // TELA SOBRE O FATO
-    dataOcorrencia: { type: Date, default: Date.now },
+    dataOcorrencia: { type: Date, default: null },
     tipoDelito: { type: String, default: '' },
     modusOperandi: { type: String, default: '' },
     possiveisSuspeitos: { type: String, default: '' },
