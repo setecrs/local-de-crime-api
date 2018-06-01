@@ -1,4 +1,5 @@
 var Ocorrencia = require('../models/ocorrencia');
+var Perito = require('../models/user');
 const checkToken = require('../config/check_token');
 const mongoose = require('mongoose');
 
@@ -15,7 +16,7 @@ enderecoRouter.patch('/:idOcorrencia', function(req, res) {
     if (mongoose.Types.ObjectId.isValid(req.params.idOcorrencia)) {                   
         Ocorrencia.findOneAndUpdate({
             _id: req.params.idOcorrencia,
-            //criadoPor: req.user.id //removido para, se for o caso, ser tratado no frontend
+            criadoPor: Perito.id
         }, {
             tipoLocal: req.body.tipoLocal,
             estado: req.body.estado,

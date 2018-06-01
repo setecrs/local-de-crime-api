@@ -25,6 +25,12 @@ var OcorrenciaSchema = new Schema({
     documentoResponsavel: { type: String, default: '' },
     entrevistaResponsavel: { type: String, default: '' },
 
+    //TELA SOBRE TESTEMUNHAS
+    nomeTestemunha: { type: String, default: '' },
+    cargoTestemunha: { type: String, default: '' },
+    documentoTestemunha: { type: String, default: '' },
+    entrevistaTestemunha: { type: String, default: '' },
+
     // TELA SOBRE O LOCAL
     dataHoraChegada: { type: Date, default: null },
     condicaoLocal: { type: String, default: '' },
