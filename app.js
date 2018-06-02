@@ -21,6 +21,7 @@ var vestigiosRouter = require('./routes/vestigios');
 var peritosAcionadosRouter = require('./routes/peritos_acionados');
 var popularBancoRouter = require('./routes/popular_banco');
 var obterListasRouter = require('./routes/obter_listas');
+var testemunhasRouter = require('./routes/testemunhas');
 
 // configuration ===============================================================
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/policia_federal'); // connect to our database
@@ -43,7 +44,7 @@ app.use('/vestigios', vestigiosRouter);
 app.use('/peritos_acionados', peritosAcionadosRouter);
 app.use('/popular_banco', popularBancoRouter);
 app.use('/obter_listas', obterListasRouter);
-
+app.use('/testemunhas', testemunhasRouter);
 // launch ======================================================================
 app.listen(port);
 console.log('Acesse localhost:' + port);

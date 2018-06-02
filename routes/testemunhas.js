@@ -5,15 +5,15 @@ const mongoose = require('mongoose');
 
 //enderecoRouter
 const express = require('express');
-const TestemunhasRouter = express.Router();
+const testemunhasRouter = express.Router();
 
-TestemunhasRouter.use(checkToken)
+testemunhasRouter.use(checkToken)
 
-TestemunhasRouter.patch('/:idOcorrencia', function(req, res) {
+testemunhasRouter.patch('/:idOcorrencia', function(req, res) {
     if(mongoose.Types.ObjectId.isValid(req.params.idOcorrencia)) {
-        Testemunha.findOneAndUpdate( {
+        Ocorrencia.findOneAndUpdate( {
             _id: req.params.idOcorrencia,
-            criadoPor: Perito.id
+            //criadoPor: Perito.id
         }, {
             nomeTestemunha: req.body.nomeTestemunha,
             documentoTestemunha: req.body.documentoTestemunha,
