@@ -31,7 +31,7 @@ ocorrenciasRouter.get('/todas', function(req, res) {
 ocorrenciasRouter.get('/', function(req, res) {
     Ocorrencia.find({ criadoPor: req.user.id }) // Foi passado o id do perito como filtro, pois queremos apenas as ocorrências dele
     .populate('criadoPor', 'name username', User) // Retorna o Objeto dos campos referenciados para outros documentos (similar ao join)
-    //.populate('peritosAcionados') //Nao funciona assim :(
+    .populate('peritosAcionados') //Nao funciona assim :(
     .populate('tipoLocal')
     .populate('estado')
     .populate('municipio')

@@ -1,5 +1,6 @@
 var Ocorrencia = require('../models/ocorrencia');
 const checkToken = require('../config/check_token');
+const util = require('../config/util');
 
 //peritosAcionadosRouter
 const express = require('express');
@@ -9,7 +10,7 @@ peritosAcionadosRouter.use(checkToken);
 
 //router
 peritosAcionadosRouter.route('/:idOcorrencia')
-.get((req, res, next) => {
+.get(util.ObjectIdIsValid, (req, res, next) => {
     Ocorrencia.findById(req.params.idOcorrencia)
     .populate('peritosAcionados', '-hashed_password')
     .then((ocorrencia) => {
@@ -24,7 +25,7 @@ peritosAcionadosRouter.route('/:idOcorrencia')
     }, (err) => next(err))
     .catch((err) => next(err));
 })
-.post((req, res, next) => {
+.post(util.ObjectIdIsValid, (req, res, next) => {
     Ocorrencia.findById(req.params.idOcorrencia)
     .then((ocorrencia) => {
         if(ocorrencia != null) {
@@ -42,7 +43,7 @@ peritosAcionadosRouter.route('/:idOcorrencia')
     }, (err) => next(err))
     .catch((err) => next(err));
 })
-.delete((req, res, next) => {
+.delete(util.ObjectIdIsValid, (req, res, next) => {
     Ocorrencia.findById(req.params.idOcorrencia)
     .then((ocorrencia) => {
         var idPerito;
