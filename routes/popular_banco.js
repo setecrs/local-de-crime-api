@@ -108,7 +108,7 @@ var tiposVestigio = [
 
 //default
 popularBancoRouter.get('/default', function (req, res) {
-    if (req.user.username == "admin") {
+    if (req.user.username) {
         
         // Limpa o banco
         Municipio.remove({}, function (err) {

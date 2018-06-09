@@ -2,6 +2,7 @@ var Ocorrencia = require('../models/ocorrencia');
 var User = require('../models/user');
 const checkToken = require('../config/check_token');
 const mongoose = require('mongoose');
+const util = require('../config/util');
 
 //ocorrenciaRouter
 var express = require('express');
@@ -13,8 +14,12 @@ ocorrenciasRouter.use(checkToken);
 // Lista todas as demais ocorrências
 ocorrenciasRouter.get('/todas', function(req, res) {
     Ocorrencia.find({}) 
-    // .select('dataOcorrencia dataHoraChegada') // select: campos que queremos filtrar
-    .populate('criadoPor', 'name username', User) // Retorna o Objeto dos campos referenciados para outros documentos (similar ao join)
+    .populate('criadoPor', '_id name username', User) // Retorna o Objeto dos campos referenciados para outros documentos (similar ao join)
+    .populate('peritosAcionados', '_id name username') //Nao funciona assim :(
+    .populate('tipoLocal')
+    .populate('estado')
+    .populate('municipio')
+    .populate('sede') 
     .exec(function (err, ocorrencia) {
         if (err) return err;
 
@@ -30,13 +35,14 @@ ocorrenciasRouter.get('/todas', function(req, res) {
 // Lista todas as ocorrências do usuario logado
 ocorrenciasRouter.get('/', function(req, res) {
     Ocorrencia.find({ criadoPor: req.user.id }) // Foi passado o id do perito como filtro, pois queremos apenas as ocorrências dele
-    .populate('criadoPor', 'name username', User) // Retorna o Objeto dos campos referenciados para outros documentos (similar ao join)
-    .populate('peritosAcionados') //Nao funciona assim :(
+    .populate('criadoPor', '_id name username', User) // Retorna o Objeto dos campos referenciados para outros documentos (similar ao join)
+    .populate('peritosAcionados', '_id name username') //Nao funciona assim :(
     .populate('tipoLocal')
     .populate('estado')
     .populate('municipio')
+    .populate('sede')    
     .exec(function (err, ocorrencia) {
-        if (err) return err;
+        if (err) return res.json("Erro interno: " + err);
 
         if (ocorrencia && ocorrencia.length > 0) {
             res.json(ocorrencia);
@@ -49,25 +55,23 @@ ocorrenciasRouter.get('/', function(req, res) {
 //get/:id
 // Busca apenas uma única ocorrência, pelo seu idOcorrencia
 // param idOcorrencia: _id da Ocorrencia que queremos visualizar / atualizar
-ocorrenciasRouter.get('/:idOcorrencia', function(req, res) {
-    if (mongoose.Types.ObjectId.isValid(req.params.idOcorrencia)) {
-        Ocorrencia.findOne({ _id: req.params.idOcorrencia }) // idOcorrencia que foi passado na URL
-            .populate('criadoPor', 'name username', User) // Retorna o Objeto dos campos referenciados para outros documentos (similar ao join)
-            //.populate('peritosAcionados') //Nao funciona assim :(
-            .populate('tipoLocal')
-            .populate('estado')
-            .populate('municipio')
-            .exec(function (err, ocorrencia) {
-                if (err) return err;
-                if (ocorrencia) {
-                    res.json(ocorrencia);
-                } else {
-                    res.json('Nenhuma ocorrência encontrada.')
-                }
-        });
-    } else {
-        res.json('Id da ocorrência inválido.')        
-    }
+ocorrenciasRouter.get('/:idOcorrencia', util.ObjectIdIsValid, function(req, res) {
+    Ocorrencia.findOne({ _id: req.params.idOcorrencia }) // idOcorrencia que foi passado na URL
+    .populate('criadoPor', '_id name username', User) // Retorna o Objeto dos campos referenciados para outros documentos (similar ao join)
+    .populate('peritosAcionados', '_id name username') //Nao funciona assim :(
+    .populate('tipoLocal')
+    .populate('estado')
+    .populate('municipio')
+    .populate('sede')        
+    .exec(function (err, ocorrencia) {
+        if (err) return res.json("Erro interno: " + err);
+
+        if (ocorrencia) {
+            res.json(ocorrencia);
+        } else {
+            res.json('Nenhuma ocorrência encontrada.')
+        }
+    });
 });
 
 //post
@@ -75,7 +79,7 @@ ocorrenciasRouter.get('/:idOcorrencia', function(req, res) {
 ocorrenciasRouter.post('/', function(req, res) {
     Ocorrencia.create({ criadoPor: req.user.id }, // os campos que não forem passado receberão o valor padrão, definido no seu Model
         function (err, ocorrencia) {
-            if (err) return err;
+            if (err) return res.json("Erro interno: " + err);
 
             res.json(ocorrencia);
         }
