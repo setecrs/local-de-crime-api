@@ -1,7 +1,7 @@
 var Ocorrencia = require('../models/ocorrencia');
-var Perito = require('../models/user');
 const checkToken = require('../config/check_token');
 const mongoose = require('mongoose');
+const util = require('../config/util');
 
 //enderecoRouter
 const express = require('express');
@@ -9,24 +9,23 @@ const testemunhasRouter = express.Router();
 
 testemunhasRouter.use(checkToken)
 
-testemunhasRouter.patch('/:idOcorrencia', function(req, res) {
-    if(mongoose.Types.ObjectId.isValid(req.params.idOcorrencia)) {
-        Ocorrencia.findOneAndUpdate( {
-            _id: req.params.idOcorrencia,
-            //criadoPor: Perito.id
-        }, {
-            nomeTestemunha: req.body.nomeTestemunha,
-            documentoTestemunha: req.body.documentoTestemunha,
-            funcaoTestemunha: req.body.funcaoTestemunha,
-            entrevistaTestemunha: req.body.entrevistaTestemunha
-        },
-        function(err, ocorrencia) {
-            if(err) res.status(500).json(err);
-            res.json('Dados da testemunha atualizados.');  
-        });
-    } else {
-        res.json('Id da ocorrência inválido.');
-    }
+testemunhasRouter.patch('/:idOcorrencia', util.ObjectIdIsValid, function(req, res) {
+    Ocorrencia.findOneAndUpdate( {
+        _id: req.params.idOcorrencia,
+        criadoPor: req.user.id
+    }, {
+        nomeTestemunha: req.body.nomeTestemunha,
+        documentoTestemunha: req.body.documentoTestemunha,
+        funcaoTestemunha: req.body.funcaoTestemunha,
+        cargoTestemunha: req.body.cargoTestemunha,        
+        entrevistaTestemunha: req.body.entrevistaTestemunha
+    },
+    function(err, ocorrencia) {
+        if (err) res.json("Erro interno: " + err);
+        
+        console.log(req.user._id);
+        res.json('Dados salvos com sucesso.');
+    });
 });
 
 //router export

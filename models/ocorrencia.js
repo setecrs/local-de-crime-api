@@ -8,7 +8,7 @@ var OcorrenciaSchema = new Schema({
 
     // TELA DADOS GERAIS
     numeroOcorrencia: { type: String, default: '' },
-    sede: { type: String, default: '' },    
+    sede: { type: Schema.ObjectId, ref: 'Sede', default: null },
     peritosAcionados: [{ type: Schema.ObjectId, ref: 'user' }],
     dataHoraAcionamento: { type: Date, default: Date.now },
 
