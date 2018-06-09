@@ -86,5 +86,25 @@ ocorrenciasRouter.post('/', function(req, res) {
     );
 });
 
+//post
+//Finaliza uma determinada ocorrencia
+ocorrenciasRouter.patch('/finalizar/:idOcorrencia', function(req, res) {
+    if (mongoose.Types.ObjectId.isValid(req.params.idOcorrencia)) {                   
+        Ocorrencia.findOneAndUpdate({
+            _id: req.params.idOcorrencia,
+            criadoPor: req.user.id
+        }, {
+            ocorrenciaEncerrada: true
+        }, 
+        function(err, ocorrencia) {
+            if (err) res.status(500).json(err);
+            
+            res.json('Dados salvos com sucesso.');
+        })
+    } else {
+        res.json('Id da ocorrência inválido.')
+    }
+});
+
 //router export
 module.exports = ocorrenciasRouter;

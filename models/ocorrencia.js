@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 var OcorrenciaSchema = new Schema({
     
     criadoPor: { type: Schema.ObjectId, ref: 'user', required: true },
+    ocorrenciaEncerrada:{type: Boolean, default: false},   
 
     // TELA DADOS GERAIS
     numeroOcorrencia: { type: String, default: '' },
