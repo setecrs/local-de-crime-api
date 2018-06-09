@@ -16,7 +16,7 @@ var OcorrenciaSchema = new Schema({
     estado: { type: Schema.ObjectId, ref: 'Estado', default: null },
     municipio: { type: Schema.ObjectId, ref: 'Municipio', default: null },
     logradouro: { type: String, default: '' },
-    numero: { type: Number },
+    numero: { type: Number, default: null },
     complemento: { type: String, default: '' },
 
     // TELA RESPONSÁVEL DO LOCAL
