@@ -4,12 +4,12 @@ const Schema = mongoose.Schema;
 var OcorrenciaSchema = new Schema({
     
     criadoPor: { type: Schema.ObjectId, ref: 'user', required: true },
-    ocorrenciaEncerrada:{type: Boolean, default: false},   
+    ocorrenciaEncerrada:{ type: Boolean, default: false },   
 
     // TELA DADOS GERAIS
     numeroOcorrencia: { type: String, default: '' },
     sede: { type: Schema.ObjectId, ref: 'Sede', default: null },
-    peritosAcionados: [{ type: Schema.ObjectId, ref: 'user' }],
+    policiaisAcionados: [{ type: Schema.ObjectId, ref: 'user' }],
     dataHoraAcionamento: { type: Date, default: Date.now },
 
     // TELA ENDEREÇO
@@ -17,7 +17,7 @@ var OcorrenciaSchema = new Schema({
     estado: { type: Schema.ObjectId, ref: 'Estado', default: null },
     municipio: { type: Schema.ObjectId, ref: 'Municipio', default: null },
     logradouro: { type: String, default: '' },
-    numero: { type: Number },
+    numero: { type: String, default: '' },
     complemento: { type: String, default: '' },
 
     // TELA RESPONSÁVEL DO LOCAL
@@ -29,6 +29,7 @@ var OcorrenciaSchema = new Schema({
     //TELA SOBRE TESTEMUNHAS
     nomeTestemunha: { type: String, default: '' },
     cargoTestemunha: { type: String, default: '' },
+    funcaoTestemunha: { type: String, default: '' },
     documentoTestemunha: { type: String, default: '' },
     entrevistaTestemunha: { type: String, default: '' },
 

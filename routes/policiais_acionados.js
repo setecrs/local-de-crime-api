@@ -2,20 +2,20 @@ var Ocorrencia = require('../models/ocorrencia');
 const checkToken = require('../config/check_token');
 const util = require('../config/util');
 
-//peritosAcionadosRouter
+//policiaisAcionadosRouter
 const express = require('express');
-const peritosAcionadosRouter = express.Router();
+const policiaisAcionadosRouter = express.Router();
 
-peritosAcionadosRouter.use(checkToken);
+policiaisAcionadosRouter.use(checkToken);
 
 //router
-peritosAcionadosRouter.route('/:idOcorrencia')
+policiaisAcionadosRouter.route('/:idOcorrencia')
 .get(util.ObjectIdIsValid, (req, res, next) => {
     Ocorrencia.findById(req.params.idOcorrencia)
-    .populate('peritosAcionados', '-hashed_password')
+    .populate('policiaisAcionados', '-hashed_password')
     .then((ocorrencia) => {
         if(ocorrencia) {
-            res.json(ocorrencia.peritosAcionados);
+            res.json(ocorrencia.policiaisAcionados);
         }
         else {
             res.json('Ocorrência não encontrada.');
@@ -27,8 +27,8 @@ peritosAcionadosRouter.route('/:idOcorrencia')
     Ocorrencia.findById(req.params.idOcorrencia)
     .then((ocorrencia) => {
         if(ocorrencia) {
-            if(req.body.peritoAcionado) {
-                ocorrencia.peritosAcionados.push(req.body.peritoAcionado);
+            if(req.body.policiaisAcionados) {
+                ocorrencia.policiaisAcionados.push(req.body.policiaisAcionados);
                 ocorrencia.save()
                 .then((ocorrencia) => {
                     res.json(ocorrencia);
@@ -49,20 +49,20 @@ peritosAcionadosRouter.route('/:idOcorrencia')
     .then((ocorrencia) => {
         var idPerito;
         if(ocorrencia) {
-            for(var i = (ocorrencia.peritosAcionados.length - 1); i>=0; i--) {
-                if(ocorrencia.peritosAcionados[i].equals(req.body.peritoAcionado)) {
-                    idPerito = ocorrencia.peritosAcionados.splice(i, 1);
+            for(var i = (ocorrencia.policiaisAcionados.length - 1); i>=0; i--) {
+                if(ocorrencia.policiaisAcionados[i].equals(req.body.policiaisAcionados)) {
+                    idPerito = ocorrencia.policiaisAcionados.splice(i, 1);
                     break;
                 }
             }
             if(idPerito) {
                 ocorrencia.save()
                 .then((ocorrencia) => {
-                    res.json(ocorrencia.peritosAcionados);
+                    res.json(ocorrencia.policiaisAcionados);
                 }, (err) => next(err));
             }
             else {
-                res.json('Perito não vinculado a esta ocorrência.');    
+                res.json('Policial não vinculado a esta ocorrência.');    
             }
         }
         else {
@@ -73,4 +73,4 @@ peritosAcionadosRouter.route('/:idOcorrencia')
 });
 
 //router export
-module.exports = peritosAcionadosRouter;
+module.exports = policiaisAcionadosRouter;
