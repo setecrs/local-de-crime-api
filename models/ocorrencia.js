@@ -38,8 +38,8 @@ var OcorrenciaSchema = new Schema({
 
     // TELA SOBRE O FATO
     dataOcorrencia: { type: Date, default: null },
-    tipoDelito: { type: String, default: '' },
-    modusOperandi: { type: String, default: '' },
+    tipoDelito: { type: Schema.ObjectId, ref: 'TipoDelito', default: null },
+    modusOperandi: [{ type: Schema.ObjectId, ref: 'ModusOperandi', default: null }],
     possiveisSuspeitos: { type: String, default: '' },
     valoresSubtraidos: { type: String, default: '' },
 
