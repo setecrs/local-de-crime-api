@@ -1,5 +1,4 @@
 var Ocorrencia = require('../models/ocorrencia');
-var Perito = require('../models/user');
 const checkToken = require('../config/check_token');
 const mongoose = require('mongoose');
 const util = require('../config/util');
@@ -16,8 +15,8 @@ dadosGeraisRouter.use(checkToken);
 dadosGeraisRouter.patch('/:idOcorrencia', util.ObjectIdIsValid, function(req, res) {
     var dataHora = new Date(req.body.dataHoraAcionamento);
     Ocorrencia.findOneAndUpdate({
-        _id: req.params.idOcorrencia // idOcorrencia que foi passado na URL
-        //criadoPor: req.user.id //removido para, se for o caso, ser tratado no frontend
+        _id: req.params.idOcorrencia, // idOcorrencia que foi passado na URL
+        criadoPor: req.user.id //removido para, se for o caso, ser tratado no frontend
     }, 
     {   
         numeroOcorrencia: req.body.numeroOcorrencia, 

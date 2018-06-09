@@ -15,7 +15,7 @@ ocorrenciasRouter.use(checkToken);
 ocorrenciasRouter.get('/todas', function(req, res) {
     Ocorrencia.find({}) 
     .populate('criadoPor', '_id name username', User) // Retorna o Objeto dos campos referenciados para outros documentos (similar ao join)
-    .populate('peritosAcionados', '_id name username') //Nao funciona assim :(
+    .populate('policiaisAcionados', '_id name username') //Nao funciona assim :(
     .populate('tipoLocal')
     .populate('estado')
     .populate('municipio')
@@ -36,7 +36,7 @@ ocorrenciasRouter.get('/todas', function(req, res) {
 ocorrenciasRouter.get('/', function(req, res) {
     Ocorrencia.find({ criadoPor: req.user.id }) // Foi passado o id do perito como filtro, pois queremos apenas as ocorrências dele
     .populate('criadoPor', '_id name username', User) // Retorna o Objeto dos campos referenciados para outros documentos (similar ao join)
-    .populate('peritosAcionados', '_id name username') //Nao funciona assim :(
+    .populate('policiaisAcionados', '_id name username') //Nao funciona assim :(
     .populate('tipoLocal')
     .populate('estado')
     .populate('municipio')
@@ -58,7 +58,7 @@ ocorrenciasRouter.get('/', function(req, res) {
 ocorrenciasRouter.get('/:idOcorrencia', util.ObjectIdIsValid, function(req, res) {
     Ocorrencia.findOne({ _id: req.params.idOcorrencia }) // idOcorrencia que foi passado na URL
     .populate('criadoPor', '_id name username', User) // Retorna o Objeto dos campos referenciados para outros documentos (similar ao join)
-    .populate('peritosAcionados', '_id name username') //Nao funciona assim :(
+    .populate('policiaisAcionados', '_id name username') //Nao funciona assim :(
     .populate('tipoLocal')
     .populate('estado')
     .populate('municipio')
