@@ -1,4 +1,5 @@
 var Ocorrencia = require('../models/ocorrencia');
+var tipoVestigio = require('../models/tipo_vestigio');
 var Vestigio = require('../models/vestigio');
 const checkToken = require('../config/check_token');
 
@@ -33,22 +34,31 @@ vestigiosRouter.route('/:idOcorrencia')
 .post((req, res, next) => {
     Ocorrencia.findById(req.params.idOcorrencia)
     .then((ocorrencia) => {
-        if(ocorrencia != null) {
-            var vestigio = new Vestigio ({
-                tipo: req.body.tipo,
-                coletado: req.body.coletado,
-                etiqueta: req.body.etiqueta,
-                informacoesAdicionais: req.body.informacoesAdicionais
-            });
-            vestigio.save();
-
-            ocorrencia.vestigios.push(vestigio._id);
-            ocorrencia.save()
-            .then((ocorrencia) => {
-                res.statusCode = 200;
-                res.setHeader("Content-Type", "application/json");
-                res.json(ocorrencia.vestigios);
-            }, (err) => next(err));
+        if(ocorrencia) {
+            tipoVestigio.findById(req.body.tipo)
+            .then((tipo) => {
+                if(tipo) {
+                    var vestigio = new Vestigio ({
+                        tipo: req.body.tipo,
+                        coletado: req.body.coletado,
+                        etiqueta: req.body.etiqueta,
+                        informacoesAdicionais: req.body.informacoesAdicionais
+                    });
+                    vestigio.save();
+        
+                    ocorrencia.vestigios.push(vestigio._id);
+                    ocorrencia.save()
+                    .then((ocorrencia) => {
+                        res.statusCode = 200;
+                        res.setHeader("Content-Type", "application/json");
+                        res.json(ocorrencia.vestigios);
+                    }, (err) => next(err));
+                }
+                else {
+                    res.json('Tipo de vestígio inválido');
+                }
+            })
+            .catch((err) => next(err));
         }
         else {
             res.status(404).json({message: 'Esta ocorrência não existe!'});
