@@ -67,8 +67,13 @@ var modusOperandi = [
     { modusOperandi: "Chave mixa" },
     { modusOperandi: "Chupa-cabra" },
     { modusOperandi: "Com violência" },
-    { modusOperandi: "Correios: corta alarme, leva DVR, usa luvas" },
-    { modusOperandi: "Correios: arma pela porta giratória" },
+    { modusOperandi: "Correios-Arma-Pela-Porta-Giratoria" },
+    { modusOperandi: "Correios-CortaAlarme-LevaDVR-UsaLuvas" },
+    { modusOperandi: "Correios-Dois-De-Moto" },
+    { modusOperandi: "Correios-Superbonder" },
+    { modusOperandi: "Correios-Veiculo-Com-Endereco-Da-Abordagem" },
+    { modusOperandi: "Correios-Veiculo-ZonaNorteAlvorada-Com-Endereco-Da-Abordagem" },
+    { modusOperandi: "Correios-Veiculo-ZonaSul-Com-Endereco-Da-Abordagem" },
     { modusOperandi: "Explosivos" },
     { modusOperandi: "Forçar porta ou janela (sem quebrar vidro)" },
     { modusOperandi: "Furto de câmera ou monitor" },
@@ -86,30 +91,48 @@ var modusOperandi = [
 ];
 
 var tiposVestigio = [
-    { tipoVestigio: "Alicate" },
-    { tipoVestigio: "Balaclava" },
-    { tipoVestigio: "Bituca de cigarro" },
-    { tipoVestigio: "Boné" },
-    { tipoVestigio: "Camiseta" },
-    { tipoVestigio: "Chave de fenda" },
-    { tipoVestigio: "Copos" },
-    { tipoVestigio: "Estojo de munição" },
-    { tipoVestigio: "Garrafas" },
-    { tipoVestigio: "Luvas" },
-    { tipoVestigio: "Martelo" },
-    { tipoVestigio: "Máscara cirúrgica" },
-    { tipoVestigio: "Mochila" },
-    { tipoVestigio: "Pé de cabra" },
-    { tipoVestigio: "Projétil" },
-    { tipoVestigio: "Sacola" },
-    { tipoVestigio: "Sangue" },
-    { tipoVestigio: "Outro" }
+    { tipoVestigio: "Biológico", nomeVestigio: "Cabelo" },
+    { tipoVestigio: "Biológico", nomeVestigio: "DNA" },
+    { tipoVestigio: "Biológico", nomeVestigio: "Sangue" },
+    { tipoVestigio: "Biológico", nomeVestigio: "Outro" },
+
+    { tipoVestigio: "Físico", nomeVestigio: "Alicate" },
+    { tipoVestigio: "Físico", nomeVestigio: "Arma" },
+    { tipoVestigio: "Físico", nomeVestigio: "Balaclava" },
+    { tipoVestigio: "Físico", nomeVestigio: "Bituca de cigarro" },
+    { tipoVestigio: "Físico", nomeVestigio: "Boné" },
+    { tipoVestigio: "Físico", nomeVestigio: "Camiseta" },
+    { tipoVestigio: "Físico", nomeVestigio: "Cartucho de munição" },
+    { tipoVestigio: "Físico", nomeVestigio: "Chave de fenda" },
+    { tipoVestigio: "Físico", nomeVestigio: "Copo" },
+    { tipoVestigio: "Físico", nomeVestigio: "Estojo de munição" },
+    { tipoVestigio: "Físico", nomeVestigio: "Ferramenta" },
+    { tipoVestigio: "Físico", nomeVestigio: "Garrafa" },
+    { tipoVestigio: "Físico", nomeVestigio: "Impressão papilar" },
+    { tipoVestigio: "Físico", nomeVestigio: "Luvas" },
+    { tipoVestigio: "Físico", nomeVestigio: "Marca de tinta" },
+    { tipoVestigio: "Físico", nomeVestigio: "Martelo" },
+    { tipoVestigio: "Físico", nomeVestigio: "Máscara cirúrgica" },
+    { tipoVestigio: "Físico", nomeVestigio: "Mochila" },
+    { tipoVestigio: "Físico", nomeVestigio: "Papel" },
+    { tipoVestigio: "Físico", nomeVestigio: "Pé de cabra" },
+    { tipoVestigio: "Físico", nomeVestigio: "Pegada" },
+    { tipoVestigio: "Físico", nomeVestigio: "Projétil" },
+    { tipoVestigio: "Físico", nomeVestigio: "Roupa" },
+    { tipoVestigio: "Físico", nomeVestigio: "Sacola" },
+    { tipoVestigio: "Físico", nomeVestigio: "Vidro" },
+    { tipoVestigio: "Físico", nomeVestigio: "Outro" },
+
+    { tipoVestigio: "Químico", nomeVestigio: "Droga" },
+    { tipoVestigio: "Químico", nomeVestigio: "Explosivo" },
+    { tipoVestigio: "Químico", nomeVestigio: "Solvente" },
+    { tipoVestigio: "Químico", nomeVestigio: "Outro" }
 ];
 
 //default
 popularBancoRouter.get('/default', function (req, res) {
     if (req.user.username) {
-        
+        console.log(req.user.username);
         // Limpa o banco
         Municipio.remove({}, function (err) {
             if (err) {
@@ -228,7 +251,6 @@ popularBancoRouter.get('/default', function (req, res) {
         });
     }
 });
-
 
 //router export
 module.exports = popularBancoRouter;
