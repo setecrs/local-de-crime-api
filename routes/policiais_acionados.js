@@ -1,4 +1,5 @@
 var Ocorrencia = require('../models/ocorrencia');
+var Policial = require('../models/user');
 const checkToken = require('../config/check_token');
 const util = require('../config/util');
 
@@ -27,16 +28,20 @@ policiaisAcionadosRouter.route('/:idOcorrencia')
     Ocorrencia.findById(req.params.idOcorrencia)
     .then((ocorrencia) => {
         if(ocorrencia) {
-            if(req.body.policiaisAcionados) {
-                ocorrencia.policiaisAcionados.push(req.body.policiaisAcionados);
-                ocorrencia.save()
-                .then((ocorrencia) => {
-                    res.json(ocorrencia);
-                }, (err) => next(err));
-            }
-            else {
-                res.json('Policial inválido');
-            }
+            Policial.findById(req.body.policiaisAcionados)
+            .then((policial) => {
+                if(policial) {
+                    ocorrencia.policiaisAcionados.push(req.body.policiaisAcionados);
+                    ocorrencia.save()
+                    .then((ocorrencia) => {
+                        res.json(ocorrencia);
+                    }, (err) => next(err));
+                }
+                else {
+                    res.json('Policial inválido');
+                }
+            })
+            .catch((err) => next(err));
         }
         else {
             res.json('Ocorrência não encontrada.');
@@ -47,15 +52,15 @@ policiaisAcionadosRouter.route('/:idOcorrencia')
 .delete(util.ObjectIdIsValid, (req, res, next) => {
     Ocorrencia.findById(req.params.idOcorrencia)
     .then((ocorrencia) => {
-        var idPerito;
+        var idPolicial;
         if(ocorrencia) {
             for(var i = (ocorrencia.policiaisAcionados.length - 1); i>=0; i--) {
                 if(ocorrencia.policiaisAcionados[i].equals(req.body.policiaisAcionados)) {
-                    idPerito = ocorrencia.policiaisAcionados.splice(i, 1);
+                    idPolicial = ocorrencia.policiaisAcionados.splice(i, 1);
                     break;
                 }
             }
-            if(idPerito) {
+            if(idPolicial) {
                 ocorrencia.save()
                 .then((ocorrencia) => {
                     res.json(ocorrencia.policiaisAcionados);
