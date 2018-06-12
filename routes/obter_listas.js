@@ -23,7 +23,7 @@ obterListasRouter.get('/', function(req, res) {
     Estado.find({}).exec(function (err, estados) {
         if (err) return err;
 
-        Municipio.find({}).exec(function (err, municipio) {
+        Municipio.find({}).exec(function (err, municipios) {
             if (err) return err;
 
             Sede.find({}).exec(function (err, sedes) {
