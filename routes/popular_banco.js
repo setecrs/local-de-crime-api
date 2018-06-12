@@ -30,7 +30,7 @@ var municipios = [
 
 var sedes = [
     { nome: "SR/RS" },
-    { nome: "Outra" }
+    { nome: "Outro" }
 ];
 
 var tiposLocal = [
