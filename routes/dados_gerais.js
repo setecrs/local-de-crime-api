@@ -23,9 +23,9 @@ dadosGeraisRouter.route('/:idOcorrencia')
     .then((ocorrencia) => {
         if(ocorrencia) {
             // Demais campos
-            ocorrencia.numeroOcorrencia = req.body.numeroOcorrencia;
-            //peritos: req.body.peritos, //removido por ser array será tratado em rota independente
-            ocorrencia.dataHoraAcionamento = req.body.dataHoraAcionamento;
+            if(req.body.numeroOcorrencia != null) ocorrencia.numeroOcorrencia = req.body.numeroOcorrencia;
+            if(req.body.dataHoraAcionamento) ocorrencia.dataHoraAcionamento = req.body.dataHoraAcionamento;
+            //req.body.peritos removido, por ser array será tratado em rota independente
             
             // Trata Sede
             if(req.body.sede) {
@@ -46,6 +46,13 @@ dadosGeraisRouter.route('/:idOcorrencia')
                     }
                 })
                 .catch((err) => res.json('Sede inválida'));
+            }
+            else {
+                // Salva alteracoes
+                ocorrencia.save()
+                .then((ocorrencia) => {
+                    res.json('Dados salvos com sucesso.');
+                }, (err) => next(err));
             }
         }
         else {
