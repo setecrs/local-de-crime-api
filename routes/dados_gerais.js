@@ -1,5 +1,4 @@
 var Ocorrencia = require('../models/ocorrencia');
-var Sede = require('../models/sede');
 const checkToken = require('../config/check_token');
 const util = require('../config/util');
 
@@ -21,11 +20,21 @@ dadosGeraisRouter.route('/:idOcorrencia')
     })
     .then((ocorrencia) => {
         if(ocorrencia) {
-            // Demais campos
+            // Trata campos
             if(req.body.numeroOcorrencia != null) ocorrencia.numeroOcorrencia = req.body.numeroOcorrencia;
+            if(req.body.sede != null) ocorrencia.sede = req.body.sede;
             if(req.body.dataHoraAcionamento) ocorrencia.dataHoraAcionamento = req.body.dataHoraAcionamento;
             //req.body.peritos removido, por ser array será tratado em rota independente
+
+            // Salva alteracoes
+            ocorrencia.save()
+            .then((ocorrencia) => {
+                res.json('Dados salvos com sucesso.');
+            }, (err) => next(err));
             
+            /* 
+             * passado de Objeto para String
+             * 
             // Trata Sede
             if(req.body.sede) {
                 Sede.findById(req.body.sede)
@@ -53,6 +62,7 @@ dadosGeraisRouter.route('/:idOcorrencia')
                     res.json('Dados salvos com sucesso.');
                 }, (err) => next(err));
             }
+            */
         }
         else {
             res.json('Ocorrência não encontrada.');
