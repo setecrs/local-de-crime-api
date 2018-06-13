@@ -1,5 +1,7 @@
 var Ocorrencia = require('../models/ocorrencia');
+var ModusOperandi = require('../models/modus_operandi');
 const checkToken = require('../config/check_token');
+const util = require('../config/util');
 
 //peritosAcionadosRouter
 const express = require('express');
@@ -9,7 +11,7 @@ modusOperandiRouter.use(checkToken);
 
 //router
 modusOperandiRouter.route('/:idOcorrencia')
-.get((req, res, next) => {
+.get(util.ObjectIdIsValid, (req, res, next) => {
     Ocorrencia.findById(req.params.idOcorrencia)
     .populate('modusOperandi')
     .then((ocorrencia) => {
@@ -33,7 +35,7 @@ modusOperandiRouter.route('/:idOcorrencia')
             .then((ocorrencia) => {
                 res.statusCode = 200;
                 res.setHeader("Content-Type", "application/json");
-                res.json(ocorrencia);
+                res.json(ocorrencia.modusOperandi);
             }, (err) => next(err));
         }
         else {
@@ -58,7 +60,7 @@ modusOperandiRouter.route('/:idOcorrencia')
                 .then((ocorrencia) => {
                     res.statusCode = 200;
                     res.setHeader("Content-Type", "application/json");
-                    res.json(ocorrencia.peritosAcionados);
+                    res.json(ocorrencia.modusOperandi);
                 }, (err) => next(err));
             }
             else {

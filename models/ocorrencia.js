@@ -33,7 +33,6 @@ var OcorrenciaSchema = new Schema({
 
     //TELA SOBRE TESTEMUNHAS
     nomeTestemunha: { type: String, default: '' },
-    cargoTestemunha: { type: String, default: '' },
     funcaoTestemunha: { type: String, default: '' },
     documentoTestemunha: { type: String, default: '' },
     entrevistaTestemunha: { type: String, default: '' },
@@ -46,7 +45,9 @@ var OcorrenciaSchema = new Schema({
     // TELA SOBRE O FATO
     dataOcorrencia: { type: Date, default: null },
     tipoDelito: { type: Schema.ObjectId, ref: 'TipoDelito', default: null },
-    modusOperandi: [{ type: Schema.ObjectId, ref: 'ModusOperandi', default: null }],
+    outroTipoDelito: { type: String },
+    modusOperandi: [{ type: Schema.ObjectId, ref: 'ModusOperandi' }],
+    outroModusOperandi: { type: String },
     possiveisSuspeitos: { type: String, default: '' },
     valoresSubtraidos: { type: String, default: '' },
 
