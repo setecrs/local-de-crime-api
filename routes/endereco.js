@@ -1,7 +1,5 @@
 var Ocorrencia = require('../models/ocorrencia');
 var TipoLocal = require('../models/tipo_local');
-var Municipio = require('../models/municipio');
-var Estado = require('../models/estado');
 const checkToken = require('../config/check_token');
 const util = require('../config/util');
 
@@ -36,6 +34,12 @@ enderecoRouter.route('/:idOcorrencia')
                     if(tipoLocal) {
                         ocorrencia.tipoLocal = req.body.tipoLocal;
                         ocorrencia.outroTipoLocal = req.body.outroTipoLocal;
+
+                        // Salva alteracoes
+                        ocorrencia.save()
+                        .then((ocorrencia) => {
+                            res.json('Dados salvos com sucesso!');
+                        }, (err) => next(err));
 
                         /* 
                         * passado de Objeto para String
