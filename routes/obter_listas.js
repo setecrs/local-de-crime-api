@@ -5,9 +5,7 @@ var TipoLocal = require("../models/tipo_local");
 var TipoDelito = require("../models/tipo_delito");
 var ModusOperandi = require("../models/modus_operandi");
 var TipoVestigio = require("../models/tipo_vestigio");
-
 const checkToken = require('../config/check_token');
-const mongoose = require('mongoose');
 
 //obterListasRouter
 const express = require('express');

@@ -14,15 +14,19 @@ route: /ocorrencias/todas | method: GET | Headers: {"x-access-token": [JWT TOKEN
 
 route: /usuarios | method: GET | Headers: no-auth
 
+route: /obter_listas | method: GET | params: n/a | [DEVE ESTAR AUTENTICADO] //retorna as listas
+
+
 route: /dados_gerais/{idOcorrencia} | method: PATCH | params: 
 {
     "numeroOcorrencia": String, 
     "sedeOcorrencia": Sede._id, 
     "outraSede": String,
     "peritosOcorrencia": [Peritos._id], 
-    "dataHoraAcionamento": dateTime
+    "dataHoraAcionamento": Date
 }
 | Headers: {"x-access-token": [JWT TOKEN]) } [DEVE ESTAR AUTENTICADO]
+
 
 route: /endereco/{idOcorrencia} | method: PATCH | params: 
 {
@@ -34,26 +38,45 @@ route: /endereco/{idOcorrencia} | method: PATCH | params:
     "municipio": municipios._id,
     "outroMunicipio": String,
     "logradouro": String,
-    "complemento": String,
+    "complemento": String
 }
 | Headers: {"x-access-token": [JWT TOKEN]) } [DEVE ESTAR AUTENTICADO]
+
 
 route: /responsavel_local/{idOcorrencia} | method: PATCH | params: 
 {
     "nomeResponsavel": String,
     "cargoResponsavel": String,
     "documentoResponsavel": String,
-    "entrevistaResponsavel": String,
+    "entrevistaResponsavel": String
 }
 | Headers: {"x-access-token": [JWT TOKEN]) } [DEVE ESTAR AUTENTICADO]
 
-route: /popular_banco/default | method: GET | params: n/a | [DEVE ESTAR AUTENTICADO] //popula o banco com as listas enviadas pela PF
 
-route: /obter_listas | method: GET | params: n/a | [DEVE ESTAR AUTENTICADO] //retorna as listas
+route: /testemunhas/{idOcorrencia} | method: PATCH | params: 
+{
+    "nomeTestemunha": String,
+    "documentoTestemunha": String,
+    "funcaoTestemunha": String,
+    "cargoTestemunha": String,
+    "entrevistaTestemunha": String
+}
+| Headers: {"x-access-token": [JWT TOKEN]) } [DEVE ESTAR AUTENTICADO]
+
+
+route: /sobre_local/{idOcorrencia} | method: PATCH | params: 
+{
+    "dataHoraChegada": Date,
+    "condicaoLocal": String,
+    "informacoesAdicionais": String
+}
+| Headers: {"x-access-token": [JWT TOKEN]) } [DEVE ESTAR AUTENTICADO]
+
 
 route: /policiais_acionados/{idOcorrencia} | method: GET | params: n/a | [DEVE ESTAR AUTENTICADO]
     | method: POST | params: {"peritoAcionado": Perito._id} | [DEVE ESTAR AUTENTICADO]
     | method: DELETE | params: {"peritoAcionado": Perito._id} | [DEVE ESTAR AUTENTICADO]
+
 
 route: /vestigios/{idOcorrencia} | method: GET | params: n/a | [DEVE ESTAR AUTENTICADO]
     | method: DELETE | params: {"vestigio": Vestigio._id} | [DEVE ESTAR AUTENTICADO]
@@ -66,6 +89,12 @@ route: /vestigios/{idOcorrencia} | method: GET | params: n/a | [DEVE ESTAR AUTEN
             "informacoesAdicionais": String
         }
         | [DEVE ESTAR AUTENTICADO]
+
+
+
+route: /popular_banco/default | method: GET | params: n/a | [DEVE ESTAR AUTENTICADO] //popula o banco com as listas enviadas pela PF
+
+
 
 # POSTMAN
 

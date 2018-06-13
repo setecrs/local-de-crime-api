@@ -1,6 +1,5 @@
 var Ocorrencia = require('../models/ocorrencia');
 const checkToken = require('../config/check_token');
-const mongoose = require('mongoose');
 const util = require('../config/util');
 
 //enderecoRouter
@@ -9,23 +8,33 @@ const testemunhasRouter = express.Router();
 
 testemunhasRouter.use(checkToken)
 
-testemunhasRouter.patch('/:idOcorrencia', util.ObjectIdIsValid, function(req, res) {
-    Ocorrencia.findOneAndUpdate( {
-        _id: req.params.idOcorrencia,
+//patch
+testemunhasRouter.route('/:idOcorrencia')
+.patch(util.ObjectIdIsValid, (req, res, next) => {
+    Ocorrencia.findOne({
+        _id: req.params.idOcorrencia, // idOcorrencia que foi passado na URL
         criadoPor: req.user.id
-    }, {
-        nomeTestemunha: req.body.nomeTestemunha,
-        documentoTestemunha: req.body.documentoTestemunha,
-        funcaoTestemunha: req.body.funcaoTestemunha,
-        cargoTestemunha: req.body.cargoTestemunha,        
-        entrevistaTestemunha: req.body.entrevistaTestemunha
-    },
-    function(err, ocorrencia) {
-        if (err) res.json("Erro interno: " + err);
-        
-        console.log(req.user._id);
-        res.json('Dados salvos com sucesso.');
-    });
+    })
+    .then((ocorrencia) => {
+        if(ocorrencia) {
+            // Trata campos
+            if(req.body.nomeTestemunha != null) ocorrencia.nomeTestemunha = req.body.nomeTestemunha;
+            if(req.body.documentoTestemunha != null) ocorrencia.documentoTestemunha = req.body.documentoTestemunha;
+            if(req.body.funcaoTestemunha != null) ocorrencia.funcaoTestemunha = req.body.funcaoTestemunha;
+            if(req.body.cargoTestemunha != null) ocorrencia.cargoTestemunha = req.body.cargoTestemunha;
+            if(req.body.entrevistaTestemunha != null) ocorrencia.entrevistaTestemunha = req.body.entrevistaTestemunha;
+
+            // Salva alteracoes
+            ocorrencia.save()
+            .then((ocorrencia) => {
+                res.json('Dados salvos com sucesso.');
+            }, (err) => next(err));
+        }
+        else {
+            res.json('Ocorrência não encontrada.');
+        }
+    }, (err) => next(err))
+    .catch((err) => next(err)); 
 });
 
 //router export
