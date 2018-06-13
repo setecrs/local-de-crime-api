@@ -18,6 +18,7 @@ route: /dados_gerais/{idOcorrencia} | method: PATCH | params:
 {
     "numeroOcorrencia": String, 
     "sedeOcorrencia": Sede._id, 
+    "outraSede": String,
     "peritosOcorrencia": [Peritos._id], 
     "dataHoraAcionamento": dateTime
 }
@@ -25,12 +26,15 @@ route: /dados_gerais/{idOcorrencia} | method: PATCH | params:
 
 route: /endereco/{idOcorrencia} | method: PATCH | params: 
 {
-    "tipoLocal": String,
-    "estado": String,
-    "municipio": String,
+    "tipoLocal": tipoLocals._id,
+    "outroTipoLocal": String,
+    "estado": estados._id,
+    "outroEstado": String,
+    "outroUF": String,
+    "municipio": municipios._id,
+    "outroMunicipio": String,
     "logradouro": String,
     "complemento": String,
-    "_id": Ocorrencia._id
 }
 | Headers: {"x-access-token": [JWT TOKEN]) } [DEVE ESTAR AUTENTICADO]
 
@@ -40,11 +44,10 @@ route: /responsavel_local/{idOcorrencia} | method: PATCH | params:
     "cargoResponsavel": String,
     "documentoResponsavel": String,
     "entrevistaResponsavel": String,
-    "_id": Ocorrencia._id
 }
 | Headers: {"x-access-token": [JWT TOKEN]) } [DEVE ESTAR AUTENTICADO]
 
-route: /popular_banco/default | method: GET | params: n/a | [DEVE ESTAR AUTENTICADO COM USERNAME: admin]
+route: /popular_banco/default | method: GET | params: n/a | [DEVE ESTAR AUTENTICADO] //popula o banco com as listas enviadas pela PF
 
 route: /obter_listas | method: GET | params: n/a | [DEVE ESTAR AUTENTICADO] //retorna as listas
 
@@ -56,10 +59,11 @@ route: /vestigios/{idOcorrencia} | method: GET | params: n/a | [DEVE ESTAR AUTEN
     | method: DELETE | params: {"vestigio": Vestigio._id} | [DEVE ESTAR AUTENTICADO]
     | method: POST | params: 
         {
-            tipo: tipo_vestigio._id
-            coletado: boolean,
-            etiqueta: String,
-            informacoesAdicionais: String
+            "tipo": tipoVestigios._id
+            "outroTipoVestigio" : String
+            "coletado": boolean,
+            "etiqueta": String,
+            "informacoesAdicionais": String
         }
         | [DEVE ESTAR AUTENTICADO]
 

@@ -40,6 +40,7 @@ vestigiosRouter.route('/:idOcorrencia')
                 if(tipo) {
                     var vestigio = new Vestigio ({
                         tipo: req.body.tipo,
+                        outroTipoVestigio: req.body.outroTipoVestigio,
                         coletado: req.body.coletado,
                         etiqueta: req.body.etiqueta,
                         informacoesAdicionais: req.body.informacoesAdicionais

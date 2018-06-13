@@ -17,10 +17,10 @@ popularBancoRouter.use(checkToken);
 var estados = [
     { nome: "Rio Grande do Sul", uf: "RS" },
     { nome: "Santa Catarina", uf: "SC" },
-    { nome: "Outro" }
+    { nome: "Outro", uf: "XX" }
 ];
 
-var municipios = [
+var municipiosRS = [
     { nome: "Porto Alegre" },
     { nome: "Caxias do Sul" },
     { nome: "Pelotas" },
@@ -28,9 +28,17 @@ var municipios = [
     { nome: "Outro" }
 ];
 
+var municipiosSC = [
+    { nome: "Outro" }
+];
+
+var municipiosOutro = [
+    { nome: "Outro" }
+];
+
 var sedes = [
     { nome: "SR/RS" },
-    { nome: "Outra" }
+    { nome: "Outro" }
 ];
 
 var tiposLocal = [
@@ -181,10 +189,30 @@ popularBancoRouter.get('/default', function (req, res) {
                 // Insere Municipios RS
                 Estado.findOne({ uf: "RS" })
                 .then((rs) => {
-                    municipios.forEach(function (municipio) {
+                    municipiosRS.forEach(function (municipio) {
                         Municipio.create({ nome: municipio.nome, estado: rs._id });
                     });
                     console.log("Municípios do RS criados com sucesso!");
+                }, (err) => next(err))
+                .catch(err => res.status(err.status).res.status(500).json({ message: err.message }));
+
+                // Insere Municipios SC
+                Estado.findOne({ uf: "SC" })
+                .then((sc) => {
+                    municipiosSC.forEach(function (municipio) {
+                        Municipio.create({ nome: municipio.nome, estado: sc._id });
+                    });
+                    console.log("Municípios de SC criados com sucesso!");
+                }, (err) => next(err))
+                .catch(err => res.status(err.status).res.status(500).json({ message: err.message }));
+
+                // Insere Municipios Outro
+                Estado.findOne({ uf: "XX" })
+                .then((xx) => {
+                    municipiosOutro.forEach(function (municipio) {
+                        Municipio.create({ nome: municipio.nome, estado: xx._id });
+                    });
+                    console.log("Municípios de OUTRO criados com sucesso!");
                 }, (err) => next(err))
                 .catch(err => res.status(err.status).res.status(500).json({ message: err.message }));
             }

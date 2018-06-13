@@ -1,5 +1,7 @@
 var Ocorrencia = require('../models/ocorrencia');
-var Policial = require('../models/user');
+var TipoLocal = require('../models/tipo_local');
+var Municipio = require('../models/municipio');
+var Estado = require('../models/estado');
 const checkToken = require('../config/check_token');
 const mongoose = require('mongoose');
 const util = require('../config/util');
@@ -13,23 +15,127 @@ enderecoRouter.use(checkToken);
 //patch
 // Salva as alterações da tela de endereço
 // param idOcorrencia: _id da Ocorrencia que queremos atualizar
-enderecoRouter.patch('/:idOcorrencia', util.ObjectIdIsValid, function(req, res) {
-    Ocorrencia.findOneAndUpdate({
-        _id: req.params.idOcorrencia,
+enderecoRouter.route('/:idOcorrencia')
+.patch(util.ObjectIdIsValid, (req, res, next) => {
+    Ocorrencia.findOne({
+        _id: req.params.idOcorrencia, // idOcorrencia que foi passado na URL
         criadoPor: req.user.id
-    }, {
-        tipoLocal: req.body.tipoLocal,
-        estado: req.body.estado,
-        municipio: req.body.municipio,
-        logradouro: req.body.logradouro,
-        numero: req.body.numero,
-        complemento: req.body.complemento
-    }, 
-    function(err, ocorrencia) {
-        if (err) res.json("Erro interno: " + err);
-        
-        res.json('Dados salvos com sucesso.');
     })
+    .then((ocorrencia) => {
+        if(ocorrencia) {
+            // Demais campos
+            if(ocorrencia.logradouro != null) ocorrencia.logradouro = req.body.logradouro;
+            if(ocorrencia.numero != null) ocorrencia.numero = req.body.numero;
+            if(ocorrencia.complemento != null) ocorrencia.complemento = req.body.complemento;
+
+            // Trata Tipo Local
+            if(req.body.tipoLocal) {
+                TipoLocal.findById(req.body.tipoLocal)
+                .then((tipoLocal) => {
+                    if(tipoLocal) {
+                        ocorrencia.tipoLocal = req.body.tipoLocal;
+                        ocorrencia.outroTipoLocal = req.body.outroTipoLocal;
+
+                        // Trata Estado
+                        if(req.body.estado) {
+                            Estado.findById(req.body.estado)
+                            .then((estado) => {
+                                if(estado) {
+                                    ocorrencia.estado = req.body.estado;
+                                    ocorrencia.outroEstado = req.body.outroEstado;
+                                    ocorrencia.outroUF = req.body.outroUF;
+
+                                    // Trata Municipio
+                                    if(req.body.municipio) {
+                                        Municipio.findById(req.body.municipio)
+                                        .then((municipio) => {
+                                            if(municipio) {
+                                                ocorrencia.municipio = req.body.municipio;
+                                                ocorrencia.outroMunicipio = req.body.outroMunicipio;
+
+                                                // Salva alteracoes
+                                                ocorrencia.save()
+                                                .then((ocorrencia) => {
+                                                    res.json('Dados salvos com sucesso.');
+                                                }, (err) => next(err));
+                                            }
+                                            else {
+                                                // Salva alteracoes
+                                                ocorrencia.save()
+                                                .then((ocorrencia) => {
+                                                    res.json('Municipio inválido! Apenas Município não foi alterado.');
+                                                }, (err) => next(err));
+                                            }
+                                        })
+                                        .catch((err) => {
+                                            // Salva alteracoes
+                                            ocorrencia.save()
+                                            .then((ocorrencia) => {
+                                                res.json('Municipio inválido! Apenas Município não foi alterado.');
+                                            }, (err) => next(err));
+                                        });
+                                    }
+                                    else {
+                                        // Salva alteracoes
+                                        ocorrencia.save()
+                                        .then((ocorrencia) => {
+                                            res.json('Dados salvos com sucesso! Município não enviado.');
+                                        }, (err) => next(err));
+                                    }
+                                }
+                                else {
+                                    // Salva alteracoes
+                                    ocorrencia.save()
+                                    .then((ocorrencia) => {
+                                        res.json('Estado inválido! Estado e Município não foram alterados.');
+                                    }, (err) => next(err));
+                                }
+                            })
+                            .catch((err) => {
+                                // Salva alteracoes
+                                ocorrencia.save()
+                                .then((ocorrencia) => {
+                                    res.json('Estado inválido! Estado e Município não foram alterados.');
+                                }, (err) => next(err));
+                            });
+                        }
+                        else {
+                            // Salva alteracoes
+                            ocorrencia.save()
+                            .then((ocorrencia) => {
+                                res.json('Dados salvos com sucesso! Estado não enviado. Município não foi alterado.');
+                            }, (err) => next(err));
+                        }
+                    }
+                    else {
+                        // Salva alteracoes
+                        ocorrencia.save()
+                        .then((ocorrencia) => {
+                            res.json('Tipo de Local inválido! Tipo Local, Estado e Município não foram alterados.');
+                        }, (err) => next(err));
+                    }
+                })
+                .catch((err) => {
+                    // Salva alteracoes
+                    ocorrencia.save()
+                    .then((ocorrencia) => {
+                        res.json('Tipo de Local inválido! Tipo Local, Estado e Município não foram alterados.');
+                    }, (err) => next(err));
+                });
+            }
+            else {
+                // Salva alteracoes
+                ocorrencia.save()
+                .then((ocorrencia) => {
+                    res.json('Dados salvos com sucesso! Tipo de Local não enviado. Estado e Município não foram alterados.');
+                }, (err) => next(err));
+            }
+        }
+        else {
+            res.json('Ocorrência não encontrada.');
+        }
+    }, (err) => next(err))
+    .catch((err) => next(err));
 });
 
 //router export

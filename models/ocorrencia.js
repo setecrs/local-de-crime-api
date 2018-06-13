@@ -9,13 +9,18 @@ var OcorrenciaSchema = new Schema({
     // TELA DADOS GERAIS
     numeroOcorrencia: { type: String, default: '' },
     sede: { type: Schema.ObjectId, ref: 'Sede', default: null },
+    outraSede: { type: String },
     policiaisAcionados: [{ type: Schema.ObjectId, ref: 'user' }],
     dataHoraAcionamento: { type: Date, default: Date.now },
 
     // TELA ENDEREÇO
     tipoLocal: { type: Schema.ObjectId, ref: 'TipoLocal', default: null },
+    outroTipoLocal: { type: String },
     estado: { type: Schema.ObjectId, ref: 'Estado', default: null },
+    outroEstado: { type: String },
+    outroUF: { type: String },
     municipio: { type: Schema.ObjectId, ref: 'Municipio', default: null },
+    outroMunicipio: { type: String },
     logradouro: { type: String, default: '' },
     numero: { type: String, default: '' },
     complemento: { type: String, default: '' },
