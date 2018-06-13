@@ -41,7 +41,7 @@ var OcorrenciaSchema = new Schema({
     // TELA SOBRE O LOCAL
     dataHoraChegada: { type: Date, default: null },
     condicaoLocal: { type: String, default: '' },
-    InformacoesAdicionais: { type: String, default: '' },
+    informacoesAdicionais: { type: String, default: '' },
 
     // TELA SOBRE O FATO
     dataOcorrencia: { type: Date, default: null },

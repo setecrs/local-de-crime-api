@@ -20,7 +20,7 @@ sobreLocalRouter.route('/:idOcorrencia')
             // Trata campos
             if(req.body.dataHoraChegada != null) ocorrencia.dataHoraChegada = req.body.dataHoraChegada;
             if(req.body.condicaoLocal != null) ocorrencia.condicaoLocal = req.body.condicaoLocal;
-            if(req.body.InformacoesAdicionais != null) ocorrencia.InformacoesAdicionais = req.body.InformacoesAdicionais;
+            if(req.body.informacoesAdicionais != null) ocorrencia.informacoesAdicionais = req.body.informacoesAdicionais;
 
             // Salva alteracoes
             ocorrencia.save()
