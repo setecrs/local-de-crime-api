@@ -22,6 +22,7 @@ var policiaisAcionadosRouter = require('./routes/policiais_acionados');
 var popularBancoRouter = require('./routes/popular_banco');
 var obterListasRouter = require('./routes/obter_listas');
 var testemunhasRouter = require('./routes/testemunhas');
+var modusOperandiRouter = require('./routes/modus_operandi');
 
 // configuration ===============================================================
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/policia_federal'); // connect to our database
@@ -45,6 +46,7 @@ app.use('/policiais_acionados', policiaisAcionadosRouter);
 app.use('/popular_banco', popularBancoRouter);
 app.use('/obter_listas', obterListasRouter);
 app.use('/testemunhas', testemunhasRouter);
+app.use('/modus_operandi', modusOperandiRouter);
 // launch ======================================================================
 app.listen(port);
 console.log('Acesse localhost:' + port);
