@@ -3,7 +3,6 @@ var TipoLocal = require('../models/tipo_local');
 var Municipio = require('../models/municipio');
 var Estado = require('../models/estado');
 const checkToken = require('../config/check_token');
-const mongoose = require('mongoose');
 const util = require('../config/util');
 
 //enderecoRouter

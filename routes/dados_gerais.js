@@ -1,7 +1,6 @@
 var Ocorrencia = require('../models/ocorrencia');
 var Sede = require('../models/sede');
 const checkToken = require('../config/check_token');
-const mongoose = require('mongoose');
 const util = require('../config/util');
 
 //dadosGeraisRouter
