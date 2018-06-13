@@ -20,6 +20,15 @@ ocorrenciasRouter.get('/todas', function(req, res) {
     .populate('estado')
     .populate('municipio')
     .populate('sede')
+    .populate('tipoDelito')
+    .populate('modusOperandi')
+    .populate({ 
+        path: 'vestigios',
+        populate: {
+          path: 'tipo',
+          model: 'TipoVestigio'
+        } 
+     })
     .exec(function (err, ocorrencia) {
         if (err) return err;
 
@@ -41,6 +50,15 @@ ocorrenciasRouter.get('/', function(req, res) {
     .populate('estado')
     .populate('municipio')
     .populate('sede')
+    .populate('tipoDelito')
+    .populate('modusOperandi')
+    .populate({ 
+        path: 'vestigios',
+        populate: {
+          path: 'tipo',
+          model: 'TipoVestigio'
+        } 
+     })
     .exec(function (err, ocorrencia) {
         if (err) return res.json("Erro interno: " + err);
 
@@ -63,6 +81,15 @@ ocorrenciasRouter.get('/:idOcorrencia', util.ObjectIdIsValid, function(req, res)
     .populate('estado')
     .populate('municipio')
     .populate('sede')
+    .populate('tipoDelito')
+    .populate('modusOperandi')
+    .populate({ 
+        path: 'vestigios',
+        populate: {
+          path: 'tipo',
+          model: 'TipoVestigio'
+        } 
+     })
     .exec(function (err, ocorrencia) {
         if (err) return res.json("Erro interno: " + err);
 
@@ -92,7 +119,7 @@ ocorrenciasRouter.patch('/finalizar/:idOcorrencia', function(req, res) {
     if (mongoose.Types.ObjectId.isValid(req.params.idOcorrencia)) {                   
         Ocorrencia.findOneAndUpdate({
             _id: req.params.idOcorrencia,
-            criadoPor: req.user.id
+            //criadoPor: req.user.id
         }, {
             ocorrenciaEncerrada: true
         }, 

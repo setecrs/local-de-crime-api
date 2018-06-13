@@ -16,6 +16,8 @@ policiaisAcionadosRouter.route('/:idOcorrencia')
     .populate('policiaisAcionados', '-hashed_password')
     .then((ocorrencia) => {
         if(ocorrencia) {
+            res.statusCode = 200;
+            res.setHeader("Content-Type", "application/json");
             res.json(ocorrencia.policiaisAcionados);
         }
         else {
@@ -34,7 +36,9 @@ policiaisAcionadosRouter.route('/:idOcorrencia')
                     ocorrencia.policiaisAcionados.push(req.body.policiaisAcionados);
                     ocorrencia.save()
                     .then((ocorrencia) => {
-                        res.json(ocorrencia);
+                        res.statusCode = 200;
+                        res.setHeader("Content-Type", "application/json");
+                        res.json(ocorrencia.policiaisAcionados);
                     }, (err) => next(err));
                 }
                 else {
@@ -63,6 +67,8 @@ policiaisAcionadosRouter.route('/:idOcorrencia')
             if(idPolicial) {
                 ocorrencia.save()
                 .then((ocorrencia) => {
+                    res.statusCode = 200;
+                    res.setHeader("Content-Type", "application/json");
                     res.json(ocorrencia.policiaisAcionados);
                 }, (err) => next(err));
             }

@@ -13,7 +13,7 @@ testemunhasRouter.route('/:idOcorrencia')
 .patch(util.ObjectIdIsValid, (req, res, next) => {
     Ocorrencia.findOne({
         _id: req.params.idOcorrencia, // idOcorrencia que foi passado na URL
-        criadoPor: req.user.id
+        //criadoPor: req.user.id
     })
     .then((ocorrencia) => {
         if(ocorrencia) {
@@ -21,7 +21,6 @@ testemunhasRouter.route('/:idOcorrencia')
             if(req.body.nomeTestemunha != null) ocorrencia.nomeTestemunha = req.body.nomeTestemunha;
             if(req.body.documentoTestemunha != null) ocorrencia.documentoTestemunha = req.body.documentoTestemunha;
             if(req.body.funcaoTestemunha != null) ocorrencia.funcaoTestemunha = req.body.funcaoTestemunha;
-            if(req.body.cargoTestemunha != null) ocorrencia.cargoTestemunha = req.body.cargoTestemunha;
             if(req.body.entrevistaTestemunha != null) ocorrencia.entrevistaTestemunha = req.body.entrevistaTestemunha;
 
             // Salva alteracoes

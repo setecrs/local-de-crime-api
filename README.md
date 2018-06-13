@@ -58,7 +58,6 @@ route: /testemunhas/{idOcorrencia} | method: PATCH | params:
     "nomeTestemunha": String,
     "documentoTestemunha": String,
     "funcaoTestemunha": String,
-    "cargoTestemunha": String,
     "entrevistaTestemunha": String
 }
 | Headers: {"x-access-token": [JWT TOKEN]) } [DEVE ESTAR AUTENTICADO]
@@ -73,9 +72,26 @@ route: /sobre_local/{idOcorrencia} | method: PATCH | params:
 | Headers: {"x-access-token": [JWT TOKEN]) } [DEVE ESTAR AUTENTICADO]
 
 
+route: /sobre_fato/{idOcorrencia} | method: PATCH | params: 
+{
+    "dataOcorrencia": Date,
+    "tipoDelito": tipoDelitos._id,
+    "outroTipoDelito": String,
+    "outroModusOperandi": String,
+    "possiveisSuspeitos": String,
+    "valoresSubtraidos": String
+}
+| Headers: {"x-access-token": [JWT TOKEN]) } [DEVE ESTAR AUTENTICADO]
+
+
 route: /policiais_acionados/{idOcorrencia} | method: GET | params: n/a | [DEVE ESTAR AUTENTICADO]
     | method: POST | params: {"peritoAcionado": Perito._id} | [DEVE ESTAR AUTENTICADO]
     | method: DELETE | params: {"peritoAcionado": Perito._id} | [DEVE ESTAR AUTENTICADO]
+
+
+route: /modus_operandi/{idOcorrencia} | method: GET | params: n/a | [DEVE ESTAR AUTENTICADO]
+    | method: POST | params: {"modusOperandi": modusOperandis._id} | [DEVE ESTAR AUTENTICADO]
+    | method: DELETE | params: {"modusOperandi": modusOperandis._id} | [DEVE ESTAR AUTENTICADO]
 
 
 route: /vestigios/{idOcorrencia} | method: GET | params: n/a | [DEVE ESTAR AUTENTICADO]
@@ -88,7 +104,7 @@ route: /vestigios/{idOcorrencia} | method: GET | params: n/a | [DEVE ESTAR AUTEN
             "etiqueta": String,
             "informacoesAdicionais": String
         }
-        | [DEVE ESTAR AUTENTICADO]
+    | [DEVE ESTAR AUTENTICADO]
 
 
 

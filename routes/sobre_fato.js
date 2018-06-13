@@ -1,7 +1,6 @@
 var Ocorrencia = require('../models/ocorrencia');
-var Perito = require('../models/user');
 const checkToken = require('../config/check_token');
-const mongoose = require('mongoose');
+const util = require('../config/util');
 
 //sobreFatoRouter
 const express = require('express');
@@ -10,28 +9,35 @@ const sobreFatoRouter = express.Router();
 sobreFatoRouter.use(checkToken);
 
 //patch
-sobreFatoRouter.patch('/:idOcorrencia', function(req, res) {
-    if (mongoose.Types.ObjectId.isValid(req.params.idOcorrencia)) {
-        Ocorrencia.findOneAndUpdate({
-            _id: req.params.idOcorrencia // idOcorrencia que foi passado na URL
-            //criadoPor: req.user.id //removido para, se for o caso, ser tratado no frontend
-        }, 
-        {   //como estamos utilizando o método HTTP PATCH os campos que não forem recebidos
-             
-            dataOcorrencia: req.body.dataOcorrencia,
-            tipoDelito: req.body.tipoDelito,
-            //: req.body.modusOperandi, //array, tratado em rota diferente
-            possiveisSuspeitos: req.body.possiveisSuspeitos,
-            valoresSubtraidos: req.body.valoresSubtraidos,
-        },
-        function(err, ocorrencia) {
-            if (err) res.status(500).json(err);
-            
-            res.json('Dados salvos com sucesso.');
-        });
-    } else {
-        res.json('Id da ocorrência inválido.')
-    }
+sobreFatoRouter.route('/:idOcorrencia')
+.patch(util.ObjectIdIsValid, (req, res, next) => {
+    Ocorrencia.findOne({
+        _id: req.params.idOcorrencia, // idOcorrencia que foi passado na URL
+        //criadoPor: req.user.id //removido para, se for o caso, ser tratado no frontend
+    })
+    .then((ocorrencia) => {
+        if(ocorrencia) {
+            // Trata campos
+            if(req.body.dataOcorrencia != null) ocorrencia.dataOcorrencia = req.body.dataOcorrencia;
+            if(req.body.tipoDelito != null) ocorrencia.tipoDelito = req.body.tipoDelito;
+            if(req.body.outroTipoDelito != null) ocorrencia.outroTipoDelito = req.body.outroTipoDelito;
+            //req.body.modusOperandi, //array, tratado em rota diferente
+            if(req.body.outroModusOperandi != null) ocorrencia.outroModusOperandi = req.body.outroModusOperandi;
+            if(req.body.possiveisSuspeitos != null) ocorrencia.possiveisSuspeitos = req.body.possiveisSuspeitos;
+            if(req.body.valoresSubtraidos != null) ocorrencia.valoresSubtraidos = req.body.valoresSubtraidos;
+
+            // Salva alteracoes
+            ocorrencia.save()
+            .then((ocorrencia) => {
+                res.json('Dados salvos com sucesso.');
+            }, (err) => next(err));
+        }
+        else {
+            res.json('Ocorrência não encontrada.');
+        }
+    }, (err) => next(err))
+    .catch((err) => next(err)); 
 });
+
 //router export
 module.exports = sobreFatoRouter;

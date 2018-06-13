@@ -18,7 +18,7 @@ enderecoRouter.route('/:idOcorrencia')
 .patch(util.ObjectIdIsValid, (req, res, next) => {
     Ocorrencia.findOne({
         _id: req.params.idOcorrencia, // idOcorrencia que foi passado na URL
-        criadoPor: req.user.id
+        //criadoPor: req.user.id
     })
     .then((ocorrencia) => {
         if(ocorrencia) {

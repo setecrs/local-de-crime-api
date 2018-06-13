@@ -17,7 +17,7 @@ dadosGeraisRouter.route('/:idOcorrencia')
     var dataHora = new Date(req.body.dataHoraAcionamento);
     Ocorrencia.findOne({
         _id: req.params.idOcorrencia, // idOcorrencia que foi passado na URL
-        criadoPor: req.user.id
+        //criadoPor: req.user.id
     })
     .then((ocorrencia) => {
         if(ocorrencia) {

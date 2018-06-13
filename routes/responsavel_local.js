@@ -13,7 +13,7 @@ responsavelLocalRouter.use(checkToken);
 responsavelLocalRouter.patch('/:idOcorrencia', util.ObjectIdIsValid, function(req, res) {
     Ocorrencia.findOneAndUpdate({
         _id: req.params.idOcorrencia,
-        criadoPor: req.user.id
+        //criadoPor: req.user.id
     }, {
         nomeResponsavel: req.body.nomeResponsavel,
         cargoResponsavel: req.body.cargoResponsavel,
