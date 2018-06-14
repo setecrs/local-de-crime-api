@@ -19,7 +19,7 @@ enderecoRouter.route('/:idOcorrencia')
         //criadoPor: req.user.id
     })
     .then((ocorrencia) => {
-        if(ocorrencia) {
+        if(ocorrencia && ocorrencia.ocorrenciaEncerrada==false) {
             // Trata campos
             if(ocorrencia.estado != null) ocorrencia.estado = req.body.estado;
             if(ocorrencia.municipio != null) ocorrencia.municipio = req.body.municipio;
@@ -133,7 +133,7 @@ enderecoRouter.route('/:idOcorrencia')
             }
         }
         else {
-            res.json('Ocorrência não encontrada.');
+            res.json('Ocorrência inválida.');
         }
     }, (err) => next(err))
     .catch((err) => next(err));

@@ -20,13 +20,13 @@ vestigiosRouter.route('/:idOcorrencia')
         } 
      })
     .then((ocorrencia) => {
-        if(ocorrencia != null) {
+        if(ocorrencia && ocorrencia.ocorrenciaEncerrada==false) {
             res.statusCode = 200;
             res.setHeader("Content-Type", "application/json");
             res.json(ocorrencia.vestigios);
         }
         else {
-            res.status(404).json({message: 'Esta ocorrência não existe!'});
+            res.status(404).json({message: 'Ocorrência inválida.'});
         }
     }, (err) => next(err))
     .catch((err) => next(err));
@@ -34,7 +34,7 @@ vestigiosRouter.route('/:idOcorrencia')
 .post((req, res, next) => {
     Ocorrencia.findById(req.params.idOcorrencia)
     .then((ocorrencia) => {
-        if(ocorrencia) {
+        if(ocorrencia && ocorrencia.ocorrenciaEncerrada==false) {
             tipoVestigio.findById(req.body.tipo)
             .then((tipo) => {
                 if(tipo) {
@@ -62,7 +62,7 @@ vestigiosRouter.route('/:idOcorrencia')
             .catch((err) => next(err));
         }
         else {
-            res.status(404).json({message: 'Esta ocorrência não existe!'});
+            res.status(404).json({message: 'Ocorrência inválida.'});
         }
     }, (err) => next(err))
     .catch((err) => next(err));
@@ -71,7 +71,7 @@ vestigiosRouter.route('/:idOcorrencia')
     Ocorrencia.findById(req.params.idOcorrencia)
     .then((ocorrencia) => {
         var idVestigio;
-        if(ocorrencia != null) {
+        if(ocorrencia && ocorrencia.ocorrenciaEncerrada==false) {
             for(var i = (ocorrencia.vestigios.length - 1); i>=0; i--) {
                 if(ocorrencia.vestigios[i].equals(req.body.vestigio)) {
                     idVestigio = ocorrencia.vestigios.splice(i, 1);
@@ -95,7 +95,7 @@ vestigiosRouter.route('/:idOcorrencia')
             }
         }
         else {
-            res.status(404).json({message: 'Esta ocorrência não existe!'});
+            res.status(404).json({message: 'Ocorrência inválida.'});
         }
     }, (err) => next(err))
     .catch((err) => next(err));

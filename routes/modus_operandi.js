@@ -29,7 +29,7 @@ modusOperandiRouter.route('/:idOcorrencia')
 .post((req, res, next) => {
     Ocorrencia.findById(req.params.idOcorrencia)
     .then((ocorrencia) => {
-        if(ocorrencia != null) {
+        if(ocorrencia && ocorrencia.ocorrenciaEncerrada==false) {
             ocorrencia.modusOperandi.push(req.body.modusOperandi);
             ocorrencia.save()
             .then((ocorrencia) => {
@@ -39,7 +39,7 @@ modusOperandiRouter.route('/:idOcorrencia')
             }, (err) => next(err));
         }
         else {
-            res.status(404).json({message: 'Esta ocorrência não existe!'});
+            res.status(404).json({message: 'Ocorrência inválida'});
         }
     }, (err) => next(err))
     .catch((err) => next(err));
@@ -48,7 +48,7 @@ modusOperandiRouter.route('/:idOcorrencia')
     Ocorrencia.findById(req.params.idOcorrencia)
     .then((ocorrencia) => {
         var modusOperandi;
-        if(ocorrencia != null) {
+        if(ocorrencia && ocorrencia.ocorrenciaEncerrada==false) {
             for(var i = (ocorrencia.modusOperandi.length - 1); i>=0; i--) {
                 if(ocorrencia.modusOperandi[i].equals(req.body.modusOperandi)) {
                     modusOperandi = ocorrencia.modusOperandi.splice(i, 1);
@@ -68,7 +68,7 @@ modusOperandiRouter.route('/:idOcorrencia')
             }
         }
         else {
-            res.status(404).json({message: 'Esta ocorrência não existe!'});
+            res.status(404).json({message: 'Ocorrência inválida'});
         }
     }, (err) => next(err))
     .catch((err) => next(err));
