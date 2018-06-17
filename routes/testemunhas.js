@@ -16,7 +16,7 @@ testemunhasRouter.route('/:idOcorrencia')
         //criadoPor: req.user.id
     })
     .then((ocorrencia) => {
-        if(ocorrencia) {
+        if(ocorrencia && ocorrencia.ocorrenciaEncerrada==false) {
             // Trata campos
             if(req.body.nomeTestemunha != null) ocorrencia.nomeTestemunha = req.body.nomeTestemunha;
             if(req.body.documentoTestemunha != null) ocorrencia.documentoTestemunha = req.body.documentoTestemunha;
@@ -30,7 +30,7 @@ testemunhasRouter.route('/:idOcorrencia')
             }, (err) => next(err));
         }
         else {
-            res.json('Ocorrência não encontrada.');
+            res.json('Ocorrência inválida.');
         }
     }, (err) => next(err))
     .catch((err) => next(err)); 

@@ -13,13 +13,12 @@ dadosGeraisRouter.use(checkToken);
 // param idOcorrencia: _id da Ocorrencia que queremos atualizar
 dadosGeraisRouter.route('/:idOcorrencia')
 .patch(util.ObjectIdIsValid, (req, res, next) => {
-    var dataHora = new Date(req.body.dataHoraAcionamento);
     Ocorrencia.findOne({
         _id: req.params.idOcorrencia, // idOcorrencia que foi passado na URL
         //criadoPor: req.user.id
     })
     .then((ocorrencia) => {
-        if(ocorrencia) {
+        if(ocorrencia && ocorrencia.ocorrenciaEncerrada==false) {
             // Trata campos
             if(req.body.numeroOcorrencia != null) ocorrencia.numeroOcorrencia = req.body.numeroOcorrencia;
             if(req.body.sede != null) ocorrencia.sede = req.body.sede;
@@ -65,7 +64,7 @@ dadosGeraisRouter.route('/:idOcorrencia')
             */
         }
         else {
-            res.json('Ocorrência não encontrada.');
+            res.json('Ocorrência inválida.');
         }
     }, (err) => next(err))
     .catch((err) => next(err)); 
