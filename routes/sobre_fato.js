@@ -21,7 +21,7 @@ sobreFatoRouter.route('/:idOcorrencia')
             if(req.body.dataOcorrencia != null) ocorrencia.dataOcorrencia = req.body.dataOcorrencia;
             if(req.body.tipoDelito != null) ocorrencia.tipoDelito = req.body.tipoDelito;
             if(req.body.outroTipoDelito != null) ocorrencia.outroTipoDelito = req.body.outroTipoDelito;
-            //req.body.modusOperandi, //array, tratado em rota diferente
+            if(req.body.modusOperandi != null) ocorrencia.modusOperandi = req.body.modusOperandi; //req.body.modusOperandi, //array, tratado em rota diferente
             if(req.body.outroModusOperandi != null) ocorrencia.outroModusOperandi = req.body.outroModusOperandi;
             if(req.body.possiveisSuspeitos != null) ocorrencia.possiveisSuspeitos = req.body.possiveisSuspeitos;
             if(req.body.valoresSubtraidos != null) ocorrencia.valoresSubtraidos = req.body.valoresSubtraidos;

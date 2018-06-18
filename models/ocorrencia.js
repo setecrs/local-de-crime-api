@@ -46,7 +46,7 @@ var OcorrenciaSchema = new Schema({
     dataOcorrencia: { type: Date, default: null },
     tipoDelito: { type: Schema.ObjectId, ref: 'TipoDelito', default: null },
     outroTipoDelito: { type: String },
-    modusOperandi: [{ type: Schema.ObjectId, ref: 'ModusOperandi' }],
+    modusOperandi: [],
     outroModusOperandi: { type: String },
     possiveisSuspeitos: { type: String, default: '' },
     valoresSubtraidos: { type: String, default: '' },

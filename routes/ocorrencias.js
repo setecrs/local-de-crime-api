@@ -21,7 +21,7 @@ ocorrenciasRouter.get('/todas', function(req, res) {
     .populate('municipio')
     .populate('sede')
     .populate('tipoDelito')
-    .populate('modusOperandi')
+    // .populate('modusOperandi')
     .populate({ 
         path: 'vestigios',
         populate: {
@@ -51,7 +51,7 @@ ocorrenciasRouter.get('/', function(req, res) {
     .populate('municipio')
     .populate('sede')
     .populate('tipoDelito')
-    .populate('modusOperandi')
+    // .populate('modusOperandi')
     .populate({ 
         path: 'vestigios',
         populate: {
@@ -82,7 +82,7 @@ ocorrenciasRouter.get('/:idOcorrencia', util.ObjectIdIsValid, function(req, res)
     .populate('municipio')
     .populate('sede')
     .populate('tipoDelito')
-    .populate('modusOperandi')
+    // .populate('modusOperandi')
     .populate({ 
         path: 'vestigios',
         populate: {

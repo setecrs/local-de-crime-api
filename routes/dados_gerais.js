@@ -24,7 +24,7 @@ dadosGeraisRouter.route('/:idOcorrencia')
             // Demais campos
             if(req.body.numeroOcorrencia != null) ocorrencia.numeroOcorrencia = req.body.numeroOcorrencia;
             if(req.body.dataHoraAcionamento) ocorrencia.dataHoraAcionamento = req.body.dataHoraAcionamento;
-            //req.body.peritos removido, por ser array será tratado em rota independente
+            if(req.body.policiaisAcionados) ocorrencia.policiaisAcionados = req.body.policiaisAcionados;
             
             // Trata Sede
             if(req.body.sede) {

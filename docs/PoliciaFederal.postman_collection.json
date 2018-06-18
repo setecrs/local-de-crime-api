@@ -1,0 +1,980 @@
+{
+	"info": {
+		"name": "PoliciaFederal",
+		"_postman_id": "fed377b7-8221-d320-b2c6-f2b30fff8074",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Listas",
+			"description": "",
+			"item": [
+				{
+					"name": "Popular Banco",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-access-token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{url}}:{{porta}}/popular_banco/default",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{porta}}",
+							"path": [
+								"popular_banco",
+								"default"
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Obter Listas",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"",
+									"var estados = jsonData.estados;",
+									"var municipios = jsonData.municipios;",
+									"var sedes = jsonData.sedes;",
+									"var tipoLocals = jsonData.tipoLocals;",
+									"var tipoDelitos = jsonData.tipoDelitos;",
+									"// var modusOperandis = jsonData.modusOperandis;",
+									"var tipoVestigios = jsonData.tipoVestigios;",
+									"",
+									"pm.environment.set('idEstado', estados[0]._id);",
+									"pm.environment.set('idMunicipio', municipios[0]._id);",
+									"pm.environment.set('idSede', sedes[0]._id);",
+									"pm.environment.set('idTipoLocal', tipoLocals[0]._id);",
+									"pm.environment.set('idTipoDelito', tipoDelitos[0]._id);",
+									"// pm.environment.set('idModusOperandis', modusOperandis[0]._id);",
+									"pm.environment.set('idTipoVestigio', tipoVestigios[0]._id);",
+									"",
+									"pm.test(\"Listas obtidas\", function () {",
+									"    pm.expect(estados.length).to.be.above(0);",
+									"    pm.expect(municipios.length).to.be.above(0);",
+									"    pm.expect(sedes.length).to.be.above(0);",
+									"    pm.expect(tipoLocals.length).to.be.above(0);",
+									"    pm.expect(tipoDelitos.length).to.be.above(0);",
+									"    // pm.expect(modusOperandis.length).to.be.above(0);",
+									"    pm.expect(tipoVestigios.length).to.be.above(0);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-access-token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{url}}:{{porta}}/obter_listas/",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{porta}}",
+							"path": [
+								"obter_listas",
+								""
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Login e Usuários",
+			"description": "",
+			"item": [
+				{
+					"name": "Signup",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Usuario cadastrado\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"Usuário\");",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"username\": \"{{username}}\",\n\t\"password\": \"{{password}}\",\n\t\"name\": \"{{name}}\"\n}"
+						},
+						"url": {
+							"raw": "{{url}}:{{porta}}/signup",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{porta}}",
+							"path": [
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"pm.environment.set('token', jsonData.token)",
+									"",
+									"pm.test(\"Logado com sucesso\", function () {",
+									"    pm.response.to.have.jsonBody(\"token\"); ",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{username}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"type": "any"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Basic Y2Fzc2lvOmNhc3Npbw=="
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"username\": \"cassio\", \"password\": \"cassio\"}"
+						},
+						"url": {
+							"raw": "{{url}}:{{porta}}/login",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{porta}}",
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Profile",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"pm.environment.set('idUsuario', jsonData._id);",
+									"",
+									"pm.test(\"Profile encontrado\", function () {",
+									"    pm.expect(jsonData._id).to.be.eql(pm.environment.get(\"idUsuario\"));",
+									"    pm.expect(jsonData.name).to.be.eql(pm.environment.get(\"name\"));",
+									"    pm.expect(jsonData.username).to.be.eql(pm.environment.get(\"username\"));",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "x-access-token",
+								"value": "{{token}}"
+							},
+							{
+								"key": "",
+								"value": "",
+								"disabled": true
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{url}}:{{porta}}/profile",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{porta}}",
+							"path": [
+								"profile"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Ocorrência",
+			"description": "",
+			"item": [
+				{
+					"name": "Ocorrências",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"pm.environment.set('idOcorrencia', jsonData._id);",
+									"pm.environment.set('dataHoraOcorrencia', new Date(jsonData.dataHoraAcionamento).toISOString());",
+									"",
+									"pm.test(\"Dados Gerais salvos\", function () {",
+									"    pm.expect(pm.response.json());",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"disabled": true
+							},
+							{
+								"key": "x-access-token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}:{{porta}}/ocorrencias/",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{porta}}",
+							"path": [
+								"ocorrencias",
+								""
+							]
+						},
+						"description": null
+					},
+					"response": []
+				},
+				{
+					"name": "Ocorrências",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Ocorrências encontradas\", function () {",
+									"    pm.expect(pm.response.json().length).to.be.above(0);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"disabled": true
+							},
+							{
+								"key": "x-access-token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"dataHoraAcionamento\": \"2018-04-14T22:16:49.127Z\",\n    \"numeroOcorrencia\": \"testePOST login\",\n    \"sedeOcorrencia\": \"testePOST login\",\n    \"peritoOcorrencia\": \"testePOST login\"\n}"
+						},
+						"url": {
+							"raw": "{{url}}:{{porta}}/ocorrencias/",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{porta}}",
+							"path": [
+								"ocorrencias",
+								""
+							]
+						},
+						"description": null
+					},
+					"response": []
+				},
+				{
+					"name": "Ocorrências Todas",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Todas as ocorrências encontradas\", function () {",
+									"    pm.expect(pm.response.json().length).to.be.above(0);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"disabled": true
+							},
+							{
+								"key": "x-access-token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"dataHoraAcionamento\": \"2018-04-14T22:16:49.127Z\",\n    \"numeroOcorrencia\": \"testePOST login\",\n    \"sedeOcorrencia\": \"testePOST login\",\n    \"peritoOcorrencia\": \"testePOST login\"\n}"
+						},
+						"url": {
+							"raw": "{{url}}:{{porta}}/ocorrencias/todas",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{porta}}",
+							"path": [
+								"ocorrencias",
+								"todas"
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Dados Gerais",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Dados Gerais salvos\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"Dados salvos com sucesso.\");",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "x-access-token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"numeroOcorrencia\": \"{{stringNumeroOcorrencia}}\",\n    \"sede\": \"{{idSede}}\",\n    \"dataHoraAcionamento\": \"{{dataHoraOcorrencia}}\",\n    \"policiaisAcionados\": [\"{{idOcorrencia}}\", \"{{idUsuario}}\", \"{{idTipoVestigio}}\"]\n}"
+						},
+						"url": {
+							"raw": "{{url}}:{{porta}}/dados_gerais/{{idOcorrencia}}",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{porta}}",
+							"path": [
+								"dados_gerais",
+								"{{idOcorrencia}}"
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Policias Acionados",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "x-access-token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"policiaisAcionados\":\"{{idUsuario}}\"\n}"
+						},
+						"url": {
+							"raw": "{{url}}:{{porta}}/policiais_acionados/{{idOcorrencia}}",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{porta}}",
+							"path": [
+								"policiais_acionados",
+								"{{idOcorrencia}}"
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Policias Acionados",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"",
+									"pm.test(\"Policial encontrado\", function () {",
+									"    pm.expect(jsonData[0]._id).to.be.eql(pm.environment.get(\"idUsuario\"));",
+									"    pm.expect(jsonData[0].name).to.be.eql(pm.environment.get(\"name\"));",
+									"    pm.expect(jsonData[0].username).to.be.eql(pm.environment.get(\"username\"));",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"disabled": true
+							},
+							{
+								"key": "x-access-token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"peritoAcionado\":\"5b1851042efa441b2b8410e7\"\n}"
+						},
+						"url": {
+							"raw": "{{url}}:{{porta}}/policiais_acionados/{{idOcorrencia}}",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{porta}}",
+							"path": [
+								"policiais_acionados",
+								"{{idOcorrencia}}"
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Endereço",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Endereço salvos\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"Dados salvos com sucesso.\");",
+									"});",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "x-access-token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"tipoLocal\": \"{{idTipoLocal}}\",\n    \"estado\": \"{{idEstado}}\",\n    \"municipio\":\"{{idMunicipio}}\",\n    \"logradouro\": \"{{stringLogradouro}}\",\n    \"numero\": \"{{stringNumero}}\",\n    \"complemento\": \"{{stringComplemento}}\"\n}"
+						},
+						"url": {
+							"raw": "{{url}}:{{porta}}/endereco/{{idOcorrencia}}",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{porta}}",
+							"path": [
+								"endereco",
+								"{{idOcorrencia}}"
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Responsável do Local",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Endereço salvos\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"Dados salvos com sucesso.\");",
+									"});",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "x-access-token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nomeResponsavel\": \"{{stringNomeResponsavel}}\",\n    \"cargoResponsavel\": \"{{stringCargoResponsavel}}\",\n    \"documentoResponsavel\": \"{{stringDocumentoResponsavel}}\",\n    \"entrevistaResponsavel\": \"{{stringEntrevistaResponsavel}}\"\n}"
+						},
+						"url": {
+							"raw": "{{url}}:{{porta}}/responsavel_local/{{idOcorrencia}}",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{porta}}",
+							"path": [
+								"responsavel_local",
+								"{{idOcorrencia}}"
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Testemunha",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Endereço salvos\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"Dados salvos com sucesso.\");",
+									"});",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "x-access-token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nomeTestemunha\": \"{{stringNomeTestemunha}}\",\n    \"documentoTestemunha\": \"{{stringDocumentoTestemunha}}\",\n    \"funcaoTestemunha\": \"{{stringFuncaoTestemunha}}\",\n    \"cargoTestemunha\": \"{{stringCargoTestemunha}}\",\n    \"entrevistaTestemunha\": \"{{stringEntrevistaTestemunha}}\"\n}"
+						},
+						"url": {
+							"raw": "{{url}}:{{porta}}/testemunhas/{{idOcorrencia}}",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{porta}}",
+							"path": [
+								"testemunhas",
+								"{{idOcorrencia}}"
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Sobre o Local",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Dados Gerais salvos\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"Dados salvos com sucesso.\");",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "x-access-token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"dataHoraChegada\": \"{{dataHoraOcorrencia}}\",\n\t\"condicaoLocal\": \"{{stringCondicaoLocal}}\",\n    \"informacoesAdicionais\": \"{{stringInformacoesAdicionais}}\"\n}"
+						},
+						"url": {
+							"raw": "{{url}}:{{porta}}/sobre_local/{{idOcorrencia}}",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{porta}}",
+							"path": [
+								"sobre_local",
+								"{{idOcorrencia}}"
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Sobre o Fato",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Dados Gerais salvos\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"Dados salvos com sucesso.\");",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "x-access-token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"dataOcorrencia\": \"{{dataHoraOcorrencia}}\",\n  \"tipoDelito\": \"{{idTipoDelito}}\",\n    \"outroTipoDelito\": \"{{stringOutroTipoDelito}}\",\n    \"valoresSubtraidos\": \"{{stringValoresSubtraidos}}\",\n    \"possiveisSuspeitos\": \"{{stringPossiveisSuspeitos}}\",\n    \"modusOperandi\": [{\"texto\": \"mão armada\", \"ativado\": true}, {\"texto\": \"chupa cabra\", \"ativado\": true}],\n    \"outroModusOperandi\": \"{{stringOutroModusOperandi}}\"\n}"
+						},
+						"url": {
+							"raw": "{{url}}:{{porta}}/sobre_fato/{{idOcorrencia}}",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{porta}}",
+							"path": [
+								"sobre_fato",
+								"{{idOcorrencia}}"
+							]
+						},
+						"description": null
+					},
+					"response": []
+				},
+				{
+					"name": "Ocorrências Específica",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"",
+									"// var id = jsonData._id;",
+									"// var criadoPor = jsonData.criadoPor;",
+									"// var estados = jsonData.estados;",
+									"// var sedes = jsonData.sedes;",
+									"// var tipoLocals = jsonData.tipoLocals;",
+									"// var tipoDelitos = jsonData.tipoDelitos;",
+									"// var modusOperandis = jsonData.modusOperandis;",
+									"// var tipoVestigios = jsonData.tipoVestigios;",
+									"",
+									"pm.test(\"Ocorrências específica encontrada\", function () {",
+									"    // Ocorrência",
+									"    pm.expect(jsonData._id).to.be.eql(pm.environment.get(\"idOcorrencia\"));",
+									"    pm.expect(jsonData.criadoPor._id).to.be.eql(pm.environment.get(\"idUsuario\"));",
+									"    pm.expect(jsonData.criadoPor.name).to.be.eql(pm.environment.get(\"name\"));",
+									"    pm.expect(jsonData.criadoPor.username).to.be.eql(pm.environment.get(\"username\"));",
+									"    // pm.expect(jsonData.ocorrenciaEncerrada).to.be.eql(true);",
+									"",
+									"    // Dados Gerais",
+									"    pm.expect(jsonData.numeroOcorrencia).to.be.eql(pm.environment.get(\"stringNumeroOcorrencia\"));",
+									"    pm.expect(jsonData.sede._id).to.be.eql(pm.environment.get(\"idSede\"));",
+									"    pm.expect(jsonData.policiaisAcionados[0]._id).to.be.eql(pm.environment.get(\"idUsuario\"));",
+									"    pm.expect(jsonData.policiaisAcionados[0].name).to.be.eql(pm.environment.get(\"name\"));",
+									"    pm.expect(jsonData.policiaisAcionados[0].username).to.be.eql(pm.environment.get(\"username\"));",
+									"    ",
+									"    // Endereço",
+									"    pm.expect(jsonData.estado._id).to.be.eql(pm.environment.get(\"idEstado\"));",
+									"    pm.expect(jsonData.municipio._id).to.be.eql(pm.environment.get(\"idMunicipio\"));",
+									"    pm.expect(jsonData.tipoLocal._id).to.be.eql(pm.environment.get(\"idTipoLocal\"));",
+									"    pm.expect(jsonData.logradouro).to.be.eql(pm.environment.get(\"stringLogradouro\"));",
+									"    pm.expect(jsonData.numero).to.be.eql(pm.environment.get(\"stringNumero\"));",
+									"    pm.expect(jsonData.complemento).to.be.eql(pm.environment.get(\"stringComplemento\"));",
+									"    ",
+									"    // Responsável do Local",
+									"    pm.expect(jsonData.nomeResponsavel).to.be.eql(pm.environment.get(\"stringNomeResponsavel\"));",
+									"    pm.expect(jsonData.cargoResponsavel).to.be.eql(pm.environment.get(\"stringCargoResponsavel\"));",
+									"    pm.expect(jsonData.documentoResponsavel).to.be.eql(pm.environment.get(\"stringDocumentoResponsavel\"));",
+									"    pm.expect(jsonData.entrevistaResponsavel).to.be.eql(pm.environment.get(\"stringEntrevistaResponsavel\"));",
+									"    ",
+									"    // Testemunha",
+									"    pm.expect(jsonData.nomeTestemunha).to.be.eql(pm.environment.get(\"stringNomeTestemunha\"));",
+									"    pm.expect(jsonData.documentoTestemunha).to.be.eql(pm.environment.get(\"stringDocumentoTestemunha\"));",
+									"    pm.expect(jsonData.entrevistaTestemunha).to.be.eql(pm.environment.get(\"stringEntrevistaTestemunha\"));",
+									"    pm.expect(jsonData.funcaoTestemunha).to.be.eql(pm.environment.get(\"stringFuncaoTestemunha\"));",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "x-access-token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"dataHoraAcionamento\": \"2018-04-14T22:16:49.127Z\",\n    \"numeroOcorrencia\": \"testePOST login\",\n    \"sedeOcorrencia\": \"testePOST login\",\n    \"peritoOcorrencia\": \"testePOST login\"\n}"
+						},
+						"url": {
+							"raw": "{{url}}:{{porta}}/ocorrencias/{{idOcorrencia}}",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{porta}}",
+							"path": [
+								"ocorrencias",
+								"{{idOcorrencia}}"
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Vestígios",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"pm.environment.set('idVestigio', jsonData[0]._id);",
+									"",
+									"pm.test(\"Vestígio salvo\", function () {",
+									"    pm.expect(pm.response.json());",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "x-access-token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"_id\": \"{{idVestigio}}\",\n    \"tipo\": \"{{idTipoVestigio}}\",\n    \"outroTipoVestigio\": \"{{stringOutroTipoVestigio}}\",\n    \"coletado\": true,\n    \"etiqueta\":\"{{stringEtiqueta}}\",\n    \"informacoesAdicionais\":\"{{stringInformacoesAdicionais}}\"\n}"
+						},
+						"url": {
+							"raw": "{{url}}:{{porta}}/vestigios/{{idOcorrencia}}",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{porta}}",
+							"path": [
+								"vestigios",
+								"{{idOcorrencia}}"
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Vestígios",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"",
+									"pm.test(\"Policial encontrado\", function () {",
+									"    pm.expect(jsonData[0].coletado).to.be.eql(true);",
+									"    pm.expect(jsonData[0].etiqueta).to.be.eql(pm.environment.get(\"stringEtiqueta\"));",
+									"    pm.expect(jsonData[0].informacoesAdicionais).to.be.eql(pm.environment.get(\"stringInformacoesAdicionais\"));",
+									"    pm.expect(jsonData[0].tipo._id).to.be.eql(pm.environment.get(\"idTipoVestigio\"));",
+									"    pm.expect(jsonData[0].tipo.tipoVestigio).to.be.eql(pm.environment.get(\"stringTipoVestigio\"));",
+									"    pm.expect(jsonData[0].tipo.nomeVestigio).to.be.eql(pm.environment.get(\"stringNomeVestigio\"));",
+									"    pm.expect(jsonData[0].outroTipoVestigio).to.be.eql(pm.environment.get(\"stringOutroTipoVestigio\"));",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"disabled": true
+							},
+							{
+								"key": "x-access-token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"peritoAcionado\":\"5b1851042efa441b2b8410e7\"\n}"
+						},
+						"url": {
+							"raw": "{{url}}:{{porta}}/vestigios/{{idOcorrencia}}",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{porta}}",
+							"path": [
+								"vestigios",
+								"{{idOcorrencia}}"
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
