@@ -16,7 +16,7 @@ sobreLocalRouter.route('/:idOcorrencia')
         //criadoPor: req.user.id
     })
     .then((ocorrencia) => {
-        if(ocorrencia) {
+        if(ocorrencia && ocorrencia.ocorrenciaEncerrada==false) {
             // Trata campos
             if(req.body.dataHoraChegada != null) ocorrencia.dataHoraChegada = req.body.dataHoraChegada;
             if(req.body.condicaoLocal != null) ocorrencia.condicaoLocal = req.body.condicaoLocal;
@@ -29,7 +29,7 @@ sobreLocalRouter.route('/:idOcorrencia')
             }, (err) => next(err));
         }
         else {
-            res.json('Ocorrência não encontrada.');
+            res.json('Ocorrência inválida.');
         }
     }, (err) => next(err))
     .catch((err) => next(err)); 

@@ -20,8 +20,7 @@ route: /obter_listas | method: GET | params: n/a | [DEVE ESTAR AUTENTICADO] //re
 route: /dados_gerais/{idOcorrencia} | method: PATCH | params: 
 {
     "numeroOcorrencia": String, 
-    "sedeOcorrencia": Sede._id, 
-    "outraSede": String,
+    "sedeOcorrencia": String,
     "peritosOcorrencia": [Peritos._id], 
     "dataHoraAcionamento": Date
 }
@@ -33,8 +32,6 @@ route: /endereco/{idOcorrencia} | method: PATCH | params:
     "tipoLocal": tipoLocals._id,
     "outroTipoLocal": String,
     "estado": estados._id,
-    "outroEstado": String,
-    "outroUF": String,
     "municipio": municipios._id,
     "outroMunicipio": String,
     "logradouro": String,

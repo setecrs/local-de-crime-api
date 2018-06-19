@@ -29,7 +29,7 @@ policiaisAcionadosRouter.route('/:idOcorrencia')
 .post(util.ObjectIdIsValid, (req, res, next) => {
     Ocorrencia.findById(req.params.idOcorrencia)
     .then((ocorrencia) => {
-        if(ocorrencia) {
+        if(ocorrencia && ocorrencia.ocorrenciaEncerrada==false) {
             Policial.findById(req.body.policiaisAcionados)
             .then((policial) => {
                 if(policial) {
@@ -48,7 +48,7 @@ policiaisAcionadosRouter.route('/:idOcorrencia')
             .catch((err) => next(err));
         }
         else {
-            res.json('Ocorrência não encontrada.');
+            res.json('Ocorrência inválida.');
         }
     }, (err) => next(err))
     .catch((err) => next(err));
@@ -57,7 +57,7 @@ policiaisAcionadosRouter.route('/:idOcorrencia')
     Ocorrencia.findById(req.params.idOcorrencia)
     .then((ocorrencia) => {
         var idPolicial;
-        if(ocorrencia) {
+        if(ocorrencia && ocorrencia.ocorrenciaEncerrada==false) {
             for(var i = (ocorrencia.policiaisAcionados.length - 1); i>=0; i--) {
                 if(ocorrencia.policiaisAcionados[i].equals(req.body.policiaisAcionados)) {
                     idPolicial = ocorrencia.policiaisAcionados.splice(i, 1);
@@ -77,7 +77,7 @@ policiaisAcionadosRouter.route('/:idOcorrencia')
             }
         }
         else {
-            res.json('Ocorrência não encontrada.');
+            res.json('Ocorrência inválida.');
         }
     }, (err) => next(err))
     .catch((err) => next(err));

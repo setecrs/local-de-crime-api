@@ -16,7 +16,7 @@ sobreFatoRouter.route('/:idOcorrencia')
         //criadoPor: req.user.id //removido para, se for o caso, ser tratado no frontend
     })
     .then((ocorrencia) => {
-        if(ocorrencia) {
+        if(ocorrencia && ocorrencia.ocorrenciaEncerrada==false) {
             // Trata campos
             if(req.body.dataOcorrencia != null) ocorrencia.dataOcorrencia = req.body.dataOcorrencia;
             if(req.body.tipoDelito != null) ocorrencia.tipoDelito = req.body.tipoDelito;
@@ -33,7 +33,7 @@ sobreFatoRouter.route('/:idOcorrencia')
             }, (err) => next(err));
         }
         else {
-            res.json('Ocorrência não encontrada.');
+            res.json('Ocorrência inválida.');
         }
     }, (err) => next(err))
     .catch((err) => next(err)); 
