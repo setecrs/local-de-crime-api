@@ -18,7 +18,7 @@ ocorrenciasRouter.get('/todas', function(req, res) {
     .populate('policiaisAcionados', '_id name username')
     .populate('tipoLocal')
     .populate('tipoDelito')
-    .populate('modusOperandi')
+    // .populate('modusOperandi')
     .populate({ 
         path: 'vestigios',
         populate: {
@@ -45,7 +45,7 @@ ocorrenciasRouter.get('/', function(req, res) {
     .populate('policiaisAcionados', '_id name username')
     .populate('tipoLocal')
     .populate('tipoDelito')
-    .populate('modusOperandi')
+    // .populate('modusOperandi')
     .populate({ 
         path: 'vestigios',
         populate: {
@@ -73,7 +73,7 @@ ocorrenciasRouter.get('/:idOcorrencia', util.ObjectIdIsValid, function(req, res)
     .populate('policiaisAcionados', '_id name username')
     .populate('tipoLocal')
     .populate('tipoDelito')
-    .populate('modusOperandi')
+    // .populate('modusOperandi')
     .populate({ 
         path: 'vestigios',
         populate: {
