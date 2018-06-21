@@ -1,15 +1,16 @@
-var Estado = require('../models/estado');
-var Municipio = require('../models/municipio');
+var Estado = require("../models/estado");
+var Municipio = require("../models/municipio");
 var Sede = require("../models/sede");
 var TipoLocal = require("../models/tipo_local");
 var TipoDelito = require("../models/tipo_delito");
 var ModusOperandi = require("../models/modus_operandi");
 var TipoVestigio = require("../models/tipo_vestigio");
+var Ocorrencia = require("../models/ocorrencia");
 
-const checkToken = require('../config/check_token');
+const checkToken = require("../config/check_token");
 
 //popularBancoRouter
-var express = require('express');
+var express = require("express");
 var popularBancoRouter = express.Router();
 
 popularBancoRouter.use(checkToken);
@@ -70,32 +71,32 @@ var tiposDelito = [
 ];
 
 var modusOperandi = [
-    { modusOperandi: "À mão armada" },
-    { modusOperandi: "Buraco na parede" },
-    { modusOperandi: "Chave mixa" },
-    { modusOperandi: "Chupa-cabra" },
-    { modusOperandi: "Com violência" },
-    { modusOperandi: "Correios-Arma-Pela-Porta-Giratoria" },
-    { modusOperandi: "Correios-CortaAlarme-LevaDVR-UsaLuvas" },
-    { modusOperandi: "Correios-Dois-De-Moto" },
-    { modusOperandi: "Correios-Superbonder" },
-    { modusOperandi: "Correios-Veiculo-Com-Endereco-Da-Abordagem" },
-    { modusOperandi: "Correios-Veiculo-ZonaNorteAlvorada-Com-Endereco-Da-Abordagem" },
-    { modusOperandi: "Correios-Veiculo-ZonaSul-Com-Endereco-Da-Abordagem" },
-    { modusOperandi: "Explosivos" },
-    { modusOperandi: "Forçar porta ou janela (sem quebrar vidro)" },
-    { modusOperandi: "Furto de câmera ou monitor" },
-    { modusOperandi: "Furto de pequeno valor" },
-    { modusOperandi: "Furto por descuido" },
-    { modusOperandi: "Levar o cofre inteiro" },
-    { modusOperandi: "Maçarico" },
-    { modusOperandi: "Moeda falsa" },
-    { modusOperandi: "Não houve dano ou dano mínimo" },
-    { modusOperandi: "Nomes e dados divergentes no AFIS-PF" },
-    { modusOperandi: "Pé de cabra" },
-    { modusOperandi: "Provável organização criminosa" },
-    { modusOperandi: "Quebrou vidro" },
-    { modusOperandi: "Outro" }
+    { texto: "À mão armada" },
+    { texto: "Buraco na parede" },
+    { texto: "Chave mixa" },
+    { texto: "Chupa-cabra" },
+    { texto: "Com violência" },
+    { texto: "Correios-Arma-Pela-Porta-Giratoria" },
+    { texto: "Correios-CortaAlarme-LevaDVR-UsaLuvas" },
+    { texto: "Correios-Dois-De-Moto" },
+    { texto: "Correios-Superbonder" },
+    { texto: "Correios-Veiculo-Com-Endereco-Da-Abordagem" },
+    { texto: "Correios-Veiculo-ZonaNorteAlvorada-Com-Endereco-Da-Abordagem" },
+    { texto: "Correios-Veiculo-ZonaSul-Com-Endereco-Da-Abordagem" },
+    { texto: "Explosivos" },
+    { texto: "Forçar porta ou janela (sem quebrar vidro)" },
+    { texto: "Furto de câmera ou monitor" },
+    { texto: "Furto de pequeno valor" },
+    { texto: "Furto por descuido" },
+    { texto: "Levar o cofre inteiro" },
+    { texto: "Maçarico" },
+    { texto: "Moeda falsa" },
+    { texto: "Não houve dano ou dano mínimo" },
+    { texto: "Nomes e dados divergentes no AFIS-PF" },
+    { texto: "Pé de cabra" },
+    { texto: "Provável organização criminosa" },
+    { texto: "Quebrou vidro" },
+    { texto: "Outro" }
 ];
 
 var tiposVestigio = [
@@ -138,9 +139,8 @@ var tiposVestigio = [
 ];
 
 //default
-popularBancoRouter.get('/default', function (req, res) {
-    if (req.user.username) {
-        console.log(req.user.username);
+popularBancoRouter.get("/default", function (req, res) {
+    if (req.user.username === "admin") {
         // Limpa o banco
         Municipio.remove({}, function (err) {
             if (err) {
@@ -275,8 +275,58 @@ popularBancoRouter.get('/default', function (req, res) {
 
     } else {
         res.status(403).json({
-            message: 'Usuário não autorizado para realizar esta operação!'
+            message: "Usuário não autorizado para realizar esta operação!"
         });
+    }
+});
+
+//limpar_ocorrencias
+popularBancoRouter.get("/limpar_ocorrencias", function (req, res) {
+    if (req.user.username === "admin") {
+        // Limpa o banco
+        Ocorrencia.remove({}, function (err) {
+            if (err) {
+                console.log(err);
+            }
+            else {
+                res.statusCode = 200;
+                res.setHeader("Content-Type", "application/json");
+                res.json({ message: "Todas ocorrências apagadas com sucesso!" });
+            }
+        });
+    } else {
+        res.status(403).json({
+            message: "Usuário não autorizado para realizar esta operação!"
+        });
+    }
+});
+
+popularBancoRouter.post("/limpar_ocorrencias", function (req, res) {
+    var data = new Date(req.body.dataHoraAcionamento);
+
+    if (isNaN(data.getTime())) {
+        res.statusCode = 400;
+        res.setHeader("Content-Type", "application/json");
+        res.json({ message: "dataHoraAcionamento deve ser informada no formato yyyy-MM-ddThh:mm:ssZ" });
+    }
+    else{
+        if (req.user.username === "admin") {
+            // Limpa o banco
+            Ocorrencia.remove({ dataHoraAcionamento: {$lt: data} }, function (err) {
+                if (err) {
+                    console.log(err);
+                }
+                else {
+                    res.statusCode = 200;
+                    res.setHeader("Content-Type", "application/json");
+                    res.json({ message: "Apagadas ocorrências anteriores a " + req.body.dataHoraAcionamento });
+                }
+            });
+        } else {
+            res.status(403).json({
+                message: "Usuário não autorizado para realizar esta operação!"
+            });
+        }
     }
 });
 
