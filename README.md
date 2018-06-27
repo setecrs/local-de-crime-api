@@ -104,9 +104,16 @@ route: /vestigios/{idOcorrencia} | method: GET | params: n/a | [DEVE ESTAR AUTEN
     | [DEVE ESTAR AUTENTICADO]
 
 
+//popula o banco com as listas enviadas pela PF
+route: /popular_banco/default | method: GET | params: n/a | [DEVE ESTAR AUTENTICADO COMO ADMIN]
 
-route: /popular_banco/default | method: GET | params: n/a | [DEVE ESTAR AUTENTICADO] //popula o banco com as listas enviadas pela PF
-
+//GET limpa todas ocorrencias, POST limpa ocorrencias mais antigas do que a data informada
+route: /popular_banco/limpar_ocorrencias | method: GET | params: n/a | [DEVE ESTAR AUTENTICADO COMO ADMIN]
+    | method: POST | params:
+        {
+            "dataHoraAcionamento": Date
+        }
+    | [DEVE ESTAR AUTENTICADO COMO ADMIN]
 
 
 # POSTMAN
