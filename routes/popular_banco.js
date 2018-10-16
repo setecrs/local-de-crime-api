@@ -63,7 +63,7 @@ var tiposDelito = [
     { tipoDelito: "Falsidade ideológica" },
     { tipoDelito: "Furto com arrombamento" },
     { tipoDelito: "Furto sem arrombamento" },
-    { tipoDelito: "Moeda Falsa" },
+    { tipoDelito: "Moeda falsa" },
     { tipoDelito: "Não houve crime" },
     { tipoDelito: "Roubo" },
     { tipoDelito: "Ignorar formulário" },

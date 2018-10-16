@@ -37,16 +37,15 @@ vestigiosRouter.route('/:idOcorrencia')
         if(ocorrencia && ocorrencia.ocorrenciaEncerrada==false) {
             tipoVestigio.findById(req.body.tipo)
             .then((tipo) => {
-                if(tipo) {
+                if(tipo != null && tipo != undefined) {
                     var vestigio = new Vestigio ({
                         tipo: req.body.tipo,
-                        outroTipoVestigio: req.body.outroTipoVestigio,
                         coletado: req.body.coletado,
                         etiqueta: req.body.etiqueta,
                         informacoesAdicionais: req.body.informacoesAdicionais
                     });
                     vestigio.save();
-        
+                    
                     ocorrencia.vestigios.push(vestigio._id);
                     ocorrencia.save()
                     .then((ocorrencia) => {

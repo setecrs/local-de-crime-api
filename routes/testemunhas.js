@@ -18,10 +18,10 @@ testemunhasRouter.route('/:idOcorrencia')
     .then((ocorrencia) => {
         if(ocorrencia && ocorrencia.ocorrenciaEncerrada==false) {
             // Trata campos
-            if(req.body.nomeTestemunha != null) ocorrencia.nomeTestemunha = req.body.nomeTestemunha;
-            if(req.body.documentoTestemunha != null) ocorrencia.documentoTestemunha = req.body.documentoTestemunha;
-            if(req.body.funcaoTestemunha != null) ocorrencia.funcaoTestemunha = req.body.funcaoTestemunha;
-            if(req.body.entrevistaTestemunha != null) ocorrencia.entrevistaTestemunha = req.body.entrevistaTestemunha;
+            if(req.body.nomeTestemunha != "null") ocorrencia.nomeTestemunha = req.body.nomeTestemunha;
+            if(req.body.documentoTestemunha != "null") ocorrencia.documentoTestemunha = req.body.documentoTestemunha;
+            if(req.body.funcaoTestemunha != "null") ocorrencia.funcaoTestemunha = req.body.funcaoTestemunha;
+            if(req.body.entrevistaTestemunha != "null") ocorrencia.entrevistaTestemunha = req.body.entrevistaTestemunha;
 
             // Salva alteracoes
             ocorrencia.save()

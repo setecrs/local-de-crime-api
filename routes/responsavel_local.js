@@ -22,8 +22,6 @@ responsavelLocalRouter.patch('/:idOcorrencia', util.ObjectIdIsValid, function(re
     }, 
     function(err, ocorrencia) {
         if (err) res.json("Erro interno: " + err);
-        
-        console.log(req.user._id);
         res.json('Dados salvos com sucesso.');
     });
 });

@@ -15,7 +15,6 @@ ocorrenciasRouter.use(checkToken);
 ocorrenciasRouter.get('/todas', function(req, res) {
     Ocorrencia.find({}) 
     .populate('criadoPor', '_id name username', User) // Retorna o Objeto dos campos referenciados para outros documentos (similar ao join)
-    .populate('policiaisAcionados', '_id name username')
     .populate('tipoLocal')
     .populate('tipoDelito')
     // .populate('modusOperandi')
@@ -27,12 +26,12 @@ ocorrenciasRouter.get('/todas', function(req, res) {
         } 
      })
     .exec(function (err, ocorrencia) {
-        if (err) return err;
+        if (err) return res.status(500);
 
         if (ocorrencia && ocorrencia.length > 0) {
-            res.json(ocorrencia);
+            res.json(ocorrencia).status(200);
         } else {
-            res.json('Nenhuma ocorrência encontrada.')
+            res.json('Nenhuma ocorrência encontrada.').status(404);
         }
     });
 });
@@ -42,7 +41,6 @@ ocorrenciasRouter.get('/todas', function(req, res) {
 ocorrenciasRouter.get('/', function(req, res) {
     Ocorrencia.find({ criadoPor: req.user.id }) // Foi passado o id do perito como filtro, pois queremos apenas as ocorrências dele
     .populate('criadoPor', '_id name username', User) // Retorna o Objeto dos campos referenciados para outros documentos (similar ao join)
-    .populate('policiaisAcionados', '_id name username')
     .populate('tipoLocal')
     .populate('tipoDelito')
     // .populate('modusOperandi')
@@ -54,12 +52,12 @@ ocorrenciasRouter.get('/', function(req, res) {
         } 
      })
     .exec(function (err, ocorrencia) {
-        if (err) return res.json("Erro interno: " + err);
+        if (err) return res.status(500);
 
         if (ocorrencia && ocorrencia.length > 0) {
-            res.json(ocorrencia);
+            res.json(ocorrencia).status(200);
         } else {
-            res.json('Nenhuma ocorrência encontrada.')
+            res.json('Nenhuma ocorrência encontrada.').status(404);
         }
     });
 });
@@ -70,7 +68,6 @@ ocorrenciasRouter.get('/', function(req, res) {
 ocorrenciasRouter.get('/:idOcorrencia', util.ObjectIdIsValid, function(req, res) {
     Ocorrencia.findOne({ _id: req.params.idOcorrencia }) // idOcorrencia que foi passado na URL
     .populate('criadoPor', '_id name username', User) // Retorna o Objeto dos campos referenciados para outros documentos (similar ao join)
-    .populate('policiaisAcionados', '_id name username')
     .populate('tipoLocal')
     .populate('tipoDelito')
     // .populate('modusOperandi')
@@ -82,12 +79,12 @@ ocorrenciasRouter.get('/:idOcorrencia', util.ObjectIdIsValid, function(req, res)
         } 
      })
     .exec(function (err, ocorrencia) {
-        if (err) return res.json("Erro interno: " + err);
+        if (err) return res.status(500);;
 
         if (ocorrencia) {
-            res.json(ocorrencia);
+            res.json(ocorrencia).status(200);
         } else {
-            res.json('Nenhuma ocorrência encontrada.')
+            res.json('Nenhuma ocorrência encontrada.').status(404);
         }
     });
 });
@@ -95,11 +92,14 @@ ocorrenciasRouter.get('/:idOcorrencia', util.ObjectIdIsValid, function(req, res)
 //post
 // Cria uma nova ocorrência para o usuario logado
 ocorrenciasRouter.post('/', function(req, res) {
-    Ocorrencia.create({ criadoPor: req.user.id }, // os campos que não forem passado receberão o valor padrão, definido no seu Model
+    Ocorrencia.create({ criadoPor: req.user.id}, // os campos que não forem passado receberão o valor padrão, definido no seu Model
         function (err, ocorrencia) {
-            if (err) return res.json("Erro interno: " + err);
-
-            res.json(ocorrencia);
+            if (err) return res.status(500);
+            var data = new Date();
+            data.setHours(data.getHours() - 3);
+            ocorrencia.dataHoraAcionamento = data;
+            ocorrencia.save();
+            res.json(ocorrencia).status(200);
         }
     );
 });
@@ -117,10 +117,10 @@ ocorrenciasRouter.patch('/finalizar/:idOcorrencia', function(req, res) {
         function(err, ocorrencia) {
             if (err) res.status(500).json(err);
             
-            res.json('Dados salvos com sucesso.');
+            res.json('Dados salvos com sucesso.').status(200);;
         })
     } else {
-        res.json('Id da ocorrência inválido.')
+        res.json('Id da ocorrência inválido.').status(404);
     }
 });
 

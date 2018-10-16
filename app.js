@@ -8,6 +8,7 @@ var flash = require('connect-flash');
 var morgan = require('morgan');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
+var time = require('time')(Date);
 
 // variables containing the routes files
 var userRouter = require('./routes/users');

@@ -20,10 +20,10 @@ dadosGeraisRouter.route('/:idOcorrencia')
     .then((ocorrencia) => {
         if(ocorrencia && ocorrencia.ocorrenciaEncerrada==false) {
             // Trata campos
-            if(req.body.numeroOcorrencia != null) ocorrencia.numeroOcorrencia = req.body.numeroOcorrencia;
-            if(req.body.sede != null) ocorrencia.sede = req.body.sede;
-            if(req.body.dataHoraAcionamento) ocorrencia.dataHoraAcionamento = req.body.dataHoraAcionamento;
-            //req.body.peritos removido, por ser array será tratado em rota independente
+            if(req.body.numeroOcorrencia != "null") ocorrencia.numeroOcorrencia = req.body.numeroOcorrencia;
+            if(req.body.sede != "null") ocorrencia.sede = req.body.sede;
+            if(req.body.dataHoraAcionamento != "null") ocorrencia.dataHoraAcionamento = req.body.dataHoraAcionamento;
+            if(req.body.policiaisAcionados != "null") ocorrencia.policiaisAcionados = req.body.policiaisAcionados;
 
             // Salva alteracoes
             ocorrencia.save()
