@@ -13,7 +13,7 @@ node {
         }
 
         stage('Down Images DB, Api'){
-           sh 'ssh root@10.32.223.4 -p 5439 "cd /opt/docker/pf/api; docker-compose down;"'
+           sh 'ssh root@10.32.223.4 -p 5439 "cd /opt/docker/pf/api; ls -la; docker-compose down;"'
         }
 
         stage('Build and Up Docker Image Api'){
