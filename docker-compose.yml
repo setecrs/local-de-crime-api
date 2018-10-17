@@ -3,7 +3,7 @@
 version: '2'
 services:
   pf-db:
-     container_name: pf-db
+     container_name: pfdb
      image: 'bitnami/mongodb:latest'
      ports:
        - "27018:27017"
@@ -11,13 +11,13 @@ services:
        - vol/pfDB/:/bitnami
 
   pf-api:
-    container_name: pf-api
+    container_name: pfapi
     build:
       context: .
       dockerfile: Dockerfile_api
-    image: pf-api:latest
+    image: pfapi:latest
     depends_on:
-      - "pf-db"
+      - "pfdb"
     expose:
       - "3009"
     ports:
