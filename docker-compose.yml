@@ -14,7 +14,7 @@ services:
     container_name: pfapi
     build:
       context: .
-      dockerfile: Dockerfile_api
+      dockerfile: Dockerfile_api_pf
     image: pfapi:latest
     depends_on:
       - "pfdb"
