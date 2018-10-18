@@ -1,6 +1,6 @@
 # How to run:
 
-version: '3'
+version: '2'
 services:
   pfdb:
      container_name: pfdb
@@ -32,5 +32,5 @@ services:
     networks:
        - pf-network
 
-  networks:
-    pf-network:
+networks:
+  pf-network:
