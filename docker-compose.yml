@@ -4,18 +4,13 @@ version: '2'
 services:
   pfdb:
      container_name: pfdb
-     image: 'bitnami/mongodb:latest'
+     image: 'mongodb:'
      ports:
        - "27018:27017"
      volumes:
-       - /vol/pfdb/:/bitnami
-     environment:
-      - ALLOW_EMPTY_PASSWORD=yes
-      - MONGODB_EXTRA_FLAGS=--wiredTigerCacheSizeGB=2
+       - /vol/pfdb/:/data/db
      networks:
        - pf-network
-
-
 
   pf-api:
     container_name: pfapi
