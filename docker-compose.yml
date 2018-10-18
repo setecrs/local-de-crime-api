@@ -33,4 +33,4 @@ services:
        - pf-network
 
   networks:
-    - pf-network
+    pf-network:
