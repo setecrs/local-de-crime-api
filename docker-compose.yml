@@ -1,6 +1,6 @@
 # How to run:
 
-version: '2'
+version: '3'
 services:
   pfdb:
      container_name: pfdb
@@ -9,6 +9,10 @@ services:
        - "27018:27017"
      volumes:
        - /vol/pfdb/:/bitnami
+     networks:
+       - pf-network
+
+
 
   pf-api:
     container_name: pfapi
@@ -25,3 +29,4 @@ services:
     environment:
       - NODE_ENV=production
     command: ["./wait-for-it.sh", "-t", "0", "pfdb:27017", "--", "npm","start", ]
+
