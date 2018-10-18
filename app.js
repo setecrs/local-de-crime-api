@@ -26,7 +26,7 @@ var testemunhasRouter = require('./routes/testemunhas');
 var modusOperandiRouter = require('./routes/modus_operandi');
 
 // configuration ===============================================================
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://pf-db/policia_federal'); // connect to our database
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://pfdb/policia_federal'); // connect to our database
 
 // set up our express application
 app.use(morgan('dev')); // log every request to the console

@@ -13,6 +13,7 @@ RUN date
 RUN npm i npm@latest -g
 RUN npm install
 
+
 # Cannot start api container before database is ready. This holds it for a while
 RUN wget https://github.com/vishnubob/wait-for-it/raw/master/wait-for-it.sh -O wait-for-it.sh && chmod +x wait-for-it.sh
 
