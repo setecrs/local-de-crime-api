@@ -24,4 +24,4 @@ services:
       - "4601:3009"
     environment:
       - NODE_ENV=production
-    command: ["./wait-for-it.sh", "-t", "0", "paisagem-db:3306", "--", "npm","start", ]
+    command: ["./wait-for-it.sh", "-t", "0", "pfdb:27017", "--", "npm","start", ]
