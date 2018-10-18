@@ -8,6 +8,8 @@ services:
     command: chown -R 1001:1001 /bitnami
     volumes:
       - "./data:/bitnami"
+    networks:
+      - pf-network
 
   pfdb:
      container_name: pfdb
