@@ -2,15 +2,6 @@
 
 version: '2'
 services:
-  fix-pfdb-permissions:
-    image: 'bitnami/mongodb:latest'
-    user: root
-    command: chown -R 1001:1001 /bitnami
-    volumes:
-      - "./data:/bitnami"
-    networks:
-      - pf-network
-
   pfdb:
      container_name: pfdb
      image: 'bitnami/mongodb:latest'
@@ -18,8 +9,9 @@ services:
        - "27018:27017"
      volumes:
        - /vol/pfdb/:/bitnami
-     depends_on:
-        - fix-pfdb-permissions
+     environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+      - MONGODB_EXTRA_FLAGS=--wiredTigerCacheSizeGB=2
      networks:
        - pf-network
 
