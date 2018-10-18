@@ -12,11 +12,11 @@ node {
            sh 'ssh root@10.32.223.4 -p 5439 "git clone --depth 1 --branch integracao http://projetos@www.tools.ages.pucrs.br/PoliciaFederal/api.git /opt/docker/pf/api"'
         }
 
-        stage('Down Images DB, Api'){
+        stage('Down Containers DB, Api'){
            sh 'ssh root@10.32.223.4 -p 5439 "cd /opt/docker/pf/api; ls -la; docker-compose down;"'
         }
 
-        stage('Build and Up Docker Image Api'){
+        stage('Build and Up Docker Containers Api and DB'){
            sh 'ssh root@10.32.223.4 -p 5439 "cd /opt/docker/pf/api; docker-compose up --build -d"'
         }
 
