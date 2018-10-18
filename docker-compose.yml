@@ -29,4 +29,8 @@ services:
     environment:
       - NODE_ENV=production
     command: ["./wait-for-it.sh", "-t", "0", "pfdb:27017", "--", "npm","start", ]
+    networks:
+       - pf-network
 
+  networks:
+    - pf-network
