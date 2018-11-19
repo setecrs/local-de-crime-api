@@ -1,0 +1,57 @@
+<html>
+    <head>
+        <title>RO-PF</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+        <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <script src="jquery.min.js"></script>
+        <!-- Include all compiled plugins (below), or include individual files as needed -->
+        <script src="bootstrap/js/bootstrap.min.js"></script>
+    </head>
+    <body>
+        <style>
+            body{
+                background-color: #969696;
+            }
+            
+            #form{
+                background-color: white;
+                padding: 10px;
+                margin:0 auto;
+                float:none;
+                margin-top:10px;
+                border-radius: 10px;
+                box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            }
+            #alert{
+                padding: 10px;
+                margin:0 auto;
+                float:none;
+                margin-top:10px;
+                border-radius: 10px;
+                box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+                display:none;
+            }
+            #logo{
+                width: 170px;
+            }
+        </style>
+        <div class="container">
+            <div class="form-group col-lg-4 col-xs-12 col-sm-6 col-md-4" id="form">
+                <img id="logo" src="logo.png" alt="Policia Federal" class="center-block"><br>
+                <label for="login">Username:</label>
+                <input type="text" autocomplete="off" class="form-control" id="username">
+                <p></p>
+                <label for="pwd">Senha:</label>
+                <input type="password" class="form-control" id="password">
+                <p></p>
+                <button type="button" onclick="login()" id="botaoLogar" class="btn btn-primary btn-block">Login</button>
+            </div>
+            <div class="alert alert-danger col-lg-4 col-xs-12 col-sm-6 col-md-4 text-center" id="alert">
+                <b>Username ou senha incorretos</b>
+            </div>
+        </div>
+        <script type="text/javascript" src="script.js"></script>
+    </body>
+</html>

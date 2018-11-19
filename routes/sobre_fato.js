@@ -2,6 +2,7 @@ var Ocorrencia = require('../models/ocorrencia');
 const checkToken = require('../config/check_token');
 var TipoDelito = require('../models/tipo_delito');
 const util = require('../config/util');
+var sleep = require('sleep');
 
 //sobreFatoRouter
 const express = require('express');
@@ -19,40 +20,30 @@ sobreFatoRouter.route('/:idOcorrencia')
             .then((ocorrencia) => {
                 if (ocorrencia && ocorrencia.ocorrenciaEncerrada == false) {
                     // Trata campos
-                    if (req.body.dataOcorrencia != "null") ocorrencia.dataOcorrencia = req.body.dataOcorrencia;
-                    if (req.body.modusOperandi != "null") ocorrencia.modusOperandi = req.body.modusOperandi; //req.body.modusOperandi, //array, tratado em rota diferente
-                    if (req.body.outroModusOperandi != "null") ocorrencia.outroModusOperandi = req.body.outroModusOperandi;
+                    if (req.body.dataOcorrencia != "null") ocorrencia.dataOcorrencia = new Date(parseInt(req.body.dataOcorrencia));
                     if (req.body.possiveisSuspeitos != "null") ocorrencia.possiveisSuspeitos = req.body.possiveisSuspeitos;
                     if (req.body.valoresSubtraidos != "null") ocorrencia.valoresSubtraidos = req.body.valoresSubtraidos;
+                    if (req.body.outroTipoDelito != "null") ocorrencia.outroTipoDelito = req.body.outroTipoDelito;
 
                     // Trata tipo delito
-                    if (req.body.tipoDelito != "null") {
+                    var delitosValidos = [];
+                    if(req.body.tipoDelito != "null"){  
                         TipoDelito.find({ tipoDelito: req.body.tipoDelito })
                             .then(tipoDelito => {
-                                if (tipoDelito != null && tipoDelito != undefined) {
-                                    ocorrencia.tipoDelito = tipoDelito[0]._doc._id;
-                                    ocorrencia.outroTipoDelito = req.body.outroTipoDelito;
-                                    // Salva alteracoes
-                                    ocorrencia.save()
-                                        .then((ocorrencia) => {
-                                            res.json('Dados salvos com sucesso!');
-                                        }, (err) => next(err));
+                                for(i = 0; i < tipoDelito.length; i++){
+                                    delitosValidos.push(tipoDelito[i]._id);
                                 }
-                                else {
-                                    res.json('Tipo de delito nao encontrado');
-                                }
-                            })
-                            .catch((err) => {
-                                res.json('Tipo de delito inválido!'+err);
-                            });
+
+                                ocorrencia.tipoDelito = delitosValidos;
+
+                                ocorrencia.save()
+                                    .then((ocorrencia) => {
+                                        res.json('Dados salvos com sucesso!');
+                                    }, (err) => next(err));
+                                        });
                     }
-                    else {
-                        // Salva alteracoes
-                        ocorrencia.save()
-                            .then((ocorrencia) => {
-                                res.json('Dados salvos com sucesso!');
-                            }, (err) => next(err));
-                    }
+
+                    
                 }
                 else {
                     res.json('Ocorrência inválida.');

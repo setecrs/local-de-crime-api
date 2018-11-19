@@ -18,7 +18,7 @@ sobreLocalRouter.route('/:idOcorrencia')
     .then((ocorrencia) => {
         if(ocorrencia && ocorrencia.ocorrenciaEncerrada==false) {
             // Trata campos
-            if(req.body.dataHoraChegada != "null") ocorrencia.dataHoraChegada = req.body.dataHoraChegada;
+            if(req.body.dataHoraChegada != "null") ocorrencia.dataHoraChegada =  new Date(parseInt(req.body.dataHoraChegada));
             if(req.body.condicaoLocal != "null") ocorrencia.condicaoLocal = req.body.condicaoLocal;
             if(req.body.informacoesAdicionais != "null") ocorrencia.informacoesAdicionais = req.body.informacoesAdicionais;
 

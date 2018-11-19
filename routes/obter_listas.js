@@ -3,7 +3,6 @@ var Municipio = require('../models/municipio');
 var Sede = require("../models/sede");
 var TipoLocal = require("../models/tipo_local");
 var TipoDelito = require("../models/tipo_delito");
-var ModusOperandi = require("../models/modus_operandi");
 var TipoVestigio = require("../models/tipo_vestigio");
 const checkToken = require('../config/check_token');
 
@@ -32,16 +31,12 @@ obterListasRouter.get('/', function(req, res) {
         
                     TipoDelito.find({}).exec(function (err, tipoDelitos) {
                         if (err) return err;
-            
-                        ModusOperandi.find({}).exec(function (err, modusOperandis) {
+                
+                        TipoVestigio.find({}).exec(function (err, tipoVestigios) {
                             if (err) return err;
                 
-                            TipoVestigio.find({}).exec(function (err, tipoVestigios) {
-                                if (err) return err;
-                    
-                                res.json({estados: estados, municipios: municipios, sedes: sedes, tipoLocals: tipoLocals,
-                                    tipoDelitos:tipoDelitos, modusOperandis:modusOperandis, tipoVestigios:tipoVestigios});
-                            });
+                            res.json({estados: estados, municipios: municipios, sedes: sedes, tipoLocals: tipoLocals,
+                                tipoDelitos:tipoDelitos, tipoVestigios:tipoVestigios});
                         });
                     });
                 });

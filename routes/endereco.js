@@ -26,7 +26,6 @@ enderecoRouter.route('/:idOcorrencia')
             if(ocorrencia.logradouro != "null") ocorrencia.logradouro = req.body.logradouro;
             if(ocorrencia.numero != "null") ocorrencia.numero = req.body.numero;
             if(ocorrencia.complemento != "null") ocorrencia.complemento = req.body.complemento;
-
             // Trata Tipo Local
             if(req.body.tipoLocal != "null") {
                 TipoLocal.find({tipoLocal: req.body.tipoLocal})
@@ -50,6 +49,7 @@ enderecoRouter.route('/:idOcorrencia')
             }
             else {
                 // Salva alteracoes
+                ocorrencia.tipoLocal = null;
                 ocorrencia.save()
                 .then((ocorrencia) => {
                     res.json('Dados salvos com sucesso!');

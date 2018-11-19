@@ -15,53 +15,22 @@ dadosGeraisRouter.route('/:idOcorrencia')
 .patch(util.ObjectIdIsValid, (req, res, next) => {
     Ocorrencia.findOne({
         _id: req.params.idOcorrencia, // idOcorrencia que foi passado na URL
-        //criadoPor: req.user.id
+        criadoPor: req.user.id
     })
     .then((ocorrencia) => {
         if(ocorrencia && ocorrencia.ocorrenciaEncerrada==false) {
             // Trata campos
             if(req.body.numeroOcorrencia != "null") ocorrencia.numeroOcorrencia = req.body.numeroOcorrencia;
             if(req.body.sede != "null") ocorrencia.sede = req.body.sede;
-            if(req.body.dataHoraAcionamento != "null") ocorrencia.dataHoraAcionamento = req.body.dataHoraAcionamento;
+            if(req.body.dataHoraAcionamento != "null") ocorrencia.dataHoraAcionamento = new Date(parseInt(req.body.dataHoraAcionamento));
             if(req.body.policiaisAcionados != "null") ocorrencia.policiaisAcionados = req.body.policiaisAcionados;
-
+            
             // Salva alteracoes
             ocorrencia.save()
             .then((ocorrencia) => {
                 res.json('Dados salvos com sucesso.');
             }, (err) => next(err));
             
-            /* 
-             * passado de Objeto para String
-             * 
-            // Trata Sede
-            if(req.body.sede) {
-                Sede.findById(req.body.sede)
-                .then((sede) => {
-                    if(sede) {
-                        ocorrencia.sede = req.body.sede;
-                        ocorrencia.outraSede = req.body.outraSede;
-
-                        // Salva alteracoes
-                        ocorrencia.save()
-                        .then((ocorrencia) => {
-                            res.json('Dados salvos com sucesso.');
-                        }, (err) => next(err));
-                    }
-                    else {
-                        res.json('Sede inválida');
-                    }
-                })
-                .catch((err) => res.json('Sede inválida'));
-            }
-            else {
-                // Salva alteracoes
-                ocorrencia.save()
-                .then((ocorrencia) => {
-                    res.json('Dados salvos com sucesso.');
-                }, (err) => next(err));
-            }
-            */
         }
         else {
             res.json('Ocorrência inválida.');

@@ -43,7 +43,6 @@ ocorrenciasRouter.get('/', function(req, res) {
     .populate('criadoPor', '_id name username', User) // Retorna o Objeto dos campos referenciados para outros documentos (similar ao join)
     .populate('tipoLocal')
     .populate('tipoDelito')
-    // .populate('modusOperandi')
     .populate({ 
         path: 'vestigios',
         populate: {
@@ -70,7 +69,6 @@ ocorrenciasRouter.get('/:idOcorrencia', util.ObjectIdIsValid, function(req, res)
     .populate('criadoPor', '_id name username', User) // Retorna o Objeto dos campos referenciados para outros documentos (similar ao join)
     .populate('tipoLocal')
     .populate('tipoDelito')
-    // .populate('modusOperandi')
     .populate({ 
         path: 'vestigios',
         populate: {
@@ -110,14 +108,14 @@ ocorrenciasRouter.patch('/finalizar/:idOcorrencia', function(req, res) {
     if (mongoose.Types.ObjectId.isValid(req.params.idOcorrencia)) {                   
         Ocorrencia.findOneAndUpdate({
             _id: req.params.idOcorrencia,
-            //criadoPor: req.user.id
+            criadoPor: req.user.id
         }, {
             ocorrenciaEncerrada: true
         }, 
         function(err, ocorrencia) {
             if (err) res.status(500).json(err);
             
-            res.json('Dados salvos com sucesso.').status(200);;
+            res.json('Ocorrencia encerrada.').status(200);;
         })
     } else {
         res.json('Id da ocorrência inválido.').status(404);

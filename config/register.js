@@ -1,7 +1,7 @@
 const user = require('../models/user');
 const bcrypt = require('bcryptjs');
 
-exports.registerUser = (name, username, password, sede) =>
+exports.registerUser = (name, username, password, email) =>
 
 	new Promise((resolve, reject) => {
 
@@ -13,7 +13,7 @@ exports.registerUser = (name, username, password, sede) =>
 			name: name,
 			username: username,
 			hashed_password: hash,
-			sede: sede,
+			email: email,
 			created_at: new Date()
 		});
 
@@ -28,7 +28,7 @@ exports.registerUser = (name, username, password, sede) =>
 
 			if (err.code == 11000) {
 
-				reject({ status: 409, message: 'Usuário já cadastrado!' });
+				reject({ status: 409, message: 'Usuário já foi cadastrado!' });
 
 			} else {
 

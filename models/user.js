@@ -9,6 +9,7 @@ var userSchema = mongoose.Schema({
     name: { type: String, required: true },
     username: { type: String, required: true, unique: true },
     sede: { type: Schema.ObjectId, ref: 'Sede', default: null },
+    email: { type: String, default: '' },
     ativo: { type: Boolean, default: true }
 });
 

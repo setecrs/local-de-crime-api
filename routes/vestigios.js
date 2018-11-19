@@ -20,14 +20,9 @@ vestigiosRouter.route('/:idOcorrencia')
         } 
      })
     .then((ocorrencia) => {
-        if(ocorrencia && ocorrencia.ocorrenciaEncerrada==false) {
             res.statusCode = 200;
             res.setHeader("Content-Type", "application/json");
             res.json(ocorrencia.vestigios);
-        }
-        else {
-            res.status(404).json({message: 'Ocorrência inválida.'});
-        }
     }, (err) => next(err))
     .catch((err) => next(err));
 })
