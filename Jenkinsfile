@@ -9,7 +9,7 @@ node {
          }
 
         stage('Clone Repos PF Api'){
-           sh 'ssh root@10.32.223.4 -p 5439 "git clone --depth 1 --branch integracao http://projetos@www.tools.ages.pucrs.br/PoliciaFederal/api.git /opt/docker/pf/api"'
+           sh 'ssh root@10.32.223.4 -p 5439 "git clone --depth 1 --branch homo http://projetos@www.tools.ages.pucrs.br/PoliciaFederal/api.git /opt/docker/pf/api"'
         }
 
         stage('Down Containers DB, Api'){
