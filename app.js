@@ -9,7 +9,7 @@ var certificateAuthority = '-----BEGIN CERTIFICATE-----\nMIICpDCCAYwCCQDXvVZZzXg
 // get all the tools we need
 var express = require('express');
 var app = express();
-var port = process.env.PORT || 3009;
+var port = process.env.PORT || 4601;
 var mongoose = require('mongoose');
 var flash = require('connect-flash');
 var morgan = require('morgan');
