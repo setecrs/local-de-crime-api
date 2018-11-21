@@ -35,7 +35,11 @@ var obterListasRouter = require('./routes/obter_listas');
 var testemunhasRouter = require('./routes/testemunhas');
 
 // configuration ===============================================================
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/policia_federal'); // connect to our database;
+
+//mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/policia_federal'); // connect to our database;
+
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://pfdb/policia_federal'); // connect to our database
+
 
 // set up our express application
 app.use(morgan('dev')); // log every request to the console

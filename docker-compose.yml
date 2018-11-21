@@ -1,0 +1,34 @@
+# How to run:
+
+version: '2'
+services:
+  pfdb:
+     container_name: pfdb
+     image: 'mongo'
+     ports:
+       - "27018:27017"
+     volumes:
+       - /vol/pfdb/:/data/db
+     networks:
+       - pf-network
+
+  pf-api:
+    container_name: pfapi
+    build:
+      context: .
+      dockerfile: Dockerfile_api_pf
+    image: pfapi:latest
+    depends_on:
+      - "pfdb"
+    expose:
+      - "3009"
+    ports:
+      - "4601:3009"
+    environment:
+      - NODE_ENV=production
+    command: ["./wait-for-it.sh", "-t", "0", "pfdb:27017", "--", "npm","start", ]
+    networks:
+       - pf-network
+
+networks:
+  pf-network:
